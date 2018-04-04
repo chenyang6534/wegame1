@@ -1,0 +1,37 @@
+{
+  "appKey": "",
+  "appSecret": "",
+  "encryptJs": true,
+  "excludeScenes": [],
+  "fb-instant-games": {},
+  "includeAnySDK": false,
+  "includeSDKBox": false,
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "jailbreakPlatform": false,
+  "md5Cache": false,
+  "mergeStartScene": false,
+  "oauthLoginServer": "",
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.wegame1",
+  "privateKey": "",
+  "qqplay": {
+    "orientation": "portrait"
+  },
+  "renderMode": "0",
+  "startScene": "6517bb05-2922-4701-bb07-2ef5c50a3854",
+  "title": "wegame1",
+  "webOrientation": "auto",
+  "wechatgame": {
+    "appid": "wx4075bbf91298556f",
+    "orientation": "landscape"
+  },
+  "xxteaKey": "db1a04aa-609f-44",
+  "zipCompressJs": true
+}
