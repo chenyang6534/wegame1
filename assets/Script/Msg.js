@@ -20,3 +20,13 @@ export function CS_MsgQuickLogin(platform,machineid){
     })
     return JSON.stringify(data)
 };
+
+
+export function CS_MsgWeiXingLogin(code,name){
+    var data = MsgBase("Login","CS_MsgWeiXingLogin")
+    data.JsonData = JSON.stringify({
+        "Code" : code,
+        "Name" : name,
+    })
+    return JSON.stringify(data)
+};
