@@ -8,6 +8,9 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
+
+
+var NetMananger = require("NetManager")
 cc.Class({
     extends: cc.Component,
 
@@ -33,7 +36,16 @@ cc.Class({
 
     // onLoad () {},
 
+    LoginSucc:function(){
+        console.log("LoginSucc")
+    },
+    LoginFail:function(){
+        console.log("LoginFail")
+    },
+
     start () {
+        var tt = 0;
+        NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
     },
 
