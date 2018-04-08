@@ -44,7 +44,7 @@ var NetManager = cc.Class({
         this.loginFail = failCallBack
 
 
-        this.QuickLogin("ios","123456789")
+        this.QuickLogin("ios","12345679121112")
         //this.WXLogin()
     },
 

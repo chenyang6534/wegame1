@@ -629,7 +629,9 @@
     },
     "_enabled": true,
     "qizi": {
-      "__uuid__": "3b9c84fe-7550-4972-8058-3fb89db6c8f7"
-    }
+      "__uuid__": "862df4c9-fdea-405f-a2e0-7a2dc4ef2723"
+    },
+    "mySeatIndex": -1,
+    "playerSeatIndex": -1
   }
 ]

@@ -43,3 +43,12 @@ export function CS_QuickGameExit(){
     
     return JSON.stringify(data)
 };
+
+//进入
+export function CS_GoIn(id){
+    var data = MsgBase("Game5G","CS_GoIn")
+    data.JsonData = JSON.stringify({
+        "GameId" : id,
+    })
+    return JSON.stringify(data)
+};
