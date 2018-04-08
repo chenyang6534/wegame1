@@ -8,13 +8,15 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
-
-
-var NetMananger = require("NetManager")
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        qizi: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -34,22 +36,26 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    registerTouch:function(){
+        this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+            
+            //var temp = event.getLocation()
+            //cc.log("点击全局坐标： ",temp.x,temp.y)
+            //获取当前点击的局部坐标
+            var tempPlayer = this.node.convertToNodeSpaceAR(event.getLocation())
+            cc.log("点击局部坐标： ",tempPlayer.x,tempPlayer.y)
 
-    LoginSucc:function(){
-        console.log("LoginSucc")
-        cc.director.loadScene("Hall", null);
+
+          }, this);
     },
-    LoginFail:function(){
-        console.log("LoginFail")
+
+    onLoad () {
+        this.registerTouch()
     },
 
     start () {
-        var tt = 0;
-        NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
     },
-
 
     // update (dt) {},
 });

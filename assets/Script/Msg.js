@@ -30,3 +30,16 @@ export function CS_MsgWeiXingLogin(code,name){
     })
     return JSON.stringify(data)
 };
+
+//快速游戏
+export function CS_QuickGame(){
+    var data = MsgBase("Hall","CS_QuickGame")
+    
+    return JSON.stringify(data)
+};
+//取消快速游戏
+export function CS_QuickGameExit(){
+    var data = MsgBase("Hall","CS_QuickGameExit")
+    
+    return JSON.stringify(data)
+};
