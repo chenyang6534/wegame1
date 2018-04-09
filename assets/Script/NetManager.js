@@ -8,8 +8,8 @@
 
 //var serverSrc = "ws://127.0.0.1:1117/connect"
 //var serverSrc = "ws://www.game5868.top/connect1"
-var serverSrc = "ws://127.0.0.1:1117/connect"
-var wxServerSrc = "wss://www.game5868.top/connect"
+var serverSrc = "ws://www.game5868.top:443/connect"
+var wxServerSrc = "ws://www.game5868.top:443/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
@@ -20,6 +20,7 @@ var NetManager = cc.Class({
     loginSucc:null,
     loginFail:null,
     m_webSocket : null,
+    isWX:null,
     ctor: function () {
         GameDataManager.getInstance()
         MsgManager.getInstance().AddListener("SC_LoginResponse",this.LoginSucc.bind(this))
@@ -30,7 +31,12 @@ var NetManager = cc.Class({
             console.log("this.m_webSocket == null")
             return
         }
-        this.m_webSocket.send(msg)
+        if(this.isWX == true){
+            this.m_webSocket.send({data:msg})
+        }else{
+            this.m_webSocket.send(msg)
+        }
+        
     },
 
     LoginSucc:function(){
@@ -44,12 +50,13 @@ var NetManager = cc.Class({
         this.loginFail = failCallBack
 
 
-        this.QuickLogin("ios","12345679121112")
+        this.QuickLogin("ios","12345679121123")
         //this.WXLogin()
     },
 
     WXLogin:function(){
-        //调用微信登录接口  
+        // this.isWX = true
+        // //调用微信登录接口  
         // wx.login({//login流程
         //     success: function (res) {//登录成功
         //       if (res.code) {
@@ -69,8 +76,9 @@ var NetManager = cc.Class({
         //             this.m_webSocket = wx.connectSocket({
         //                 url: wxServerSrc
         //             })
+        //             console.log(this.m_webSocket)
         //             wx.onSocketOpen(function (res) {
-        //                 console.log("onSocketOpen")
+        //                 console.log("onSocketOpen12")
         //                 console.log(Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName))
 
         //                 // wx.sendSocketMessage({
@@ -94,13 +102,13 @@ var NetManager = cc.Class({
         //             }.bind(this))
                     
 
-        //           }
+        //           }.bind(this)
         //         })
           
         //       } else {
         //         console.log('获取用户登录态失败！' + res.errMsg)
         //       }
-        //     }
+        //     }.bind(this)
         // })
     },
 

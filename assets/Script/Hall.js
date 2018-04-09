@@ -11,6 +11,7 @@ var NetMananger = require("NetManager")
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
+var Tool = require("Tool")
 cc.Class({
     extends: cc.Component,
 
@@ -40,6 +41,11 @@ cc.Class({
     lookGameClick(event, customEventData){
         console.log("lookGameClick")
         console.log("event=",event.type," data=",customEventData);
+
+        // var t1 = Tool.GetTimeMillon()
+        // console.log("time:"+t1)
+
+        // console.log(Tool.TimeMillonToHHMMSS(t1/1000))
     },
     roomGameClick(event, customEventData){
         console.log("roomGameClick")
@@ -72,6 +78,8 @@ cc.Class({
      onLoad () {
         MsgManager.getInstance().AddListener("SC_SerchPlayer",this.SerchingPlayer.bind(this))
         MsgManager.getInstance().AddListener("SC_NewGame",this.NewGame.bind(this))
+
+        this.node.getChildByName("userInfo").getChildByName("name").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
         
      },
 

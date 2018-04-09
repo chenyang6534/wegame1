@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "c02499af-df2e-4b93-91a5-fba83c92cf32",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "dt_cjhd_img_belt_left": {
+      "ver": "1.0.3",
+      "uuid": "c256adaa-c2c2-46d9-8b01-567db8a82ca9",
+      "rawTextureUuid": "c02499af-df2e-4b93-91a5-fba83c92cf32",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 30,
+      "height": 125,
+      "rawWidth": 30,
+      "rawHeight": 125,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

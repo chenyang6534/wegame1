@@ -52,3 +52,13 @@ export function CS_GoIn(id){
     })
     return JSON.stringify(data)
 };
+
+//走棋
+export function CS_DoGame5G(x,y){
+    var data = MsgBase("Game5G","CS_DoGame5G")
+    data.JsonData = JSON.stringify({
+        "X" : x,
+        "Y" : y,
+    })
+    return JSON.stringify(data)
+};

@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "99c6bf14-9e73-4b6c-b142-9a8b7f78ab6d",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "dt_cjhd_bg_tanchuan": {
+      "ver": "1.0.3",
+      "uuid": "ce592838-68d8-4959-ac91-9fd68aa8632b",
+      "rawTextureUuid": "99c6bf14-9e73-4b6c-b142-9a8b7f78ab6d",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 297,
+      "height": 249,
+      "rawWidth": 297,
+      "rawHeight": 249,
+      "borderTop": 50,
+      "borderBottom": 50,
+      "borderLeft": 50,
+      "borderRight": 50,
+      "subMetas": {}
+    }
+  }
+}
