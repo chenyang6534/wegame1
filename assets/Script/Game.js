@@ -12,6 +12,7 @@ var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
+var UiTool = require("UiTool")
 cc.Class({
     extends: cc.Component,
     gameInfoData:null,
@@ -105,6 +106,7 @@ cc.Class({
 
 
         this.gameInfoData = jsdata.GameInfo
+        this.startZouQiTime = Tool.GetTimeMillon()
         this.showQiPanInfo()
     },
 
@@ -205,12 +207,39 @@ cc.Class({
         
     },
 
-    //
 
+
+    exitClick(event, customEventData){
+        console.log("exitClick")
+        console.log("event=",event.type," data=",customEventData);
+
+        UiTool.newKuang2btn("提示","如果中途退出游戏,将直接判负,你确定要退出游戏吗?",function(){
+            NetMananger.getInstance().SendMsg(Msg.CS_GoOut())
+        })
+    },
+
+    Disconnect:function(){
+        console.log("Disconnect")
+        cc.director.loadScene("Login", null);
+    },
+    //
+    onDestroy(){
+        console.log("game destory")
+        MsgManager.getInstance().RemoveListener("SC_GameInfo")
+        MsgManager.getInstance().RemoveListener("SC_PlayerGoIn")
+        MsgManager.getInstance().RemoveListener("SC_GameStart")
+        MsgManager.getInstance().RemoveListener("SC_ChangeGameTurn")
+        MsgManager.getInstance().RemoveListener("SC_DoGame5G")
+        MsgManager.getInstance().RemoveListener("SC_GameOver")
+        MsgManager.getInstance().RemoveListener("SC_PlayerGoOut")
+        MsgManager.getInstance().RemoveListener("WS_Close")
+
+        GameDataManager.getInstance().SetGameData("GameId",-1)
+    },
 
     onLoad () {
 
-        
+        console.log("onLoad")
 
         //this.gameInfo(null)
         this.registerTouch()
@@ -222,6 +251,7 @@ cc.Class({
         MsgManager.getInstance().AddListener("SC_DoGame5G",this.doGame5G.bind(this))
         MsgManager.getInstance().AddListener("SC_GameOver",this.gameOver.bind(this))
         MsgManager.getInstance().AddListener("SC_PlayerGoOut",this.playerGoOut.bind(this))
+        MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
 
         NetMananger.getInstance().SendMsg(Msg.CS_GoIn(GameDataManager.getInstance().GetGameData("GameId")))
     },
@@ -308,11 +338,12 @@ cc.Class({
         if(this.gameInfoData.State == 2){
             if( this.mySeatIndex >= 0){
                 var time = this.playerInfoData[this.mySeatIndex].Time
+                var everytime = this.playerInfoData[this.mySeatIndex].EveryTime
                 //console.log("time:"+time)
                 if(this.gameInfoData.GameSeatIndex == this.mySeatIndex && this.gameInfoData.GameSeatIndex != -1){
     
                     var subtime = (Tool.GetTimeMillon()-this.startZouQiTime)/1000
-                    var gameEveryTime = this.gameInfoData.EveryTime
+                    var gameEveryTime = everytime
                     if( subtime >= gameEveryTime){
                         this.node.getChildByName("myInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(0)
                         this.node.getChildByName("myInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time-subtime+gameEveryTime)
@@ -326,11 +357,12 @@ cc.Class({
             if( this.playerSeatIndex >= 0){
     
                 var time = this.playerInfoData[this.playerSeatIndex].Time
+                var everytime = this.playerInfoData[this.playerSeatIndex].EveryTime
                 //console.log("time:"+time)
                 if(this.gameInfoData.GameSeatIndex == this.playerSeatIndex && this.gameInfoData.GameSeatIndex != -1){
     
                     var subtime = (Tool.GetTimeMillon()-this.startZouQiTime)/1000
-                    var gameEveryTime = this.gameInfoData.EveryTime
+                    var gameEveryTime = everytime
                     if( subtime >= gameEveryTime){
                         this.node.getChildByName("playerInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(0)
                         this.node.getChildByName("playerInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time-subtime+gameEveryTime)

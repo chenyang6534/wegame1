@@ -11,6 +11,10 @@
 
 
 var NetMananger = require("NetManager")
+var Msg = require("Msg")
+var MsgManager = require("MsgManager")
+var GameDataManager = require("GameDataManager")
+var Tool = require("Tool")
 cc.Class({
     extends: cc.Component,
 
@@ -42,11 +46,34 @@ cc.Class({
     },
     LoginFail:function(){
         console.log("LoginFail")
+
+        this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录失败"
+        this.node.getChildByName("reLogin").active = true
     },
+
+    onDestroy(){
+        console.log("login destory")
+        MsgManager.getInstance().RemoveListener("WS_Close")
+    },
+
+    loginGameClick(event, customEventData){
+        console.log("lookGameClick")
+        console.log("event=",event.type," data=",customEventData);
+        this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
+        NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
+        this.node.getChildByName("reLogin").active = false
+    },
+
+
 
     start () {
         var tt = 0;
+
+        MsgManager.getInstance().AddListener("WS_Close",this.LoginFail.bind(this))
+
+        this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
         NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
+        this.node.getChildByName("reLogin").active = false
 
     },
 

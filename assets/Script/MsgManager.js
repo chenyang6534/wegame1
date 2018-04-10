@@ -33,6 +33,17 @@ var MsgManager = cc.Class({
             var callback = this.listener[jdata.MsgType]
             if ( callback != null ){
                 callback(jdata)
+            }else{
+                console.log(data)
+            }
+        }
+    },
+
+    ParseLocalMsg:function(type,data){
+        if (type != null){
+            var callback = this.listener[type]
+            if ( callback != null ){
+                callback(data)
             }
         }
     },

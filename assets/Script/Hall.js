@@ -66,26 +66,44 @@ cc.Class({
         }.bind(this));
 
     },
-    NewGame:function(data){
-        var jd = JSON.parse(data.JsonData)
-        console.log("NewGame"+jd.GameId)
-        GameDataManager.getInstance().SetGameData("GameId",jd.GameId)
-        cc.director.loadScene("Game5G", null);
-        
-    },
+    
     // LIFE-CYCLE CALLBACKS:
 
-     onLoad () {
+    Disconnect:function(){
+        console.log("Disconnect")
+        cc.director.loadScene("Login", null);
+    },
+    
+
+
+    onLoad () {
+        console.log("onload hall")
         MsgManager.getInstance().AddListener("SC_SerchPlayer",this.SerchingPlayer.bind(this))
-        MsgManager.getInstance().AddListener("SC_NewGame",this.NewGame.bind(this))
+        
+
+        MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
+        // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
         this.node.getChildByName("userInfo").getChildByName("name").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
-        
-     },
+        this.node.getChildByName("userInfo").getChildByName("win").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().WinCount
+        var allcount = GameDataManager.getInstance().GetHallInfoData().WinCount+GameDataManager.getInstance().GetHallInfoData().LoseCount
+        this.node.getChildByName("userInfo").getChildByName("all").getComponent(cc.Label).string = allcount
+    
+    },
+    onDestroy(){
+        console.log("hall destory")
+        MsgManager.getInstance().RemoveListener("SC_SerchPlayer")
+        //MsgManager.getInstance().RemoveListener("SC_NewGame")
+        MsgManager.getInstance().RemoveListener("WS_Close")
+    },
 
     start () {
 
     },
 
-    // update (dt) {},
+    update (dt) {
+        if(GameDataManager.getInstance().GetGameData("GameId") > 0){
+            cc.director.loadScene("Game5G", null);
+        }
+    },
 });

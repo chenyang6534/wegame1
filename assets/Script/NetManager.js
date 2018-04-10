@@ -8,7 +8,7 @@
 
 //var serverSrc = "ws://127.0.0.1:1117/connect"
 //var serverSrc = "ws://www.game5868.top/connect1"
-var serverSrc = "ws://www.game5868.top:443/connect"
+var serverSrc = "ws://127.0.0.1:1117/connect"
 var wxServerSrc = "ws://www.game5868.top:443/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
@@ -21,9 +21,20 @@ var NetManager = cc.Class({
     loginFail:null,
     m_webSocket : null,
     isWX:null,
+    extends: cc.Component,
     ctor: function () {
         GameDataManager.getInstance()
         MsgManager.getInstance().AddListener("SC_LoginResponse",this.LoginSucc.bind(this))
+
+        //
+        console.log("component.schedule")
+        this.schedule(this.SendHeart.bind(this), 5);
+    },
+    SendHeart:function(){
+        
+        //console.log("SendHeart")
+
+        this.SendMsg(Msg.CS_Heart())
     },
 
     SendMsg:function(msg){
@@ -50,7 +61,7 @@ var NetManager = cc.Class({
         this.loginFail = failCallBack
 
 
-        this.QuickLogin("ios","12345679121123")
+        this.QuickLogin("ios","12345679121122")
         //this.WXLogin()
     },
 
@@ -91,9 +102,16 @@ var NetManager = cc.Class({
         //             }.bind(this))
         //             wx.onSocketError(function (res) {
         //                 console.log('WebSocket 连接打开失败，请检查！')
+        //                     if( this.loginFail != null){
+        //                         this.loginFail()
+        //                     }
         //             }.bind(this))
         //             wx.onSocketClose(function (res) {
         //                 console.log('WebSocket 连接关闭！')
+
+        //                     this.m_webSocket = null
+        //                     //
+        //                     MsgManager.getInstance().ParseLocalMsg("WS_Close",null)
         //             }.bind(this))
         //             wx.onSocketMessage(function (res) {
         //                 console.log('WebSocket 收到消息')
@@ -126,9 +144,16 @@ var NetManager = cc.Class({
         }.bind(this);
         this.m_webSocket.onerror = function (event) {
             console.log("Send Text fired an error");
+            if( this.loginFail != null){
+                this.loginFail()
+            }
         }.bind(this);
         this.m_webSocket.onclose = function (event) {
             console.log("WebSocket instance closed.");
+            this.m_webSocket = null
+            //
+            MsgManager.getInstance().ParseLocalMsg("WS_Close",null)
+
         }.bind(this);
     }
 

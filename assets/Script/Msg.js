@@ -62,3 +62,17 @@ export function CS_DoGame5G(x,y){
     })
     return JSON.stringify(data)
 };
+
+//退出游戏
+export function CS_GoOut(){
+    var data = MsgBase("Game5G","CS_GoOut")
+    
+    return JSON.stringify(data)
+};
+
+//心跳
+export function CS_Heart(){
+    var data = MsgBase("Hall","CS_Heart")
+    
+    return JSON.stringify(data)
+};

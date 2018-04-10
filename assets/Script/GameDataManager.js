@@ -15,7 +15,17 @@ var GameDataManager = cc.Class({
     gameInfo:null,
     ctor: function () {
         MsgManager.getInstance().AddListener("SC_MsgHallInfo",this.HallInfoData.bind(this))
+        MsgManager.getInstance().AddListener("SC_NewGame",this.NewGame.bind(this))
         this.gameInfo = new Map()
+        this.SetGameData("GameId",-1)
+    },
+
+    NewGame:function(data){
+        var jd = JSON.parse(data.JsonData)
+        console.log("NewGame"+jd.GameId)
+        this.SetGameData("GameId",jd.GameId)
+        //cc.director.loadScene("Game5G", null);
+        
     },
 
     HallInfoData:function(data){
