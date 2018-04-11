@@ -46,3 +46,6 @@ export function newKuang2btn(title,content,okfun,cancelfun,parent){
 
    
  };
+
+
+

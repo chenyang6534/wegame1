@@ -12,6 +12,7 @@ var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
+var UiTool = require("UiTool")
 cc.Class({
     extends: cc.Component,
 
@@ -46,6 +47,9 @@ cc.Class({
         // console.log("time:"+t1)
 
         // console.log(Tool.TimeMillonToHHMMSS(t1/1000))
+
+        NetMananger.getInstance().SendMsg(Msg.CS_GetGamingInfo())
+        
     },
     roomGameClick(event, customEventData){
         console.log("roomGameClick")
@@ -66,6 +70,63 @@ cc.Class({
         }.bind(this));
 
     },
+    GetGamingInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("GetGamingInfo! uid:"+jsdata.Uid )
+        this.newGameInfo(jsdata)
+    },
+    
+    
+    newGameInfo:function(data){
+
+        var parentscene = this.node
+        if(parentscene == null){
+            console.log("parentscene == null")
+        }
+
+        cc.loader.loadRes("gameinfo", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            console.log("111")
+            newNode.parent = parentscene
+            console.log("222")
+            //parentscene.addChild(newNode);
+
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("TOUCH_END")
+                //newNode.destory()
+                newNode.removeFromParent()
+                
+            });
+
+            var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+            //玩家信息
+            for (var k in data.GameInfo){
+                var p = data.GameInfo[k]
+
+                var oneGameInfo = cc.instantiate(newNode.getChildByName("oneGameInfo"));
+                oneGameInfo.parent = scrollview
+                oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.GameName
+                oneGameInfo.getChildByName("player").getComponent(cc.Label).string = p.PlayerOneName+","+p.PlayerTwoName
+                oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Score
+
+                var lookbtn = oneGameInfo.getChildByName("look")
+                lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                    console.log("lookbtn:"+p.GameId)
+                    //newNode.destory()
+                    //newNode.removeFromParent()
+                    GameDataManager.getInstance().SetGameData("GameId",p.GameId)
+                    
+                });
+                
+
+            }
+            
+
+        });
+
+    
+    },
     
     // LIFE-CYCLE CALLBACKS:
 
@@ -79,7 +140,7 @@ cc.Class({
     onLoad () {
         console.log("onload hall")
         MsgManager.getInstance().AddListener("SC_SerchPlayer",this.SerchingPlayer.bind(this))
-        
+        MsgManager.getInstance().AddListener("SC_GetGamingInfo",this.GetGamingInfo.bind(this))
 
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
         // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
@@ -95,6 +156,7 @@ cc.Class({
         MsgManager.getInstance().RemoveListener("SC_SerchPlayer")
         //MsgManager.getInstance().RemoveListener("SC_NewGame")
         MsgManager.getInstance().RemoveListener("WS_Close")
+        MsgManager.getInstance().RemoveListener("SC_GetGamingInfo")
     },
 
     start () {

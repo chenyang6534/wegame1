@@ -8,7 +8,7 @@
 
 //var serverSrc = "ws://127.0.0.1:1117/connect"
 //var serverSrc = "ws://www.game5868.top/connect1"
-var serverSrc = "ws://127.0.0.1:1117/connect"
+var serverSrc = "ws://www.game5868.top:443/connect"
 var wxServerSrc = "ws://www.game5868.top:443/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
@@ -61,7 +61,7 @@ var NetManager = cc.Class({
         this.loginFail = failCallBack
 
 
-        this.QuickLogin("ios","12345679121122")
+        this.QuickLogin("ios","123456791211231")
         //this.WXLogin()
     },
 

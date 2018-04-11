@@ -114,6 +114,14 @@ cc.Class({
     playerGoIn:function(data){
         var jsdata = JSON.parse(data.JsonData)
         var p = jsdata.PlayerInfo
+        if(p == null){
+            return
+        }
+        //观察者
+        if(p.PlayerType == 2 || p.SeatIndex < 0 ){
+            return
+        }
+
         if(p != null){
             this.playerInfoData[p.SeatIndex] = p
 
@@ -204,6 +212,9 @@ cc.Class({
         var jsdata = JSON.parse(data.JsonData)
         console.log("playerGoOut! uid:"+jsdata.Uid )
         
+        if(jsdata.Uid == GameDataManager.getInstance().GetHallInfoData().Uid){
+            cc.director.loadScene("Hall", null);
+        }
         
     },
 
@@ -212,10 +223,14 @@ cc.Class({
     exitClick(event, customEventData){
         console.log("exitClick")
         console.log("event=",event.type," data=",customEventData);
-
-        UiTool.newKuang2btn("提示","如果中途退出游戏,将直接判负,你确定要退出游戏吗?",function(){
+        if( this.mySeatIndex >= 0){
+            UiTool.newKuang2btn("提示","如果中途退出游戏,将直接判负,你确定要退出游戏吗?",function(){
+                NetMananger.getInstance().SendMsg(Msg.CS_GoOut())
+            })
+        }
+        else{
             NetMananger.getInstance().SendMsg(Msg.CS_GoOut())
-        })
+        }
     },
 
     Disconnect:function(){
@@ -290,37 +305,75 @@ cc.Class({
 
     //显示玩家信息
     showPlayerInfo:function(){
+
+        var nodeInfo = new Array("myInfo","playerInfo")
+        var playerInfo = new Array()
+        //不是观察者的情况
         if( this.mySeatIndex >= 0){
-            this.node.getChildByName("myInfo").getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[this.mySeatIndex].Name
-            var win = this.playerInfoData[this.mySeatIndex].WinCount
-            var lose = this.playerInfoData[this.mySeatIndex].LoseCount
-            var winpersent = 0
-            if(win+lose > 0){
-                winpersent = Math.floor(win/(win+lose)*10000)/100
-                console.log("num:"+winpersent)
+            playerInfo[0] = this.mySeatIndex
+            playerInfo[1] = this.playerSeatIndex
+        }else{
+            if( this.playerInfoData[0] != null){
+                playerInfo[0] = this.playerInfoData[0].SeatIndex
             }
-            this.node.getChildByName("myInfo").getChildByName("winpersent").getComponent(cc.Label).string = winpersent+"%"
-
-            //棋子类型
-            var path = cc.url.raw("resources/qizi/qizi_"+(this.mySeatIndex+1)+".png")
-            this.node.getChildByName("myInfo").getChildByName("qizi").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
-
-        }
-        if( this.playerSeatIndex >= 0){
-            var win = this.playerInfoData[this.playerSeatIndex].WinCount
-            var lose = this.playerInfoData[this.playerSeatIndex].LoseCount
-            var winpersent = 0
-            if(win+lose > 0){
-                winpersent = Math.floor(win/(win+lose)*10000)/100
-                console.log("num:"+winpersent)
+            if( this.playerInfoData[1] != null){
+                playerInfo[1] = this.playerInfoData[1].SeatIndex
             }
-            this.node.getChildByName("playerInfo").getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[this.playerSeatIndex].Name
-            this.node.getChildByName("playerInfo").getChildByName("winpersent").getComponent(cc.Label).string = winpersent+"%"
-
-            //棋子类型
-            var path = cc.url.raw("resources/qizi/qizi_"+(this.playerSeatIndex+1)+".png")
-            this.node.getChildByName("playerInfo").getChildByName("qizi").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
+            
         }
+
+        for(var i = 0; i < 2; i++){
+            //座位号 有人
+            if( playerInfo[i] >= 0){
+                this.node.getChildByName(nodeInfo[i]).getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[playerInfo[i]].Name
+                var win = this.playerInfoData[playerInfo[i]].WinCount
+                var lose = this.playerInfoData[playerInfo[i]].LoseCount
+                var winpersent = 0
+                if(win+lose > 0){
+                    winpersent = Math.floor(win/(win+lose)*10000)/100
+                    console.log("num:"+winpersent)
+                }
+                this.node.getChildByName(nodeInfo[i]).getChildByName("winpersent").getComponent(cc.Label).string = winpersent+"%"
+
+                //棋子类型
+                var path = cc.url.raw("resources/qizi/qizi_"+(playerInfo[i]+1)+".png")
+                this.node.getChildByName(nodeInfo[i]).getChildByName("qizi").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
+            }
+        }
+
+
+
+        // if( this.mySeatIndex >= 0){
+        //     this.node.getChildByName("myInfo").getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[this.mySeatIndex].Name
+        //     var win = this.playerInfoData[this.mySeatIndex].WinCount
+        //     var lose = this.playerInfoData[this.mySeatIndex].LoseCount
+        //     var winpersent = 0
+        //     if(win+lose > 0){
+        //         winpersent = Math.floor(win/(win+lose)*10000)/100
+        //         console.log("num:"+winpersent)
+        //     }
+        //     this.node.getChildByName("myInfo").getChildByName("winpersent").getComponent(cc.Label).string = winpersent+"%"
+
+        //     //棋子类型
+        //     var path = cc.url.raw("resources/qizi/qizi_"+(this.mySeatIndex+1)+".png")
+        //     this.node.getChildByName("myInfo").getChildByName("qizi").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
+
+        // }
+        // if( this.playerSeatIndex >= 0){
+        //     var win = this.playerInfoData[this.playerSeatIndex].WinCount
+        //     var lose = this.playerInfoData[this.playerSeatIndex].LoseCount
+        //     var winpersent = 0
+        //     if(win+lose > 0){
+        //         winpersent = Math.floor(win/(win+lose)*10000)/100
+        //         console.log("num:"+winpersent)
+        //     }
+        //     this.node.getChildByName("playerInfo").getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[this.playerSeatIndex].Name
+        //     this.node.getChildByName("playerInfo").getChildByName("winpersent").getComponent(cc.Label).string = winpersent+"%"
+
+        //     //棋子类型
+        //     var path = cc.url.raw("resources/qizi/qizi_"+(this.playerSeatIndex+1)+".png")
+        //     this.node.getChildByName("playerInfo").getChildByName("qizi").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
+        // }
         
     },
 
@@ -336,44 +389,83 @@ cc.Class({
 
 
         if(this.gameInfoData.State == 2){
+
+
+            var nodeInfo = new Array("myInfo","playerInfo")
+            var playerInfo = new Array()
+            //不是观察者的情况
             if( this.mySeatIndex >= 0){
-                var time = this.playerInfoData[this.mySeatIndex].Time
-                var everytime = this.playerInfoData[this.mySeatIndex].EveryTime
-                //console.log("time:"+time)
-                if(this.gameInfoData.GameSeatIndex == this.mySeatIndex && this.gameInfoData.GameSeatIndex != -1){
-    
-                    var subtime = (Tool.GetTimeMillon()-this.startZouQiTime)/1000
-                    var gameEveryTime = everytime
-                    if( subtime >= gameEveryTime){
-                        this.node.getChildByName("myInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(0)
-                        this.node.getChildByName("myInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time-subtime+gameEveryTime)
-                    }
-                    else{
-                        this.node.getChildByName("myInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(gameEveryTime-subtime)
-                        this.node.getChildByName("myInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time)
+                playerInfo[0] = this.mySeatIndex
+                playerInfo[1] = this.playerSeatIndex
+            }else{
+                if( this.playerInfoData[0] != null){
+                    playerInfo[0] = this.playerInfoData[0].SeatIndex
+                }
+                if( this.playerInfoData[1] != null){
+                    playerInfo[1] = this.playerInfoData[1].SeatIndex
+                }
+            }
+            for(var i = 0; i < 2; i++){
+                //座位号 有人
+                if( playerInfo[i] >= 0){
+                    var time = this.playerInfoData[playerInfo[i]].Time
+                    var everytime = this.playerInfoData[playerInfo[i]].EveryTime
+                    //console.log("time:"+time)
+                    if(this.gameInfoData.GameSeatIndex == playerInfo[i] && this.gameInfoData.GameSeatIndex != -1){
+        
+                        var subtime = (Tool.GetTimeMillon()-this.startZouQiTime)/1000
+                        var gameEveryTime = everytime
+                        if( subtime >= gameEveryTime){
+                            this.node.getChildByName(nodeInfo[i]).getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(0)
+                            this.node.getChildByName(nodeInfo[i]).getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time-subtime+gameEveryTime)
+                        }
+                        else{
+                            this.node.getChildByName(nodeInfo[i]).getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(gameEveryTime-subtime)
+                            this.node.getChildByName(nodeInfo[i]).getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time)
+                        }
                     }
                 }
             }
-            if( this.playerSeatIndex >= 0){
+
+
+            // if( this.mySeatIndex >= 0){
+            //     var time = this.playerInfoData[this.mySeatIndex].Time
+            //     var everytime = this.playerInfoData[this.mySeatIndex].EveryTime
+            //     //console.log("time:"+time)
+            //     if(this.gameInfoData.GameSeatIndex == this.mySeatIndex && this.gameInfoData.GameSeatIndex != -1){
     
-                var time = this.playerInfoData[this.playerSeatIndex].Time
-                var everytime = this.playerInfoData[this.playerSeatIndex].EveryTime
-                //console.log("time:"+time)
-                if(this.gameInfoData.GameSeatIndex == this.playerSeatIndex && this.gameInfoData.GameSeatIndex != -1){
+            //         var subtime = (Tool.GetTimeMillon()-this.startZouQiTime)/1000
+            //         var gameEveryTime = everytime
+            //         if( subtime >= gameEveryTime){
+            //             this.node.getChildByName("myInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(0)
+            //             this.node.getChildByName("myInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time-subtime+gameEveryTime)
+            //         }
+            //         else{
+            //             this.node.getChildByName("myInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(gameEveryTime-subtime)
+            //             this.node.getChildByName("myInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time)
+            //         }
+            //     }
+            // }
+            // if( this.playerSeatIndex >= 0){
     
-                    var subtime = (Tool.GetTimeMillon()-this.startZouQiTime)/1000
-                    var gameEveryTime = everytime
-                    if( subtime >= gameEveryTime){
-                        this.node.getChildByName("playerInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(0)
-                        this.node.getChildByName("playerInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time-subtime+gameEveryTime)
-                    }
-                    else{
-                        this.node.getChildByName("playerInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(gameEveryTime-subtime)
-                        this.node.getChildByName("playerInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time)
-                    }
-                }
-                //this.node.getChildByName("playerInfo").getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[this.playerSeatIndex].Name
-            }
+            //     var time = this.playerInfoData[this.playerSeatIndex].Time
+            //     var everytime = this.playerInfoData[this.playerSeatIndex].EveryTime
+            //     //console.log("time:"+time)
+            //     if(this.gameInfoData.GameSeatIndex == this.playerSeatIndex && this.gameInfoData.GameSeatIndex != -1){
+    
+            //         var subtime = (Tool.GetTimeMillon()-this.startZouQiTime)/1000
+            //         var gameEveryTime = everytime
+            //         if( subtime >= gameEveryTime){
+            //             this.node.getChildByName("playerInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(0)
+            //             this.node.getChildByName("playerInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time-subtime+gameEveryTime)
+            //         }
+            //         else{
+            //             this.node.getChildByName("playerInfo").getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(gameEveryTime-subtime)
+            //             this.node.getChildByName("playerInfo").getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time)
+            //         }
+            //     }
+            //     //this.node.getChildByName("playerInfo").getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[this.playerSeatIndex].Name
+            // }
         }
 
         

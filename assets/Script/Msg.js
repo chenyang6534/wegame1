@@ -76,3 +76,12 @@ export function CS_Heart(){
     
     return JSON.stringify(data)
 };
+
+//获取当前进行中的游戏信息
+export function CS_GetGamingInfo(){
+    var data = MsgBase("Game5G","CS_GetGamingInfo")
+    data.JsonData = JSON.stringify({
+        "Count" : 10,
+    })
+    return JSON.stringify(data)
+};
