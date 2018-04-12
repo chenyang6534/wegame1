@@ -423,6 +423,9 @@ cc.Class({
                             this.node.getChildByName(nodeInfo[i]).getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(gameEveryTime-subtime)
                             this.node.getChildByName(nodeInfo[i]).getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time)
                         }
+                    }else{
+                        this.node.getChildByName(nodeInfo[i]).getChildByName("EveryTime").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(everytime)
+                        this.node.getChildByName(nodeInfo[i]).getChildByName("Time").getComponent(cc.Label).string = Tool.TimeMillonToHHMMSS(time)
                     }
                 }
             }

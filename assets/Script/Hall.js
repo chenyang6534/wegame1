@@ -112,12 +112,13 @@ cc.Class({
 
                 var lookbtn = oneGameInfo.getChildByName("look")
                 lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                    var p = this
                     console.log("lookbtn:"+p.GameId)
                     //newNode.destory()
                     //newNode.removeFromParent()
                     GameDataManager.getInstance().SetGameData("GameId",p.GameId)
                     
-                });
+                }.bind(p));
                 
 
             }
