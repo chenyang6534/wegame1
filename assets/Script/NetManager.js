@@ -124,9 +124,19 @@ var NetManager = cc.Class({
         //         })
           
         //       } else {
-        //         console.log('获取用户登录态失败！' + res.errMsg)
+        //         console.log('获取用户登录态失败1！' + res.errMsg)
+        //         if( this.loginFail != null){
+        //             this.loginFail()
+        //         }
         //       }
+        //     }.bind(this),
+        //     fail: function (res) {//登录成功
+        //         console.log('获取用户登录态失败2！' + res.errMsg)
+        //         if( this.loginFail != null){
+        //             this.loginFail()
+        //         }
         //     }.bind(this)
+
         // })
     },
 
