@@ -452,7 +452,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 68,
+      "width": 98,
       "height": 40
     },
     "_rotationX": 0,
@@ -461,8 +461,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -82,
-      "y": 0
+      "x": -78.2,
+      "y": 0.5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -483,11 +483,11 @@
     "_actualFontSize": 30,
     "_fontSize": 30,
     "_lineHeight": 40,
-    "_enableWrapText": false,
+    "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "胜利:",
+    "_N$string": "赛季分:",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -535,8 +535,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -44,
-      "y": 0
+      "x": -28.7,
+      "y": 0.5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -609,8 +609,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 94,
-      "y": 0
+      "x": 112,
+      "y": 0.5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -683,8 +683,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 148,
-      "y": 0
+      "x": 166,
+      "y": 0.5
     },
     "_skewX": 0,
     "_skewY": 0,

@@ -7,6 +7,10 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+
+
+var wx = require("Wx")
+
 var NetMananger = require("NetManager")
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
@@ -54,6 +58,13 @@ cc.Class({
     roomGameClick(event, customEventData){
         console.log("roomGameClick")
         console.log("event=",event.type," data=",customEventData);
+
+        //
+        NetMananger.getInstance().SendMsg(Msg.CS_CreateRoom())
+        // Tool.ShareApp(GameDataManager.getInstance().GetHallInfoData().Uid,100,function(){
+        //     console.log("Tool.ShareApp")
+        // })
+        
     },
 
     SerchingPlayer:function(data){
@@ -137,19 +148,49 @@ cc.Class({
     },
     
 
+    checkShare(){
+        wx.onShow(res => {
+            console.log("onshow "+res.scene)
+            console.log("onshow uid"+res.query.uid)
+            console.log("onshow roomid"+res.query.roomid)
+            console.log("onshow ticket"+res.shareTicket)
+
+            if(res.query.roomid != null && res.query.roomid > 0){
+                NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(res.query.roomid))
+            }
+            
+            
+        })
+    },
+    CheckGoToGame:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("CheckGoToGame! err:"+jsdata.Err )
+        //this.newGameInfo(jsdata)
+        if(jsdata.Code == 1){
+            GameDataManager.getInstance().SetGameData("GameId",jsdata.GameId)
+            
+        }
+    },
+
 
     onLoad () {
         console.log("onload hall")
         MsgManager.getInstance().AddListener("SC_SerchPlayer",this.SerchingPlayer.bind(this))
         MsgManager.getInstance().AddListener("SC_GetGamingInfo",this.GetGamingInfo.bind(this))
+        //
+        MsgManager.getInstance().AddListener("SC_CheckGoToGame",this.CheckGoToGame.bind(this))
 
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
         // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
         this.node.getChildByName("userInfo").getChildByName("name").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
-        this.node.getChildByName("userInfo").getChildByName("win").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().WinCount
+        this.node.getChildByName("userInfo").getChildByName("win").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().SeasonScore
         var allcount = GameDataManager.getInstance().GetHallInfoData().WinCount+GameDataManager.getInstance().GetHallInfoData().LoseCount
         this.node.getChildByName("userInfo").getChildByName("all").getComponent(cc.Label).string = allcount
+
+        this.checkShare()
+
+        
     
     },
     onDestroy(){

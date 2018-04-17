@@ -85,3 +85,19 @@ export function CS_GetGamingInfo(){
     })
     return JSON.stringify(data)
 };
+
+//创建游戏房间
+export function CS_CreateRoom(){
+    var data = MsgBase("Game5G","CS_CreateRoom")
+    
+    return JSON.stringify(data)
+};
+
+//检查游戏房间
+export function CS_CheckGoToGame(gameid){
+    var data = MsgBase("Game5G","CS_CheckGoToGame")
+    data.JsonData = JSON.stringify({
+        "GameId" : gameid,
+    })
+    return JSON.stringify(data)
+};
