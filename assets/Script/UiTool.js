@@ -3,6 +3,27 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+export function getPathByQiZiId(id){
+    if( id <= 0){
+        return cc.url.raw("resources/qizi/qizi_"+(1)+".png")
+    }
+    return cc.url.raw("resources/qizi/qizi_"+(id)+".png")
+}
+
+
+
 export function newKuang2btn(title,content,okfun,cancelfun,parent){
 
     var parentscene = parent

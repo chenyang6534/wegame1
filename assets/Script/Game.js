@@ -42,23 +42,77 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     registerTouch:function(){
+
+        var touchStartTime = Tool.GetTimeMillon()
+        var moved = false
+        var moveY = -1
+        var moveX = -1
+        var touchTime = 1000
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             
-            //var temp = event.getLocation()
-            //cc.log("点击全局坐标： ",temp.x,temp.y)
-            //获取当前点击的局部坐标
-            //var tempPlayer = this.node.convertToNodeSpaceAR(event.getLocation())
-            //cc.log("点击局部坐标： ",tempPlayer.x,tempPlayer.y)
+            var tempPlayer = this.node.convertToNodeSpaceAR(event.getLocation())
+            console.log("点击局部坐标： ",tempPlayer.x,tempPlayer.y)
+            if(this.gameInfoData == null){
+                return
+            }
+            if(this.gameInfoData.State != 2){
+                return
+            }
+            if(this.gameInfoData.GameSeatIndex != this.mySeatIndex || this.mySeatIndex == -1){
+                return
+            }
 
+            touchStartTime = Tool.GetTimeMillon()
+
+            this.node.getChildByName("touchmoveqizi").position = cc.p(0,10000)
+            var path = UiTool.getPathByQiZiId(this.playerInfoData[this.mySeatIndex].QiZiId)
+            this.node.getChildByName("touchmoveqizi").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
+            moved = false
+
+
+          }, this);
+
+          this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
+            
+            var tempPlayer = this.node.convertToNodeSpaceAR(event.getLocation())
+            console.log("点击局部坐标： ",tempPlayer.x,tempPlayer.y)
+            if(this.gameInfoData == null){
+                return
+            }
+            if(this.gameInfoData.State != 2){
+                return
+            }
+            if(this.gameInfoData.GameSeatIndex != this.mySeatIndex || this.mySeatIndex == -1){
+                return
+            }
+            tempPlayer.y = tempPlayer.y + 100
+            var Y = Math.floor((tempPlayer.y+350+25)/50)
+            var X = Math.floor((tempPlayer.x+350+25)/50)
+            console.log("t1:"+(Tool.GetTimeMillon() - touchStartTime)+" t2:"+touchTime)
+            if( Tool.GetTimeMillon() - touchStartTime < touchTime){
+                return
+            }
+            console.log("x： y:",X,Y)
+            if( X < 0 || X >=15 || Y < 0 || Y >= 15){
+                moved = true
+                moveX = X
+                moveY = Y
+                this.node.getChildByName("touchmoveqizi").position = cc.p(0,10000)
+                return
+            }
+            moved = true
+            moveX = X
+            moveY = Y
+
+            this.node.getChildByName("touchmoveqizi").position = cc.p(-350+moveX*50, -350+moveY*50)
+
+            
 
           }, this);
 
 
           this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
             
-            //var temp = event.getLocation()
-            //cc.log("点击全局坐标： ",temp.x,temp.y)
-            //获取当前点击的局部坐标
             var tempPlayer = this.node.convertToNodeSpaceAR(event.getLocation())
             console.log("点击局部坐标： ",tempPlayer.x,tempPlayer.y)
             if(this.gameInfoData == null){
@@ -74,6 +128,14 @@ cc.Class({
             var Y = Math.floor((tempPlayer.y+350+25)/50)
             var X = Math.floor((tempPlayer.x+350+25)/50)
             console.log("x： y:",X,Y)
+            //if( Tool.GetTimeMillon() - touchStartTime > touchTime)
+
+            if(moved == true){
+                this.node.getChildByName("touchmoveqizi").position = cc.p(0,10000)
+                NetMananger.getInstance().SendMsg(Msg.CS_DoGame5G(moveX,moveY))
+                return
+            }
+
             NetMananger.getInstance().SendMsg(Msg.CS_DoGame5G(X,Y))
 
           }, this);
@@ -105,9 +167,12 @@ cc.Class({
         this.showPlayerInfo()
 
 
+
+
         this.gameInfoData = jsdata.GameInfo
         this.startZouQiTime = Tool.GetTimeMillon()
         this.showQiPanInfo()
+        this.changeGameTurnAnim()
     },
 
     //其他玩家进入
@@ -142,10 +207,95 @@ cc.Class({
     //     Game5GState_Result = 3 //结算中
     //     Game5GState_Over   = 4 //解散
     // )
+
+    //3,2,1动画
+    startTimeAnim:function(){
+        console.log("startTimeAnim!")
+        
+
+        var myAction = cc.sequence( cc.callFunc(function(target, score) {
+                                    this.node.getChildByName("startTime").position = cc.p(0,750/4)
+                                    this.node.getChildByName("startTime").setScale(2)
+                                    this.node.getChildByName("startTime").getComponent(cc.Label).string = 3
+                                    }, this, 0),
+                                    cc.scaleTo(0.2,1,1),
+                                    cc.delayTime(0.8),
+                                    cc.callFunc(function(target, score) {
+                                        this.node.getChildByName("startTime").setScale(2)
+                                        this.node.getChildByName("startTime").getComponent(cc.Label).string = 2
+                                        }, this, 0),
+                                    cc.scaleTo(0.2,1,1),
+                                    cc.delayTime(0.8),
+                                    cc.callFunc(function(target, score) {
+                                        this.node.getChildByName("startTime").setScale(2)
+                                        this.node.getChildByName("startTime").getComponent(cc.Label).string = 1
+                                        }, this, 0),
+                                    cc.scaleTo(0.2,1,1),
+                                    cc.delayTime(0.8),
+                                    cc.callFunc(function(target, score) {
+                                        this.node.getChildByName("startTime").position = cc.p(0,1000)
+                                        }, this, 0),
+                                    );
+        
+        this.node.getChildByName("startTime").runAction(myAction)
+    },
+
+
     //游戏开始
     gameStart:function(data){
         console.log("gamestart!")
+
+        var jsdata = JSON.parse(data.JsonData)
+
         this.gameInfoData.State = 2
+        this.playerInfoData[0].QiZiId = jsdata.SeatIndex0_qiziid
+        this.playerInfoData[1].QiZiId = jsdata.SeatIndex1_qiziid
+        this.startTimeAnim()
+        this.showPlayerInfo()
+    },
+
+    getNodeBySeatIndex:function(seatindex){
+        var nodeInfo = new Array("myInfo","playerInfo")
+        //不是观察者的情况
+        if( this.mySeatIndex >= 0){
+            if( this.mySeatIndex ==  seatindex){
+                return this.node.getChildByName(nodeInfo[0])
+            }else{
+                return this.node.getChildByName(nodeInfo[1])
+            }
+            
+        }else{
+
+            return this.node.getChildByName(nodeInfo[seatindex])
+            
+        }
+    },
+
+    //3,2,1动画
+    changeGameTurnAnim:function(){
+
+        if(this.gameInfoData.GameSeatIndex < 0 || this.gameInfoData.GameSeatIndex >= 2){
+            return
+        }
+        var nodeInfo = new Array("myInfo","playerInfo")
+        var mynode = this.getNodeBySeatIndex(this.gameInfoData.GameSeatIndex).getChildByName("qizi")
+        var elsenode = this.getNodeBySeatIndex(Math.abs(this.gameInfoData.GameSeatIndex-1)).getChildByName("qizi")
+        
+        elsenode.setRotation(0)
+        elsenode.stopAllActions()
+
+
+        var myAction = cc.sequence( cc.callFunc(function(target, score) {
+                target.setScale(4)
+            }, this, 0),
+            cc.scaleTo(0.5,1,1),
+            cc.delayTime(0.8),
+            );
+        mynode.runAction(myAction)
+        var seq = cc.repeatForever(
+            cc.rotateBy(1,360));
+        mynode.runAction(seq)
+
     },
 
     //切换下棋的人
@@ -160,8 +310,15 @@ cc.Class({
 
         this.startZouQiTime = Tool.GetTimeMillon()
         //console.log("time:"+this.startZouQiTime)
+        this.changeGameTurnAnim()
 
     },
+
+    //3,2,1动画
+    // doGame5GAnim:function(){
+
+    // },
+
     //玩家走棋
     doGame5G:function(data){
         var jsdata = JSON.parse(data.JsonData)
@@ -269,6 +426,11 @@ cc.Class({
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
 
         NetMananger.getInstance().SendMsg(Msg.CS_GoIn(GameDataManager.getInstance().GetGameData("GameId")))
+
+
+        var seq = cc.repeatForever(
+            cc.rotateBy(1,360));
+        this.node.getChildByName("touchmoveqizi").runAction(seq)
     },
     //显示棋盘信息
     showQiPanInfo:function(){
@@ -277,18 +439,29 @@ cc.Class({
                 
                 if(this.gameInfoData.QiPan[y][x] >= 0){
                     if(this.allQiZi[y][x] == null){
+
+                        var mynode = this.getNodeBySeatIndex(this.gameInfoData.QiPan[y][x])
+                        
+                        var startpos = mynode.getChildByName("qizi").convertToWorldSpaceAR(cc.p(0,0))
+                        startpos = this.node.convertToNodeSpaceAR(startpos)
+                        //console.log("pos x:"+startpos.x+" pos y:"+startpos.y)
+                        //console.log("11pos x:"+mynode.getChildByName("qizi").position.x+" pos y:"+mynode.getChildByName("qizi").position.y)
                         //创建棋子
                         
                         console.log("x:"+x+" y:"+y+" value:"+this.gameInfoData.QiPan[y][x])
-                        var path = cc.url.raw("resources/qizi/qizi_"+(this.gameInfoData.QiPan[y][x]+1)+".png")
+                        //var path = cc.url.raw("resources/qizi/qizi_"+(this.gameInfoData.QiPan[y][x]+1)+".png")
+                        var path = UiTool.getPathByQiZiId(this.playerInfoData[this.gameInfoData.QiPan[y][x]].QiZiId)
                         console.log(path)
                         this.allQiZi[y][x] = cc.instantiate(this.qizi);
                         this.allQiZi[y][x].parent = this.node;
-                        this.allQiZi[y][x].position = cc.p(-350+x*50, -350+y*50)
+                        //this.allQiZi[y][x].position = cc.p(-350+x*50, -350+y*50)
+                        this.allQiZi[y][x].position = startpos
                         //new cc.SpriteFrame(texture);
                         //var contentsize = this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame.contentsize
                         this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
                         //this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame.contentsize = contentsize
+
+                        this.allQiZi[y][x].runAction(cc.moveTo(0.35,cc.p(-350+x*50, -350+y*50)).easing(cc.easeIn(2.0)))
                     }
                 }else{
                     if(this.allQiZi[y][x] != null){
@@ -337,8 +510,24 @@ cc.Class({
                 this.node.getChildByName(nodeInfo[i]).getChildByName("winpersent").getComponent(cc.Label).string = seasonscore
 
                 //棋子类型
-                var path = cc.url.raw("resources/qizi/qizi_"+(playerInfo[i]+1)+".png")
+                //var path = cc.url.raw("resources/qizi/qizi_"+(playerInfo[i]+1)+".png")
+                var path = UiTool.getPathByQiZiId(this.playerInfoData[playerInfo[i]].QiZiId)
                 this.node.getChildByName(nodeInfo[i]).getChildByName("qizi").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
+
+                //头像
+                var avatarurl = this.playerInfoData[playerInfo[i]].AvatarUrl
+                console.log("url:"+avatarurl)
+                if(avatarurl != null && avatarurl.length > 0){
+                    var imgurl = avatarurl+"?aaa=aa.jpg";
+                    var mynode = this.node.getChildByName(nodeInfo[i]).getChildByName("headicon")
+                    console.log("mynode:"+mynode)
+                    cc.loader.load(imgurl, function(err, texture){
+                        console.log("err:"+err)
+                        console.log("texture:"+texture)
+                        this.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                    }.bind(mynode));
+                }
+
             }
         }
 

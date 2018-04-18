@@ -187,6 +187,18 @@ cc.Class({
         this.node.getChildByName("userInfo").getChildByName("win").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().SeasonScore
         var allcount = GameDataManager.getInstance().GetHallInfoData().WinCount+GameDataManager.getInstance().GetHallInfoData().LoseCount
         this.node.getChildByName("userInfo").getChildByName("all").getComponent(cc.Label).string = allcount
+        var avatarurl = GameDataManager.getInstance().GetHallInfoData().AvatarUrl
+        //var avatarurl = "https://wx.qlogo.cn/mmopen/vi_32/wsRmxcKeyV3TKk7mHEVKLl1rFLjK2aKk08vggdAIaGwzrQAexH88lnicbH9w17rG5AY3ptACgbjicqF8HJEj2gUg/0"
+        
+        if(avatarurl != null && avatarurl.length > 0){
+            var imgurl = avatarurl+"?aaa=aa.jpg";
+            
+            cc.loader.load(imgurl, function(err, texture){
+                console.log("err:"+err)
+                console.log("texture:"+texture)
+                this.node.getChildByName("userInfo").getChildByName("headicon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+            }.bind(this));
+        }
 
         this.checkShare()
 

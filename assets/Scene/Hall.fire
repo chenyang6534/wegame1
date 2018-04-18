@@ -383,7 +383,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -176,
+      "x": -180,
       "y": 3
     },
     "_skewX": 0,
@@ -405,7 +405,7 @@
       "__uuid__": "0426f4a9-db21-44d9-b982-374d8c2583c8"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",

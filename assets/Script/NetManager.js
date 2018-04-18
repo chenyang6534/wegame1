@@ -9,7 +9,7 @@ var wx = require("Wx")
 //var serverSrc = "ws://127.0.0.1:1117/connect"
 //var serverSrc = "ws://www.game5868.top/connect1"
 var serverSrc = "ws://127.0.0.1:1117/connect"
-var wxServerSrc = "ws://www.game5868.top:443/connect"
+var wxServerSrc = "ws://127.0.0.1:1117/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
@@ -62,7 +62,7 @@ var NetManager = cc.Class({
         this.loginFail = failCallBack
 
 
-        this.QuickLogin("ios","123456791211232")
+        this.QuickLogin("ios","123456791211233")
         //this.WXLogin()
     },
 
@@ -98,7 +98,7 @@ var NetManager = cc.Class({
                         // })
 
                         this.m_webSocket.send({
-                                data:Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName)
+                                data:Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName,res2.userInfo.avatarUrl)
                             })
                     }.bind(this))
                     wx.onSocketError(function (res) {

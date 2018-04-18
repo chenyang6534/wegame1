@@ -22,11 +22,12 @@ export function CS_MsgQuickLogin(platform,machineid){
 };
 
 
-export function CS_MsgWeiXingLogin(code,name){
+export function CS_MsgWeiXingLogin(code,name,avatarUrl){
     var data = MsgBase("Login","CS_MsgWeiXingLogin")
     data.JsonData = JSON.stringify({
         "Code" : code,
         "Name" : name,
+        "AvatarUrl":avatarUrl,
     })
     return JSON.stringify(data)
 };
