@@ -47,7 +47,7 @@ cc.Class({
         var moved = false
         var moveY = -1
         var moveX = -1
-        var touchTime = 1000
+        var touchTime = 400
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             
             var tempPlayer = this.node.convertToNodeSpaceAR(event.getLocation())

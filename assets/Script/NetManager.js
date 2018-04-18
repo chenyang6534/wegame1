@@ -7,9 +7,9 @@ var wx = require("Wx")
 
 
 //var serverSrc = "ws://127.0.0.1:1117/connect"
-//var serverSrc = "ws://www.game5868.top/connect1"
-var serverSrc = "ws://127.0.0.1:1117/connect"
-var wxServerSrc = "ws://127.0.0.1:1117/connect"
+//var serverSrc = "ws://www.game5868.top:443/connect1"
+var serverSrc = "ws://www.game5868.top:443/connect"
+var wxServerSrc = "ws://www.game5868.top:443/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
