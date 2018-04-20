@@ -19,6 +19,7 @@ var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
+
 cc.Class({
     extends: cc.Component,
 
@@ -42,7 +43,7 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {},
 
     LoginSucc:function(){
         console.log("LoginSucc")

@@ -169,7 +169,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Label",
+    "_name": "searchtxt",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -197,7 +197,7 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_contentSize": {
@@ -211,8 +211,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": -97,
+      "y": 6
     },
     "_skewX": 0,
     "_skewY": 0,

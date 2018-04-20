@@ -149,7 +149,7 @@ cc.Class({
         // ]}
         
          console.log("2222")
-
+         this.gameInfoData = jsdata.GameInfo
         //玩家信息
         for (var k in jsdata.PlayerInfo){
             var p = jsdata.PlayerInfo[k]
@@ -169,7 +169,7 @@ cc.Class({
 
 
 
-        this.gameInfoData = jsdata.GameInfo
+        
         this.startZouQiTime = Tool.GetTimeMillon()
         this.showQiPanInfo()
         this.changeGameTurnAnim()
@@ -214,30 +214,34 @@ cc.Class({
         
 
         var myAction = cc.sequence( cc.callFunc(function(target, score) {
-                                    this.node.getChildByName("startTime").position = cc.p(0,750/4)
-                                    this.node.getChildByName("startTime").setScale(2)
-                                    this.node.getChildByName("startTime").getComponent(cc.Label).string = 3
+                                    target.position = cc.p(0,750/4)
+                                    target.setScale(2)
+                                    target.getComponent(cc.Label).string = 3
                                     }, this, 0),
-                                    cc.scaleTo(0.2,1,1),
-                                    cc.delayTime(0.8),
+                                    cc.scaleTo(1,1,1),
+                                    //cc.delayTime(0.2),
                                     cc.callFunc(function(target, score) {
-                                        this.node.getChildByName("startTime").setScale(2)
-                                        this.node.getChildByName("startTime").getComponent(cc.Label).string = 2
+                                        target.position = cc.p(0,750/4)
+                                        target.setScale(2)
+                                        target.getComponent(cc.Label).string = 2
                                         }, this, 0),
-                                    cc.scaleTo(0.2,1,1),
-                                    cc.delayTime(0.8),
+                                    cc.scaleTo(1,1,1),
+                                    //cc.delayTime(0.2),
                                     cc.callFunc(function(target, score) {
-                                        this.node.getChildByName("startTime").setScale(2)
-                                        this.node.getChildByName("startTime").getComponent(cc.Label).string = 1
+                                        target.position = cc.p(0,750/4)
+                                        target.setScale(2)
+                                        target.getComponent(cc.Label).string = 1
                                         }, this, 0),
-                                    cc.scaleTo(0.2,1,1),
-                                    cc.delayTime(0.8),
+                                    cc.scaleTo(1,1,1),
+                                    //cc.delayTime(0.2),
                                     cc.callFunc(function(target, score) {
-                                        this.node.getChildByName("startTime").position = cc.p(0,1000)
+                                        target.position = cc.p(0,750/4)
+                                        target.position = cc.p(0,1000)
                                         }, this, 0),
                                     );
         
         this.node.getChildByName("startTime").runAction(myAction)
+        this.node.getChildByName("startTime").runAction(cc.repeat(cc.moveBy(1,cc.p(0,-50)),3))
     },
 
 
@@ -334,12 +338,8 @@ cc.Class({
         this.showQiPanInfo()
     },
 
-    //游戏结束
-    gameOver:function(data){
-        var jsdata = JSON.parse(data.JsonData)
-        console.log("gameOver! win:"+this.playerInfoData[jsdata.WinPlayerSeatIndex].Name )
-        this.gameInfoData.State = 3
 
+    showGameOverUi:function(winSeatIndex){
         cc.loader.loadRes("gameover", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
             this.node.addChild(newNode);
@@ -349,18 +349,43 @@ cc.Class({
                 cc.director.loadScene("Hall", null);
             });
 
-            var winname = this.playerInfoData[jsdata.WinPlayerSeatIndex].Name
+            var winname = this.playerInfoData[winSeatIndex].Name
             newNode.getChildByName("winname").getComponent(cc.Label).string = winname
-            var loseSeatIndex = jsdata.WinPlayerSeatIndex
-            if(jsdata.WinPlayerSeatIndex == 0){
-                loseSeatIndex = 1
-            }else{
-                loseSeatIndex = 0
-            }
+            var loseSeatIndex = Math.abs(winSeatIndex-1)
             var losename = this.playerInfoData[loseSeatIndex].Name
             newNode.getChildByName("losename").getComponent(cc.Label).string = losename
 
         }.bind(this));
+    },
+
+    //游戏结束
+    gameOver:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("gameOver! win:"+this.playerInfoData[jsdata.WinPlayerSeatIndex].Name )
+        this.gameInfoData.State = 3
+
+        if(jsdata.Reason == 2){
+            for(var i = 0; i < 5;i++){
+                var y = jsdata.WinQiZi[i][0]
+                var x = jsdata.WinQiZi[i][1]
+                
+                var onenode = this.allQiZi[y][x]
+                if(onenode != null){
+                    var action1 = cc.sequence(cc.delayTime(0.1*i),cc.repeat(cc.rotateBy(1,360),1000))
+                    onenode.runAction(action1)
+                    if (i == 4){
+                        onenode.runAction(cc.sequence(cc.delayTime(1.5) ,cc.callFunc(function(){
+                            this.showGameOverUi(jsdata.WinPlayerSeatIndex)
+                        },this,1)))
+                    }
+                }
+            }
+            
+        }else{
+            this.showGameOverUi(jsdata.WinPlayerSeatIndex)
+        }
+
+        
         
     },
 
@@ -373,6 +398,17 @@ cc.Class({
             cc.director.loadScene("Hall", null);
         }
         
+    },
+
+    //邀请玩家
+    invateClick(event, customEventData){
+        console.log("invateClick")
+        var uid = GameDataManager.getInstance().GetHallInfoData().Uid
+        var roomid = this.gameInfoData.GameId
+        var time = this.gameInfoData.CreateGameTime
+        Tool.ShareApp(uid,roomid,time,function(){
+            console.log("invateClick over!")
+        })
     },
 
 
@@ -494,10 +530,13 @@ cc.Class({
             }
             
         }
-
+        this.node.getChildByName("invite").active = false
         for(var i = 0; i < 2; i++){
             //座位号 有人
             if( playerInfo[i] >= 0){
+                this.node.getChildByName(nodeInfo[i]).active = true
+
+
                 this.node.getChildByName(nodeInfo[i]).getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[playerInfo[i]].Name
                 var seasonscore = this.playerInfoData[playerInfo[i]].SeasonScore
                 var win = this.playerInfoData[playerInfo[i]].WinCount
@@ -528,6 +567,14 @@ cc.Class({
                     }.bind(mynode));
                 }
 
+            }else{
+                this.node.getChildByName(nodeInfo[i]).active = false
+                if(this.gameInfoData.GameMode == 1){//自己建游戏
+                    //邀请朋友来玩ShareApp invite
+                    this.node.getChildByName("invite").active = true
+
+                }
+                
             }
         }
 

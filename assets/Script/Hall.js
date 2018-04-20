@@ -9,7 +9,6 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 
-var wx = require("Wx")
 
 var NetMananger = require("NetManager")
 var Msg = require("Msg")
@@ -78,6 +77,30 @@ cc.Class({
                 NetMananger.getInstance().SendMsg(Msg.CS_QuickGameExit())
                 newNode.destroy()
             });
+
+
+            //动画
+            var myAction = cc.sequence( cc.callFunc(function(target, score) {
+                
+                                        target.getComponent(cc.Label).string = "搜寻中."
+                                        }, this, 0),
+                                        cc.delayTime(1),
+                                        cc.callFunc(function(target, score) {
+                                        
+                                            target.getComponent(cc.Label).string = "搜寻中.."
+                                            }, this, 0),
+                                        
+                                        cc.delayTime(1),
+                                        cc.callFunc(function(target, score) {
+                                            
+                                            target.getComponent(cc.Label).string = "搜寻中..."
+                                            }, this, 0),
+                                        cc.delayTime(1)
+                                        );
+            newNode.getChildByName("searchtxt").runAction(cc.repeatForever(myAction))
+
+
+
         }.bind(this));
 
     },
@@ -148,20 +171,7 @@ cc.Class({
     },
     
 
-    checkShare(){
-        wx.onShow(res => {
-            console.log("onshow "+res.scene)
-            console.log("onshow uid"+res.query.uid)
-            console.log("onshow roomid"+res.query.roomid)
-            console.log("onshow ticket"+res.shareTicket)
-
-            if(res.query.roomid != null && res.query.roomid > 0){
-                NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(res.query.roomid))
-            }
-            
-            
-        })
-    },
+    
     CheckGoToGame:function(data){
         var jsdata = JSON.parse(data.JsonData)
         console.log("CheckGoToGame! err:"+jsdata.Err )
@@ -200,13 +210,16 @@ cc.Class({
             }.bind(this));
         }
 
-        this.checkShare()
+        //this.checkShare()
 
         
     
     },
     onDestroy(){
         console.log("hall destory")
+        
+
+        
         MsgManager.getInstance().RemoveListener("SC_SerchPlayer")
         //MsgManager.getInstance().RemoveListener("SC_NewGame")
         MsgManager.getInstance().RemoveListener("WS_Close")
@@ -214,12 +227,45 @@ cc.Class({
     },
 
     start () {
+        // console.log("hall start")
+        // wx.getShareInfo({
+        //     shareTicket: res.shareTickets[0],
+        //     success(res2) {
+        //     //   res.errMsg; // 错误信息
+        //     //   res.encryptedData;  //  解密后为一个 JSON 结构（openGId    群对当前小程序的唯一 ID）
+        //     //   res.iv; // 加密算法的初始向量
+        //         console.log("content");
+        //         console.log(res2);
+        //         console.log(res2.encryptedData);
+        //         var encryptedData = encodeURIComponent(res2.encryptedData);//一定要把加密串转成URI编码
+        //         var iv = res2.iv;
+        //         console.log(encryptedData);
+        //         console.log(res2.userInfo.nickName);
+        //         console.log(res2.userInfo.avatarUrl);
+
+        //     },
+        //     fail() {},
+        //     complete() {}
+        //   });
+
+                    
 
     },
 
     update (dt) {
         if(GameDataManager.getInstance().GetGameData("GameId") > 0){
             cc.director.loadScene("Game5G", null);
+        }
+        //console.log("GameDataManager.getInstance().GetQueryData()")
+        var querydata = GameDataManager.getInstance().GetQueryData()
+        if(querydata != null ){
+            if( querydata.roomid > 0){
+                if (NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(querydata.roomid,querydata.time))){
+                    GameDataManager.getInstance().SetQueryData(null)
+                }
+            }
+            
+            
         }
     },
 });

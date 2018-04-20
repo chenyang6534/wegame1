@@ -13,11 +13,14 @@ var GameDataManager = cc.Class({
     name: "GameDataManager",
     hallInfo:null,
     gameInfo:null,
+    queryData:null,
     ctor: function () {
         MsgManager.getInstance().AddListener("SC_MsgHallInfo",this.HallInfoData.bind(this))
         MsgManager.getInstance().AddListener("SC_NewGame",this.NewGame.bind(this))
         this.gameInfo = new Map()
         this.SetGameData("GameId",-1)
+        
+        
     },
 
     NewGame:function(data){
@@ -42,6 +45,13 @@ var GameDataManager = cc.Class({
     },
     GetGameData:function(key){
         return this.gameInfo[key]
+    },
+
+    SetQueryData:function(d1){
+        this.queryData = d1
+    },
+    GetQueryData:function(){
+        return this.queryData
     },
     
 

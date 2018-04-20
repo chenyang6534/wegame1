@@ -2,7 +2,7 @@
 
 
 
-var wx = require("Wx")
+//var wx = require("Wx")
 
 
 
@@ -13,7 +13,7 @@ var wxServerSrc = "ws://www.game5868.top:443/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
-
+var Tool = require("Tool")
 
 
 var NetManager = cc.Class({
@@ -27,9 +27,15 @@ var NetManager = cc.Class({
         GameDataManager.getInstance()
         MsgManager.getInstance().AddListener("SC_LoginResponse",this.LoginSucc.bind(this))
 
+        MsgManager.getInstance().AddListener("SC_Result",this.Result.bind(this))
+
         //
         console.log("component.schedule")
         this.schedule(this.SendHeart.bind(this), 5);
+    },
+    Result:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("Result!:"+jsdata.Result )
     },
     SendHeart:function(){
         
@@ -41,13 +47,14 @@ var NetManager = cc.Class({
     SendMsg:function(msg){
         if (this.m_webSocket == null){
             console.log("this.m_webSocket == null")
-            return
+            return false
         }
         if(this.isWX == true){
             this.m_webSocket.send({data:msg})
         }else{
             this.m_webSocket.send(msg)
         }
+        return true
         
     },
 
@@ -62,8 +69,8 @@ var NetManager = cc.Class({
         this.loginFail = failCallBack
 
 
-        this.QuickLogin("ios","123456791211233")
-        //this.WXLogin()
+        //this.QuickLogin("ios","123456791211233")
+        this.WXLogin()
     },
 
     WXLogin:function(){
@@ -180,6 +187,10 @@ NetManager._instance = null;
 NetManager.getInstance = function () {
     if(!NetManager._instance){
         NetManager._instance = new NetManager();
+        //启动初始化
+        Tool.checkShare()
+        
+        
     }
     return NetManager._instance;
 }

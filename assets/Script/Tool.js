@@ -1,12 +1,13 @@
 
 
 
-var wx = require("Wx")
-export function ShareApp(uid,roomid,succCallback){
+//var wx = require("Wx")
+var GameDataManager = require("GameDataManager")
+export function ShareApp(uid,roomid,time,succCallback){
     wx.shareAppMessage({
         title:"宝石五子棋",
         imageUrl:"res/raw-assets/Res/qipan.png",
-        query:"uid="+uid+"&roomid="+roomid,
+        query:"uid="+uid+"&roomid="+roomid+"&time="+time,
         success:function(){
             console.log("zhuanfa success")
             if(succCallback != null){
@@ -23,7 +24,26 @@ export function ShareApp(uid,roomid,succCallback){
 };
 
 
+export function checkShare(){
 
+    //NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(10001,10))
+    wx.onShow(res => {
+        console.log("onshow "+res.scene)
+        console.log("onshow uid"+res.query.uid)
+        console.log("onshow roomid"+res.query.roomid)
+        console.log("onshow time"+res.query.time)
+        console.log("onshow ticket"+res.shareTicket)
+        GameDataManager.getInstance().SetQueryData(res.query)
+    })
+
+    var launchOption = wx.getLaunchOptionsSync()
+    console.log("launchOption:"+launchOption.query)
+    GameDataManager.getInstance().SetQueryData(launchOption.query)
+
+    
+
+    //fds
+};
 
 
 

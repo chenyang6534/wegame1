@@ -95,10 +95,11 @@ export function CS_CreateRoom(){
 };
 
 //检查游戏房间
-export function CS_CheckGoToGame(gameid){
+export function CS_CheckGoToGame(gameid,CreateGameTime){
     var data = MsgBase("Game5G","CS_CheckGoToGame")
     data.JsonData = JSON.stringify({
-        "GameId" : gameid,
+        "GameId" : Number(gameid),
+        "CreateGameTime" : Number(CreateGameTime),
     })
     return JSON.stringify(data)
 };
