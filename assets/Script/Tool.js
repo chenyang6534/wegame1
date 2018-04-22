@@ -1,7 +1,7 @@
 
 
 
-//var wx = require("Wx")
+var wx = require("Wx")
 var GameDataManager = require("GameDataManager")
 export function ShareApp(uid,roomid,time,succCallback){
     wx.shareAppMessage({

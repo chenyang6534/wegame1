@@ -890,12 +890,12 @@
     ],
     "_prefab": null,
     "_id": "94Hj7GnhdP1YpyDtp+3Vb/",
-    "_opacity": 243.015,
+    "_opacity": 243,
     "_color": {
       "__type__": "cc.Color",
-      "r": 81,
-      "g": 215,
-      "b": 209,
+      "r": 182,
+      "g": 168,
+      "b": 238,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -1373,9 +1373,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 90,
-      "g": 143,
-      "b": 129,
+      "r": 247,
+      "g": 253,
+      "b": 0,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
