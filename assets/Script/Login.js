@@ -20,6 +20,8 @@ var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
 
+var ResData = require("ResData")
+
 cc.Class({
     extends: cc.Component,
 
@@ -73,6 +75,10 @@ cc.Class({
 
     start () {
         var tt = 0;
+
+        // console.log("ResData:"+ResData[100].title)
+        // console.log("ResData:"+ResData[101].title)
+        // console.log("ResData:"+ResData[102].title)
 
         MsgManager.getInstance().AddListener("WS_Close",this.LoginFail.bind(this))
 

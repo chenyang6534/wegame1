@@ -16,6 +16,8 @@ var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
 var UiTool = require("UiTool")
+
+var ResData = require("ResData")
 cc.Class({
     extends: cc.Component,
 
@@ -64,6 +66,13 @@ cc.Class({
         //     console.log("Tool.ShareApp")
         // })
         
+    },
+
+    taskClick(event, customEventData){
+        console.log("taskClick")
+        console.log("event=",event.type," data=",customEventData);
+
+        NetMananger.getInstance().SendMsg(Msg.CS_GetTskInfo())
     },
 
     SerchingPlayer:function(data){
@@ -204,13 +213,78 @@ cc.Class({
         }
     },
 
+    HallUIInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("HallUIInfo! TaskED_ShowNum:"+jsdata.TaskED_ShowNum+"    Task_ShowNum:"+jsdata.Task_ShowNum )
+        
+    },
+    TskEdInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("TskEdInfo! " )
+        this.newTaskInfo(jsdata)
+        
+    },
 
+    newTaskInfo:function(data){
+
+        var parentscene = this.node
+        if(parentscene == null){
+            console.log("parentscene == null")
+        }
+
+        cc.loader.loadRes("taskinfo", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            console.log("111")
+            newNode.parent = parentscene
+            console.log("222")
+            //parentscene.addChild(newNode);
+
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("TOUCH_END")
+                //newNode.destory()
+                newNode.removeFromParent()
+                
+            });
+
+            var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+            //任务信息
+            for (var k in data.Task){
+                var p = data.Task[k]
+
+                var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
+                oneGameInfo.parent = scrollview
+                oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = ResData[p.Id].discripte
+               
+                oneGameInfo.getChildByName("progress").getComponent(cc.Label).string = p.ProgressValue+"/"+p.DestValue
+
+                // var lookbtn = oneGameInfo.getChildByName("look")
+                // lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                //     var p = this
+                //     console.log("lookbtn:"+p.GameId)
+                //     GameDataManager.getInstance().SetGameData("GameId",p.GameId)
+                    
+                // }.bind(p));
+                
+
+            }
+            
+
+        });
+
+    
+    },
+
+    
     onLoad () {
         console.log("onload hall")
         MsgManager.getInstance().AddListener("SC_SerchPlayer",this.SerchingPlayer.bind(this))
         MsgManager.getInstance().AddListener("SC_GetGamingInfo",this.GetGamingInfo.bind(this))
         //
         MsgManager.getInstance().AddListener("SC_CheckGoToGame",this.CheckGoToGame.bind(this))
+
+        MsgManager.getInstance().AddListener("SC_HallUIInfo",this.HallUIInfo.bind(this))
+        MsgManager.getInstance().AddListener("SC_TskEdInfo",this.TskEdInfo.bind(this))
 
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
         // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))

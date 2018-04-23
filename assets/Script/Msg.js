@@ -77,6 +77,12 @@ export function CS_Heart(){
     
     return JSON.stringify(data)
 };
+//获取任务信息
+export function CS_GetTskInfo(){
+    var data = MsgBase("Hall","CS_GetTskInfo")
+    
+    return JSON.stringify(data)
+};
 
 //获取当前进行中的游戏信息
 export function CS_GetGamingInfo(){

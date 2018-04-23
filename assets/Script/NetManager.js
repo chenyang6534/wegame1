@@ -15,7 +15,6 @@ var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
 
-
 var NetManager = cc.Class({
     name: "NetManager",
     loginSucc:null,
