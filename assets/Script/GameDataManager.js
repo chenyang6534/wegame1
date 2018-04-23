@@ -19,6 +19,7 @@ var GameDataManager = cc.Class({
         MsgManager.getInstance().AddListener("SC_NewGame",this.NewGame.bind(this))
         this.gameInfo = new Map()
         this.SetGameData("GameId",-1)
+
         
         
     },
