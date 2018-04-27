@@ -15,6 +15,11 @@
 
 var MyData = [
     {
+        "id":1,
+        "discripte":"宝石!",
+        "path":cc.url.raw("resources/icon/gold.png")
+    },
+    {
         "id":100,
         "discripte":"完成任意比赛5局!"
     },
@@ -29,6 +34,18 @@ var MyData = [
     {
         "id":103,
         "discripte":"赢得任意比赛4局!"
+    },
+    {
+        "id":104,
+        "discripte":"分享给好友1次!"
+    },
+    {
+        "id":105,
+        "discripte":"分享给好友2次!"
+    },
+    {
+        "id":106,
+        "discripte":"分享给好友3次!"
     },
     
 ]

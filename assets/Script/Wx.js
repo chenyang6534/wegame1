@@ -1,4 +1,0 @@
-
-export function onShow(){
-    return ""
-};

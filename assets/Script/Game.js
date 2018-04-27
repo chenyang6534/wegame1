@@ -408,6 +408,7 @@ cc.Class({
         var time = this.gameInfoData.CreateGameTime
         Tool.ShareApp(uid,roomid,time,function(){
             console.log("invateClick over!")
+            NetMananger.getInstance().SendMsg(Msg.CS_Share())
         })
     },
 

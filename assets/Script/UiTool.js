@@ -12,7 +12,7 @@
 
 
 
-
+var ResData = require("ResData")
 
 
 export function getPathByQiZiId(id){
@@ -21,6 +21,30 @@ export function getPathByQiZiId(id){
     }
     return cc.url.raw("resources/qizi/qizi_"+(id)+".png")
 }
+
+export function newIcon(type,words,parent,pos){
+
+    var parentscene = parent
+    if(parentscene == null){
+        parentscene = cc.director.getScene()
+    }
+
+    cc.loader.loadRes("icon", function (err, prefab) {
+        var newNode = cc.instantiate(prefab);
+        parentscene.addChild(newNode);
+        //newNode
+        newNode.position = pos
+        newNode.scale = 0.8
+
+        
+        newNode.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(ResData[type].path);
+        
+        newNode.getChildByName("words").getComponent(cc.Label).string = words
+
+    });
+
+   
+ };
 
 
 

@@ -52,6 +52,7 @@ cc.Class({
         // console.log("time:"+t1)
 
         // console.log(Tool.TimeMillonToHHMMSS(t1/1000))
+        //NetMananger.getInstance().SendMsg(Msg.CS_Share())
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetGamingInfo())
         
@@ -192,24 +193,30 @@ cc.Class({
     },
 
     showPlayerInfo:function(){
-        if( GameDataManager.getInstance().GetHallInfoData() != null && this.IsShowPlayerInfo != true){
+        if( GameDataManager.getInstance().GetHallInfoData() != null){
+
+            if ( this.IsShowPlayerInfo != true){
+                var avatarurl = GameDataManager.getInstance().GetHallInfoData().AvatarUrl
+                //var avatarurl = "https://wx.qlogo.cn/mmopen/vi_32/wsRmxcKeyV3TKk7mHEVKLl1rFLjK2aKk08vggdAIaGwzrQAexH88lnicbH9w17rG5AY3ptACgbjicqF8HJEj2gUg/0"
+                
+                if(avatarurl != null && avatarurl.length > 0){
+                    var imgurl = avatarurl+"?aaa=aa.jpg";
+                    
+                    cc.loader.load(imgurl, function(err, texture){
+                        console.log("err:"+err)
+                        console.log("texture:"+texture)
+                        this.node.getChildByName("userInfo").getChildByName("headicon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                    }.bind(this));
+                }
+                this.IsShowPlayerInfo = true
+            }
+
             this.node.getChildByName("userInfo").getChildByName("name").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
+            this.node.getChildByName("userInfo").getChildByName("goldnum").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Gold
             this.node.getChildByName("userInfo").getChildByName("win").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().SeasonScore
             var allcount = GameDataManager.getInstance().GetHallInfoData().WinCount+GameDataManager.getInstance().GetHallInfoData().LoseCount
             this.node.getChildByName("userInfo").getChildByName("all").getComponent(cc.Label).string = allcount
-            var avatarurl = GameDataManager.getInstance().GetHallInfoData().AvatarUrl
-            //var avatarurl = "https://wx.qlogo.cn/mmopen/vi_32/wsRmxcKeyV3TKk7mHEVKLl1rFLjK2aKk08vggdAIaGwzrQAexH88lnicbH9w17rG5AY3ptACgbjicqF8HJEj2gUg/0"
             
-            if(avatarurl != null && avatarurl.length > 0){
-                var imgurl = avatarurl+"?aaa=aa.jpg";
-                
-                cc.loader.load(imgurl, function(err, texture){
-                    console.log("err:"+err)
-                    console.log("texture:"+texture)
-                    this.node.getChildByName("userInfo").getChildByName("headicon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
-                }.bind(this));
-            }
-            this.IsShowPlayerInfo = true
         }
     },
 
@@ -218,6 +225,28 @@ cc.Class({
         console.log("HallUIInfo! TaskED_ShowNum:"+jsdata.TaskED_ShowNum+"    Task_ShowNum:"+jsdata.Task_ShowNum )
         
     },
+    GetTaskRewards:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("GetTaskRewards! code:"+jsdata.Code+"    id:"+jsdata.Id )
+        if( jsdata.Code != 1){
+            return
+        }
+        if(this.taskEd != null){
+            for (var k in this.taskData.Task){
+                var p = this.taskData.Task[k]
+                if( p.Id == jsdata.Id){
+                    p.State = 2
+                }
+            }
+
+            //
+            this.freshTaskEd()
+        }
+        
+    },
+
+
+    
     TskEdInfo:function(data){
         var jsdata = JSON.parse(data.JsonData)
         console.log("TskEdInfo! " )
@@ -225,7 +254,61 @@ cc.Class({
         
     },
 
+    freshTaskEd:function(){
+        var newNode = this.taskEd
+        var data = this.taskData
+
+        var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+        scrollview.removeAllChildren()
+        //任务信息
+        for (var k in data.Task){
+            var p = data.Task[k]
+
+            var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
+            oneGameInfo.parent = scrollview
+            oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = ResData[p.Id].discripte
+            
+            oneGameInfo.getChildByName("progress").getComponent(cc.Label).string = p.ProgressValue+"/"+p.DestValue
+
+            //任务奖励
+            for ( var j in p.Rewards){
+                var reward = p.Rewards[j]
+                var word = ""
+                if (reward.Count > 0){
+                    word = reward.Count
+                }else{
+                    word = reward.Time +"天"
+                }
+                UiTool.newIcon(reward.Type,word,oneGameInfo,cc.p(-330+j*100,-30))
+            }
+            if(p.State == 2){
+                oneGameInfo.getChildByName("complete").active = true
+                
+            }else{
+                oneGameInfo.getChildByName("complete").active = false
+            }
+
+            var goto = oneGameInfo.getChildByName("goto")
+            goto.active = false
+            var get = oneGameInfo.getChildByName("get")
+            if( p.State == 1){
+                get.active = true
+            }else{
+                get.active = false
+            }
+            get.on(cc.Node.EventType.TOUCH_END, function (event) {
+                var p = this
+                console.log("get:"+p.GameId)//CS_GetTaskRewards
+                NetMananger.getInstance().SendMsg(Msg.CS_GetTaskRewards(p.Id))
+                
+            }.bind(p));
+            
+
+        }
+    },
+
     newTaskInfo:function(data){
+        this.taskData = data
 
         var parentscene = this.node
         if(parentscene == null){
@@ -234,6 +317,7 @@ cc.Class({
 
         cc.loader.loadRes("taskinfo", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
+            this.taskEd = newNode
             console.log("111")
             newNode.parent = parentscene
             console.log("222")
@@ -243,34 +327,16 @@ cc.Class({
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 console.log("TOUCH_END")
                 //newNode.destory()
+                this.taskEd = null
                 newNode.removeFromParent()
                 
             });
 
-            var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
-            //任务信息
-            for (var k in data.Task){
-                var p = data.Task[k]
-
-                var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
-                oneGameInfo.parent = scrollview
-                oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = ResData[p.Id].discripte
-               
-                oneGameInfo.getChildByName("progress").getComponent(cc.Label).string = p.ProgressValue+"/"+p.DestValue
-
-                // var lookbtn = oneGameInfo.getChildByName("look")
-                // lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
-                //     var p = this
-                //     console.log("lookbtn:"+p.GameId)
-                //     GameDataManager.getInstance().SetGameData("GameId",p.GameId)
-                    
-                // }.bind(p));
-                
-
-            }
+            this.freshTaskEd()
+            
             
 
-        });
+        }.bind(this));
 
     
     },
@@ -282,7 +348,8 @@ cc.Class({
         MsgManager.getInstance().AddListener("SC_GetGamingInfo",this.GetGamingInfo.bind(this))
         //
         MsgManager.getInstance().AddListener("SC_CheckGoToGame",this.CheckGoToGame.bind(this))
-
+        MsgManager.getInstance().AddListener("SC_GetTaskRewards",this.GetTaskRewards.bind(this))
+        
         MsgManager.getInstance().AddListener("SC_HallUIInfo",this.HallUIInfo.bind(this))
         MsgManager.getInstance().AddListener("SC_TskEdInfo",this.TskEdInfo.bind(this))
 

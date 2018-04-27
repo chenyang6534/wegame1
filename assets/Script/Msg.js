@@ -109,3 +109,20 @@ export function CS_CheckGoToGame(gameid,CreateGameTime){
     })
     return JSON.stringify(data)
 };
+
+//获取任务奖励
+export function CS_GetTaskRewards(taskid){
+    var data = MsgBase("Hall","CS_GetTaskRewards")
+    data.JsonData = JSON.stringify({
+        "Id" : Number(taskid),
+        
+    })
+    return JSON.stringify(data)
+};
+
+//分享一次给朋友
+export function CS_Share(taskid){
+    var data = MsgBase("Hall","CS_Share")
+    
+    return JSON.stringify(data)
+};

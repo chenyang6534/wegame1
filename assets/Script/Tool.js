@@ -1,7 +1,7 @@
 
 
 
-var wx = require("Wx")
+//var wx = require("Wx")
 var GameDataManager = require("GameDataManager")
 export function ShareApp(uid,roomid,time,succCallback){
     wx.shareAppMessage({
@@ -27,18 +27,23 @@ export function ShareApp(uid,roomid,time,succCallback){
 export function checkShare(){
 
     //NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(10001,10))
-    wx.onShow(res => {
-        console.log("onshow "+res.scene)
-        console.log("onshow uid"+res.query.uid)
-        console.log("onshow roomid"+res.query.roomid)
-        console.log("onshow time"+res.query.time)
-        console.log("onshow ticket"+res.shareTicket)
-        GameDataManager.getInstance().SetQueryData(res.query)
-    })
 
-    var launchOption = wx.getLaunchOptionsSync()
-    console.log("launchOption:"+launchOption.query)
-    GameDataManager.getInstance().SetQueryData(launchOption.query)
+    if (cc.sys.platform === cc.sys.WECHAT_GAME){
+        wx.onShow(res => {
+            console.log("onshow "+res.scene)
+            console.log("onshow uid"+res.query.uid)
+            console.log("onshow roomid"+res.query.roomid)
+            console.log("onshow time"+res.query.time)
+            console.log("onshow ticket"+res.shareTicket)
+            GameDataManager.getInstance().SetQueryData(res.query)
+        })
+    
+        var launchOption = wx.getLaunchOptionsSync()
+        console.log("launchOption:"+launchOption.query)
+        GameDataManager.getInstance().SetQueryData(launchOption.query)
+    }
+
+    
 
     
 
