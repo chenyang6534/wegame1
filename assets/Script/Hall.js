@@ -356,7 +356,7 @@ cc.Class({
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
         // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
-        
+        NetMananger.getInstance().SendMsg(Msg.CS_Presenter(90))
 
         
 

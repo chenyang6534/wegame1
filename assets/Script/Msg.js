@@ -126,3 +126,13 @@ export function CS_Share(taskid){
     
     return JSON.stringify(data)
 };
+
+//上传推荐者
+export function CS_Presenter(uid){
+    var data = MsgBase("Hall","CS_Presenter")
+    data.JsonData = JSON.stringify({
+        "PresenterUid" : Number(uid),
+    })
+    
+    return JSON.stringify(data)
+};
