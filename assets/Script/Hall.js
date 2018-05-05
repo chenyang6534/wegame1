@@ -72,6 +72,7 @@ cc.Class({
     taskClick(event, customEventData){
         console.log("taskClick")
         console.log("event=",event.type," data=",customEventData);
+        
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetTskInfo())
     },
