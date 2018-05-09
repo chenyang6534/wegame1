@@ -498,7 +498,26 @@ cc.Class({
                         this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
                         //this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame.contentsize = contentsize
 
-                        this.allQiZi[y][x].runAction(cc.moveTo(0.35,cc.p(-350+x*50, -350+y*50)).easing(cc.easeIn(2.0)))
+                        var myAction = cc.sequence( 
+                                                cc.callFunc(function(target, score) {
+                                                    // var node = new cc.Node();
+                                                    // target.addChild(node)
+                                                    // var particleSystem = node.addComponent(cc.ParticleSystem);
+                                                    // particleSystem.file = cc.url.raw("resources/particle/p1.plist")
+                                                    // particleSystem.playOnLoad = true
+                                                    // particleSystem.custom = true
+                                                    // particleSystem.autoRemoveOnFinish = true
+                                                    
+                                                    // particleSystem.duration = 1
+
+                                                }, this, 0),
+                                                cc.moveTo(0.5,cc.p(-350+x*50, -350+y*50)).easing(cc.easeIn(2.0)),
+                                                cc.callFunc(function(target, score) {
+                                                    
+                                                }, this, 0),
+                                                );
+
+                        this.allQiZi[y][x].runAction(myAction)
                     }
                 }else{
                     if(this.allQiZi[y][x] != null){

@@ -23,6 +23,11 @@ export function ShareApp(uid,roomid,time,succCallback){
     })
 };
 
+export function wordhuanhang(str){
+    return str.replace(/\\n/g, " \n ")
+
+}
+
 
 export function checkShare(){
 
@@ -52,9 +57,59 @@ export function checkShare(){
 
 
 
+var wxLoginBtn = null
+export function createLoginBtn(clickfun){
 
+    //NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(10001,10))
 
+    if (cc.sys.platform === cc.sys.WECHAT_GAME){
 
+        
+        console.log("width:"+window.innerWidth)
+        console.log("height:"+window.innerHeight)
+        wxLoginBtn = wx.createUserInfoButton({
+            type: 'text',
+            text: '微信登录',
+            image:"",
+            style: {
+                left: window.innerWidth/2-200/2,
+                top: window.innerHeight/2-40/2,
+                width: 200,
+                height: 40,
+                lineHeight: 40,
+                backgroundColor: '#7EF73A',
+                color: '#ffffff',
+                textAlign: 'center',
+                fontSize: 16,
+                borderRadius: 4
+            }
+        })//
+        wxLoginBtn.onTap((res) => {
+            console.log(res)
+            console.log(res.userInfo.nickName);
+            console.log(res.userInfo.avatarUrl);
+            if(clickfun != null){
+                clickfun(res.userInfo.nickName,res.userInfo.avatarUrl)
+            }
+            
+        })
+    }else{
+        if(clickfun != null){
+            clickfun("nickname","")
+        }
+    }
+
+    
+};
+
+export function destroyLoginBtn(clickfun){
+    if(wxLoginBtn != null){
+        wxLoginBtn.destroy()
+        wxLoginBtn = null
+    }
+    
+    
+};
 
 
 

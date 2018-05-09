@@ -19,7 +19,12 @@ export function getPathByQiZiId(id){
     if( id <= 0){
         return cc.url.raw("resources/qizi/qizi_"+(1)+".png")
     }
-    return cc.url.raw("resources/qizi/qizi_"+(id)+".png")
+    if(id >= 1000){
+        return cc.url.raw("resources/qizi/qizi_"+(id-1000)+".png")
+    }else{
+        return cc.url.raw("resources/qizi/qizi_"+(id)+".png")
+    }
+    
 }
 
 export function newIcon(type,words,parent,pos){
@@ -37,7 +42,7 @@ export function newIcon(type,words,parent,pos){
         newNode.scale = 0.8
 
         
-        newNode.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(ResData[type].path);
+        newNode.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[type].path));
         
         newNode.getChildByName("words").getComponent(cc.Label).string = words
 

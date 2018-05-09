@@ -17,7 +17,7 @@ var MyData = [
     {
         "id":1,
         "discripte":"宝石!",
-        "path":cc.url.raw("resources/icon/gold.png")
+        "path":"resources/icon/gold.png"
     },
     {
         "id":100,
@@ -47,7 +47,31 @@ var MyData = [
         "id":106,
         "discripte":"分享给好友3次!"
     },
-    
+    {
+        "id":1003,
+        "name":"紫棋",
+        "discripte":"来自人间的传说 紫棋!",
+        "path":"resources/qizi/qizi_3.png"
+
+    },
+    {
+        "id":1004,
+        "name":"红紫棋",
+        "discripte":"来自人间的传说 红紫棋!",
+        "path":"resources/qizi/qizi_4.png"
+    },
+    {
+        "id":1005,
+        "name":"紫黄棋",
+        "discripte":"来自人间的传说 紫黄棋!",
+        "path":"resources/qizi/qizi_5.png"
+    },
+    {
+        "id":1006,
+        "name":"蓝棋",
+        "discripte":"来自人间的传说 蓝棋!",
+        "path":"resources/qizi/qizi_6.png"
+    },
 ]
 
 var ResData = new Map()

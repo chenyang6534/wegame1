@@ -61,30 +61,41 @@ cc.Class({
     onDestroy(){
         console.log("login destory")
         MsgManager.getInstance().RemoveListener("WS_Close")
+        Tool.destroyLoginBtn()
     },
 
     loginGameClick(event, customEventData){
         console.log("lookGameClick")
-        console.log("event=",event.type," data=",customEventData);
+        
+        // this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
+        // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
+        // this.node.getChildByName("reLogin").active = false
+        NetMananger.getInstance().Login("","",this.LoginSucc.bind(this),this.LoginFail.bind(this))
+    },
+
+    wxlogin(name,avatar){
         this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
-        NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
-        this.node.getChildByName("reLogin").active = false
+        NetMananger.getInstance().Login(name,avatar,this.LoginSucc.bind(this),this.LoginFail.bind(this))
     },
 
 
 
     start () {
-        var tt = 0;
 
-        // console.log("ResData:"+ResData[100].title)
-        // console.log("ResData:"+ResData[101].title)
-        // console.log("ResData:"+ResData[102].title)
-
+        
         MsgManager.getInstance().AddListener("WS_Close",this.LoginFail.bind(this))
 
-        this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
-        NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
-        this.node.getChildByName("reLogin").active = false
+        if (cc.sys.platform === cc.sys.WECHAT_GAME){
+            Tool.createLoginBtn(this.wxlogin.bind(this))
+            this.node.getChildByName("reLogin").active = false
+
+        }else{
+            NetMananger.getInstance().Login("name111","avatar222",this.LoginSucc.bind(this),this.LoginFail.bind(this))
+        }
+
+        // this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
+        // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
+        // this.node.getChildByName("reLogin").active = false
 
     },
 

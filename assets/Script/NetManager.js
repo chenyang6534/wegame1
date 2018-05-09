@@ -9,7 +9,7 @@
 //var serverSrc = "ws://127.0.0.1:1117/connect"
 //var serverSrc = "ws://www.game5868.top:443/connect1"
 var serverSrc = "ws://127.0.0.1:1117/connect"
-var wxServerSrc = "ws://127.0.0.1:1117/connect"
+var wxServerSrc = "wss://www.game5868.top/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
@@ -63,21 +63,21 @@ var NetManager = cc.Class({
         }
     },
 
-    Login:function(succCallBack,failCallBack){
+    Login:function(name,avatar,succCallBack,failCallBack){
         this.loginSucc = succCallBack
         this.loginFail = failCallBack
 
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
-            this.WXLogin()
+            this.WXLogin(name,avatar)
         }else{
-            this.QuickLogin("ios","1234567912112317")
+            this.QuickLogin("ios","12345679121123143")
         }
 
         
         //
     },
 
-    WXLogin:function(){
+    WXLogin:function(name,avatar){
         this.isWX = true
         //调用微信登录接口 
         wx.login({//login流程
@@ -86,54 +86,44 @@ var NetManager = cc.Class({
                 var code = res.code;
                 console.log(code);
 
-                wx.getUserInfo({//getUserInfo流程
-                    success: function (res2) {//获取userinfo成功
-                    console.log(res2);
-                    var encryptedData = encodeURIComponent(res2.encryptedData);//一定要把加密串转成URI编码
-                    var iv = res2.iv;
-                    console.log(res2.userInfo.nickName);
-                    console.log(res2.userInfo.avatarUrl);
-                    //请求自己的服务器
-                    //Login(code,encryptedData,iv);
+                
                     
-                    this.m_webSocket = wx.connectSocket({
-                        url: wxServerSrc
-                    })
-                    console.log(this.m_webSocket)
-                    wx.onSocketOpen(function (res) {
-                        console.log("onSocketOpen12")
-                        console.log(Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName))
-
-                        // wx.sendSocketMessage({
-                        //     data:Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName)
-                        // })
-
-                        this.m_webSocket.send({
-                                data:Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName,res2.userInfo.avatarUrl)
-                            })
-                    }.bind(this))
-                    wx.onSocketError(function (res) {
-                        console.log('WebSocket 连接打开失败，请检查！')
-                            if( this.loginFail != null){
-                                this.loginFail()
-                            }
-                    }.bind(this))
-                    wx.onSocketClose(function (res) {
-                        console.log('WebSocket 连接关闭！')
-
-                            this.m_webSocket = null
-                            //
-                            MsgManager.getInstance().ParseLocalMsg("WS_Close",null)
-                    }.bind(this))
-                    wx.onSocketMessage(function (res) {
-                        console.log('WebSocket 收到消息')
-                        console.log(res)
-                        MsgManager.getInstance().ParseMsg(res.data)
-                    }.bind(this))
-                    
-
-                  }.bind(this)
+                this.m_webSocket = wx.connectSocket({
+                    url: wxServerSrc
                 })
+                console.log(this.m_webSocket)
+                wx.onSocketOpen(function (res) {
+                    console.log("onSocketOpen12")
+                    //console.log(Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName))
+
+                    // wx.sendSocketMessage({
+                    //     data:Msg.CS_MsgWeiXingLogin(code,res2.userInfo.nickName)
+                    // })
+
+                    this.m_webSocket.send({
+                            data:Msg.CS_MsgWeiXingLogin(code,name,avatar)
+                        })
+                }.bind(this))
+                wx.onSocketError(function (res) {
+                    console.log('WebSocket 连接打开失败，请检查！')
+                        if( this.loginFail != null){
+                            this.loginFail()
+                        }
+                }.bind(this))
+                wx.onSocketClose(function (res) {
+                    console.log('WebSocket 连接关闭！')
+
+                        this.m_webSocket = null
+                        //
+                        MsgManager.getInstance().ParseLocalMsg("WS_Close",null)
+                }.bind(this))
+                wx.onSocketMessage(function (res) {
+                    console.log('WebSocket 收到消息')
+                    console.log(res)
+                    MsgManager.getInstance().ParseMsg(res.data)
+                }.bind(this))
+                    
+
           
               } else {
                 console.log('获取用户登录态失败1！' + res.errMsg)

@@ -84,6 +84,29 @@ export function CS_GetTskInfo(){
     return JSON.stringify(data)
 };
 
+//获取邮件信息
+export function CS_GetMailInfo(){
+    var data = MsgBase("Hall","CS_GetMailInfo")
+    
+    return JSON.stringify(data)
+};
+
+//获取商店信息
+export function CS_GetStoreInfo(){
+    var data = MsgBase("Hall","CS_GetStoreInfo")
+    
+    return JSON.stringify(data)
+};
+
+//获取背包信息
+export function CS_GetBagInfo(){
+    var data = MsgBase("Hall","CS_GetBagInfo")
+    
+    return JSON.stringify(data)
+};
+
+
+
 //获取当前进行中的游戏信息
 export function CS_GetGamingInfo(){
     var data = MsgBase("Game5G","CS_GetGamingInfo")
@@ -119,6 +142,46 @@ export function CS_GetTaskRewards(taskid){
     })
     return JSON.stringify(data)
 };
+
+//获取邮件奖励
+export function CS_GetMailRewards(taskid){
+    var data = MsgBase("Hall","CS_GetMailRewards")
+    data.JsonData = JSON.stringify({
+        "Id" : Number(taskid),
+        
+    })
+    return JSON.stringify(data)
+};
+
+//购买商品
+export function CS_BuyItem(taskid,index){
+    var data = MsgBase("Hall","CS_BuyItem")
+    data.JsonData = JSON.stringify({
+        "Id" : Number(taskid),
+        "Index" : Number(index),
+        
+    })
+    return JSON.stringify(data)
+};
+//装备特效
+export function CS_ZhuangBeiItem(type){
+    var data = MsgBase("Hall","CS_ZhuangBeiItem")
+    data.JsonData = JSON.stringify({
+        "Type" : Number(type),
+        
+    })
+    return JSON.stringify(data)
+};
+
+
+//获取UI提示信息
+export function CS_GetHallUIInfo(){
+    var data = MsgBase("Hall","CS_GetHallUIInfo")
+    
+    return JSON.stringify(data)
+};
+
+//CS_BuyItem
 
 //分享一次给朋友
 export function CS_Share(taskid){
