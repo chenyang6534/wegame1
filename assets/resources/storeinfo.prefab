@@ -771,12 +771,12 @@
       "__id__": 62
     },
     "_id": "",
-    "_opacity": 243.015,
+    "_opacity": 243,
     "_color": {
       "__type__": "cc.Color",
-      "r": 81,
-      "g": 215,
-      "b": 209,
+      "r": 228,
+      "g": 207,
+      "b": 250,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,

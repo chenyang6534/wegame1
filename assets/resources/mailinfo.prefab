@@ -446,12 +446,12 @@
       "__id__": 14
     },
     "_id": "",
-    "_opacity": 255,
+    "_opacity": 238,
     "_color": {
       "__type__": "cc.Color",
-      "r": 90,
-      "g": 143,
-      "b": 129,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -490,9 +490,9 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "7e700275-3c21-4f14-b6a0-8c15a464732f"
     },
-    "_type": 0,
+    "_type": 1,
     "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
@@ -540,9 +540,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 90,
-      "g": 143,
-      "b": 129,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -581,9 +581,9 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "7e700275-3c21-4f14-b6a0-8c15a464732f"
     },
-    "_type": 0,
+    "_type": 1,
     "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
@@ -806,7 +806,7 @@
     "_N$startAxis": 0,
     "_N$paddingLeft": 0,
     "_N$paddingRight": 0,
-    "_N$paddingTop": 0,
+    "_N$paddingTop": 10,
     "_N$paddingBottom": 0,
     "_N$spacingX": 0,
     "_N$spacingY": 10,
@@ -944,9 +944,9 @@
     "_opacity": 243.015,
     "_color": {
       "__type__": "cc.Color",
-      "r": 81,
-      "g": 215,
-      "b": 209,
+      "r": 228,
+      "g": 207,
+      "b": 250,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,

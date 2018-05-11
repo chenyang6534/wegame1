@@ -666,12 +666,12 @@
       "__id__": 48
     },
     "_id": "",
-    "_opacity": 243.015,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 81,
-      "g": 215,
-      "b": 209,
+      "r": 187,
+      "g": 252,
+      "b": 234,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
