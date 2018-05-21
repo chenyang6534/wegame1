@@ -70,7 +70,7 @@ var NetManager = cc.Class({
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
             this.WXLogin(name,avatar)
         }else{
-            this.QuickLogin("ios","12345679121123143")
+            this.QuickLogin("ios","12345679121123145")
         }
 
         

@@ -339,7 +339,7 @@ cc.Class({
     },
 
 
-    showGameOverUi:function(winSeatIndex){
+    showGameOverUi:function(winSeatIndex,winscore,losescore){
         cc.loader.loadRes("gameover", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
             this.node.addChild(newNode);
@@ -351,9 +351,12 @@ cc.Class({
 
             var winname = this.playerInfoData[winSeatIndex].Name
             newNode.getChildByName("winname").getComponent(cc.Label).string = winname
+            newNode.getChildByName("winscore").getComponent(cc.Label).string = "+"+winscore
             var loseSeatIndex = Math.abs(winSeatIndex-1)
             var losename = this.playerInfoData[loseSeatIndex].Name
             newNode.getChildByName("losename").getComponent(cc.Label).string = losename
+            newNode.getChildByName("losescore").getComponent(cc.Label).string = "-"+losescore
+            
 
         }.bind(this));
     },
@@ -375,14 +378,14 @@ cc.Class({
                     onenode.runAction(action1)
                     if (i == 4){
                         onenode.runAction(cc.sequence(cc.delayTime(1.5) ,cc.callFunc(function(){
-                            this.showGameOverUi(jsdata.WinPlayerSeatIndex)
+                            this.showGameOverUi(jsdata.WinPlayerSeatIndex,jsdata.WinScore,jsdata.LoseScore)
                         },this,1)))
                     }
                 }
             }
             
         }else{
-            this.showGameOverUi(jsdata.WinPlayerSeatIndex)
+            this.showGameOverUi(jsdata.WinPlayerSeatIndex,jsdata.WinScore,jsdata.LoseScore)
         }
 
         
