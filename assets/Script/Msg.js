@@ -98,6 +98,17 @@ export function CS_GetStoreInfo(){
     return JSON.stringify(data)
 };
 
+//获取排行信息
+export function CS_GetRankInfo(start,end){
+    var data = MsgBase("Hall","CS_GetRankInfo")
+    data.JsonData = JSON.stringify({
+        "StartRank" : start,
+        "EndRank" : end,
+    })
+    
+    return JSON.stringify(data)
+};
+
 //获取背包信息
 export function CS_GetBagInfo(){
     var data = MsgBase("Hall","CS_GetBagInfo")

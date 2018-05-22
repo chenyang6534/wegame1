@@ -102,6 +102,13 @@ cc.Class({
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetStoreInfo())
     },
+    rankClick(event, customEventData){
+        console.log("rankClick")
+        console.log("event=",event.type," data=",customEventData);
+        
+
+        NetMananger.getInstance().SendMsg(Msg.CS_GetRankInfo(0,20))
+    },
 
     SerchingPlayer:function(data){
         console.log("SerchingPlayer")
@@ -308,6 +315,16 @@ cc.Class({
         var jsdata = JSON.parse(data.JsonData)
         console.log("BagInfo! " )
         this.newBagInfo(jsdata)
+        
+    },
+    RankInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("RankInfo! " )
+        //this.newBagInfo(jsdata)
+        for(var k in jsdata.Ranks){
+            var v = jsdata.Ranks[k]
+            console.log("rank:"+v.RankNum+"---name:"+v.Name+"--score:"+v.Score)
+        }
         
     },
 
@@ -719,6 +736,8 @@ cc.Class({
         MsgManager.getInstance().AddListener("SC_MailInfo",this.MailInfo.bind(this))
         MsgManager.getInstance().AddListener("SC_StoreInfo",this.StoreInfo.bind(this))
         MsgManager.getInstance().AddListener("SC_BagInfo",this.BagInfo.bind(this))
+
+        MsgManager.getInstance().AddListener("SC_RankInfo",this.RankInfo.bind(this))
         
 
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
