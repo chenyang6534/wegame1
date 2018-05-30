@@ -55,7 +55,12 @@ cc.Class({
         console.log("LoginFail")
 
         this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录失败"
-        this.node.getChildByName("reLogin").active = true
+        if (cc.sys.platform === cc.sys.WECHAT_GAME){
+
+        }else{
+            this.node.getChildByName("reLogin").active = true
+        }
+        
     },
 
     onDestroy(){
@@ -75,7 +80,19 @@ cc.Class({
 
     wxlogin(name,avatar){
         this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
+
+        //var name = this.node.getChildByName("loginname").getComponent(cc.EditBox).string
+        console.log("----edit1:"+name)
+
+        name = Tool.filteremoji(name)
+        console.log("----edit2:"+name)
         NetMananger.getInstance().Login(name,avatar,this.LoginSucc.bind(this),this.LoginFail.bind(this))
+
+        
+    },
+
+    startWXLogin(){
+        //this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
     },
 
 
@@ -86,10 +103,16 @@ cc.Class({
         MsgManager.getInstance().AddListener("WS_Close",this.LoginFail.bind(this))
 
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
-            Tool.createLoginBtn(this.wxlogin.bind(this))
+            this.node.getChildByName("loginword").getComponent(cc.Label).string = ""
+
+
+            Tool.createLoginBtn(this.wxlogin.bind(this),this.startWXLogin.bind(this))
             this.node.getChildByName("reLogin").active = false
 
         }else{
+            //console.log("----edit:"+this.node.getChildByName("loginname").getComponent(cc.EditBox).string)
+            //this.node.getChildByName("loginname").getComponent(cc.EditBox).string = 
+
             NetMananger.getInstance().Login("name111","avatar222",this.LoginSucc.bind(this),this.LoginFail.bind(this))
         }
 

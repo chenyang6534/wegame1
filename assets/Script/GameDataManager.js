@@ -50,9 +50,7 @@ var GameDataManager = cc.Class({
 
     SetQueryData:function(d1){
         this.queryData = d1
-        if( d1.uid > 0){
-            NetMananger.getInstance().SendMsg(Msg.CS_Presenter(d1.uid))
-        }
+        
     },
     GetQueryData:function(){
         return this.queryData

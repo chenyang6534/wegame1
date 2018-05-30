@@ -7,8 +7,8 @@
 
 
 //var serverSrc = "ws://127.0.0.1:1117/connect"
-//var serverSrc = "ws://www.game5868.top:443/connect1"
-var serverSrc = "ws://127.0.0.1:1117/connect"
+//var serverSrc = "ws://www.game5868.top:443/connect1""ws://192.168.6.143:1117/connect"
+var serverSrc = "ws://192.168.6.143:1117/connect"
 var wxServerSrc = "wss://www.game5868.top/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
@@ -70,7 +70,7 @@ var NetManager = cc.Class({
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
             this.WXLogin(name,avatar)
         }else{
-            this.QuickLogin("ios","12345679121123145")
+            this.QuickLogin("ios","12345679121123144")
         }
 
         

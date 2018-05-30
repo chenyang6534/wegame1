@@ -217,6 +217,7 @@ cc.Class({
                                     target.position = cc.p(0,750/4)
                                     target.setScale(2)
                                     target.getComponent(cc.Label).string = 3
+                                    Tool.playSound("resources/sound/time.mp3",false,0.3)
                                     }, this, 0),
                                     cc.scaleTo(1,1,1),
                                     //cc.delayTime(0.2),
@@ -224,6 +225,7 @@ cc.Class({
                                         target.position = cc.p(0,750/4)
                                         target.setScale(2)
                                         target.getComponent(cc.Label).string = 2
+                                        Tool.playSound("resources/sound/time.mp3",false,0.3)
                                         }, this, 0),
                                     cc.scaleTo(1,1,1),
                                     //cc.delayTime(0.2),
@@ -231,6 +233,7 @@ cc.Class({
                                         target.position = cc.p(0,750/4)
                                         target.setScale(2)
                                         target.getComponent(cc.Label).string = 1
+                                        Tool.playSound("resources/sound/time.mp3",false,0.3)
                                         }, this, 0),
                                     cc.scaleTo(1,1,1),
                                     //cc.delayTime(0.2),
@@ -343,8 +346,10 @@ cc.Class({
         cc.loader.loadRes("gameover", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
             this.node.addChild(newNode);
+            newNode.zIndex = 20000
             var quitbtn = newNode.getChildByName("quit")
             quitbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 console.log("TOUCH_END")
                 cc.director.loadScene("Hall", null);
             });
@@ -366,6 +371,8 @@ cc.Class({
         var jsdata = JSON.parse(data.JsonData)
         console.log("gameOver! win:"+this.playerInfoData[jsdata.WinPlayerSeatIndex].Name )
         this.gameInfoData.State = 3
+
+        Tool.playSound("resources/sound/win.mp3",false,0.3)
 
         if(jsdata.Reason == 2){
             for(var i = 0; i < 5;i++){
@@ -410,8 +417,8 @@ cc.Class({
         var roomid = this.gameInfoData.GameId
         var time = this.gameInfoData.CreateGameTime
         Tool.ShareApp(uid,roomid,time,function(){
-            console.log("invateClick over!")
-            NetMananger.getInstance().SendMsg(Msg.CS_Share())
+            //console.log("invateClick over!")
+            //NetMananger.getInstance().SendMsg(Msg.CS_Share())
         })
     },
 
@@ -493,6 +500,7 @@ cc.Class({
                         var path = UiTool.getPathByQiZiId(this.playerInfoData[this.gameInfoData.QiPan[y][x]].QiZiId)
                         console.log(path)
                         this.allQiZi[y][x] = cc.instantiate(this.qizi);
+                        this.allQiZi[y][x].zIndex = this.playerInfoData[this.gameInfoData.QiPan[y][x]].QiZiId+1000
                         this.allQiZi[y][x].parent = this.node;
                         //this.allQiZi[y][x].position = cc.p(-350+x*50, -350+y*50)
                         this.allQiZi[y][x].position = startpos
@@ -500,23 +508,17 @@ cc.Class({
                         //var contentsize = this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame.contentsize
                         this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path);
                         //this.allQiZi[y][x].getComponent(cc.Sprite).spriteFrame.contentsize = contentsize
+                        
 
                         var myAction = cc.sequence( 
                                                 cc.callFunc(function(target, score) {
-                                                    // var node = new cc.Node();
-                                                    // target.addChild(node)
-                                                    // var particleSystem = node.addComponent(cc.ParticleSystem);
-                                                    // particleSystem.file = cc.url.raw("resources/particle/p1.plist")
-                                                    // particleSystem.playOnLoad = true
-                                                    // particleSystem.custom = true
-                                                    // particleSystem.autoRemoveOnFinish = true
-                                                    
-                                                    // particleSystem.duration = 1
-
+                                                    Tool.playSound("resources/sound/move.mp3",false,0.5)
                                                 }, this, 0),
                                                 cc.moveTo(0.5,cc.p(-350+x*50, -350+y*50)).easing(cc.easeIn(2.0)),
                                                 cc.callFunc(function(target, score) {
-                                                    
+                                                    // var animation = target.getChildByName("anim").getComponent(cc.Animation);
+                                                    // animation.play("qizi_floor_a1")
+                                                    Tool.playSound("resources/sound/qizi.mp3",false,0.5)
                                                 }, this, 0),
                                                 );
 

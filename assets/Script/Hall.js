@@ -40,26 +40,29 @@ cc.Class({
     },
     quickGameClick(event, customEventData){
         console.log("quickGameClick")
-        console.log("event=",event.type," data=",customEventData);
+        //console.log("event=",event.type," data=",customEventData);
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
 
         NetMananger.getInstance().SendMsg(Msg.CS_QuickGame())
     },
     lookGameClick(event, customEventData){
         console.log("lookGameClick")
-        console.log("event=",event.type," data=",customEventData);
+        //console.log("event=",event.type," data=",customEventData);
 
         // var t1 = Tool.GetTimeMillon()
         // console.log("time:"+t1)
 
         // console.log(Tool.TimeMillonToHHMMSS(t1/1000))
         //NetMananger.getInstance().SendMsg(Msg.CS_Share())
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetGamingInfo())
         
     },
     roomGameClick(event, customEventData){
         console.log("roomGameClick")
-        console.log("event=",event.type," data=",customEventData);
+        //console.log("event=",event.type," data=",customEventData);
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
 
         //
         NetMananger.getInstance().SendMsg(Msg.CS_CreateRoom())
@@ -71,7 +74,8 @@ cc.Class({
 
     taskClick(event, customEventData){
         console.log("taskClick")
-        console.log("event=",event.type," data=",customEventData);
+        
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
         
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetTskInfo())
@@ -82,7 +86,8 @@ cc.Class({
     },
     mailClick(event, customEventData){
         console.log("mailClick")
-        console.log("event=",event.type," data=",customEventData);
+        
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
         
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetMailInfo())
@@ -90,24 +95,185 @@ cc.Class({
     },
     bagClick(event, customEventData){
         console.log("bagClick")
-        console.log("event=",event.type," data=",customEventData);
+        
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
         
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetBagInfo())
     },
     storeClick(event, customEventData){
         console.log("storeClick")
-        console.log("event=",event.type," data=",customEventData);
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
         
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetStoreInfo())
     },
     rankClick(event, customEventData){
         console.log("rankClick")
-        console.log("event=",event.type," data=",customEventData);
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+        
         
 
-        NetMananger.getInstance().SendMsg(Msg.CS_GetRankInfo(0,20))
+        NetMananger.getInstance().SendMsg(Msg.CS_GetRankInfo((this.RankPage-1)*10,this.RankPage*10))
+    },
+
+    FreshRankInfo:function(newNode,jsdata,onlyfreshrankdata){
+
+        if(onlyfreshrankdata == false){
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                
+                console.log("TOUCH_END")
+                //newNode.destory()
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                this.rankInfoNode = null
+                newNode.removeFromParent()
+                
+            }.bind(this));
+
+            //时间
+            newNode.getChildByName("time").getComponent(cc.Label).string = jsdata.SeasonInfo.StartTime+"--"+jsdata.SeasonInfo.EndTime
+            
+            
+            //奖励
+            for( var i = 0; i < 5; i++){
+                var rewardnode = newNode.getChildByName("oneReward"+i)
+                if( jsdata.SeasonInfo.RewardList.length > i){
+                    rewardnode.active = true
+                    //名次
+                    rewardnode.getChildByName("name").getComponent(cc.Label).string = jsdata.SeasonInfo.RewardList[i].RankStart+"--"+jsdata.SeasonInfo.RewardList[i].RankEnd
+                    //金币
+                    rewardnode.getChildByName("rank").getComponent(cc.Label).string = jsdata.SeasonInfo.RewardList[i].Gold
+                }else{
+                    rewardnode.active = false
+                }
+                
+            }
+            //上一页
+            var lastbtn = newNode.getChildByName("last")
+            lastbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("lastbtn")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                this.RankPage = this.RankPage - 1
+                this.rankClick()
+
+                var lastbtn = newNode.getChildByName("last")
+                var nextbtn = newNode.getChildByName("next")
+                lastbtn.active = false
+                nextbtn.active = false
+                
+            }.bind(this));
+            //下一页
+            var nextbtn = newNode.getChildByName("next")
+            nextbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("nextbtn")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                this.RankPage = this.RankPage + 1
+                this.rankClick()
+
+                var lastbtn = newNode.getChildByName("last")
+                var nextbtn = newNode.getChildByName("next")
+                lastbtn.active = false
+                nextbtn.active = false
+            }.bind(this));
+        }
+
+        //我的排名
+        var myranknum = "1000+"
+        if( jsdata.MyRank > 0 && jsdata.MyRank <= 1000){
+            myranknum = jsdata.MyRank
+        }
+        newNode.getChildByName("myrank").getComponent(cc.Label).string = myranknum
+            
+
+
+        //
+
+        //this.freshTaskEd()
+
+        var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+        
+        scrollview.removeAllChildren()
+        //任务信息
+        for (var k in jsdata.Ranks){
+
+            this.scheduleOnce(function() {
+                var k = this
+
+                var p = jsdata.Ranks[k]
+
+                var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
+                oneGameInfo.parent = scrollview
+                oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name
+                oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Score
+                oneGameInfo.getChildByName("rank").getComponent(cc.Label).string = p.RankNum
+            
+                //头像
+                var avatarurl = p.Avatar
+                if(avatarurl != null && avatarurl.length > 0){
+                    var imgurl = avatarurl+"?aaa=aa.jpg";
+                    
+                    cc.loader.load(imgurl, function(err, texture){
+                        var one = this
+                        console.log("texture:"+texture)
+                        one.getChildByName("head").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                    }.bind(oneGameInfo));
+                }
+
+            }.bind(k),0.05*k)
+
+            
+            
+        }
+
+
+        this.scheduleOnce(function() {
+            var lastbtn = newNode.getChildByName("last")
+            var nextbtn = newNode.getChildByName("next")
+            lastbtn.active = true
+            nextbtn.active = true
+        }.bind(this),2)
+
+    },
+
+    RankInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("RankInfo! " )
+        //this.newBagInfo(jsdata)
+        for(var k in jsdata.Ranks){
+            var v = jsdata.Ranks[k]
+            console.log("rank:"+v.RankNum+"---name:"+v.Name+"--score:"+v.Score)
+        }
+
+
+
+        var parentscene = this.node
+        if(parentscene == null){
+            console.log("parentscene == null")
+        }
+
+        if( this.rankInfoNode != null){
+            this.FreshRankInfo(this.rankInfoNode,jsdata,true)
+        }else{
+
+            console.log("rankInfoNode == null")
+
+            cc.loader.loadRes("rankinfo", function (err, prefab) {
+                var newNode = cc.instantiate(prefab);
+                this.rankInfoNode = newNode
+                newNode.parent = parentscene
+                
+    
+                this.FreshRankInfo(this.rankInfoNode,jsdata,false)
+                
+                
+    
+            }.bind(this));
+        }
+        
+
+        
+        
     },
 
     SerchingPlayer:function(data){
@@ -118,6 +284,7 @@ cc.Class({
             var quitbtn = newNode.getChildByName("quit")
             quitbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 console.log("TOUCH_END")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 NetMananger.getInstance().SendMsg(Msg.CS_QuickGameExit())
                 newNode.destroy()
             });
@@ -126,18 +293,18 @@ cc.Class({
             //动画
             var myAction = cc.sequence( cc.callFunc(function(target, score) {
                 
-                                        target.getComponent(cc.Label).string = "搜寻中."
+                                        target.getComponent(cc.Label).string = "搜寻对手中."
                                         }, this, 0),
                                         cc.delayTime(1),
                                         cc.callFunc(function(target, score) {
                                         
-                                            target.getComponent(cc.Label).string = "搜寻中.."
+                                            target.getComponent(cc.Label).string = "搜寻对手中.."
                                             }, this, 0),
                                         
                                         cc.delayTime(1),
                                         cc.callFunc(function(target, score) {
                                             
-                                            target.getComponent(cc.Label).string = "搜寻中..."
+                                            target.getComponent(cc.Label).string = "搜寻对手中..."
                                             }, this, 0),
                                         cc.delayTime(1)
                                         );
@@ -172,6 +339,7 @@ cc.Class({
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 console.log("TOUCH_END")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 //newNode.destory()
                 newNode.removeFromParent()
                 
@@ -180,29 +348,42 @@ cc.Class({
             var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
             //玩家信息
             for (var k in data.GameInfo){
-                var p = data.GameInfo[k]
 
-                var oneGameInfo = cc.instantiate(newNode.getChildByName("oneGameInfo"));
-                oneGameInfo.parent = scrollview
-                oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.GameName
-                oneGameInfo.getChildByName("player").getComponent(cc.Label).string = p.PlayerOneName+","+p.PlayerTwoName
-                oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Score
+                // this.scheduleOnce(function() {
+                //     var k = this
+                // }.bind(k),0.05*k)
+                this.scheduleOnce(function() {
+                    var k = this
 
-                var lookbtn = oneGameInfo.getChildByName("look")
-                lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
-                    var p = this
-                    console.log("lookbtn:"+p.GameId)
-                    //newNode.destory()
-                    //newNode.removeFromParent()
-                    GameDataManager.getInstance().SetGameData("GameId",p.GameId)
-                    
-                }.bind(p));
+                    var p = data.GameInfo[k]
+
+                    var oneGameInfo = cc.instantiate(newNode.getChildByName("oneGameInfo"));
+                    oneGameInfo.parent = scrollview
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.GameName
+                    oneGameInfo.getChildByName("player").getComponent(cc.Label).string = p.PlayerOneName+","+p.PlayerTwoName
+                    oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Score
+
+                    var lookbtn = oneGameInfo.getChildByName("look")
+                    lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                        var p = this
+                        console.log("lookbtn:"+p.GameId)
+                        //newNode.destory()
+                        //newNode.removeFromParent()
+                        GameDataManager.getInstance().SetGameData("GameId",p.GameId)
+                        
+                    }.bind(p));
+
+                }.bind(k),0.05*k)
+
+
+                
                 
 
             }
             
 
-        });
+        }.bind(this));
 
     
     },
@@ -317,16 +498,7 @@ cc.Class({
         this.newBagInfo(jsdata)
         
     },
-    RankInfo:function(data){
-        var jsdata = JSON.parse(data.JsonData)
-        console.log("RankInfo! " )
-        //this.newBagInfo(jsdata)
-        for(var k in jsdata.Ranks){
-            var v = jsdata.Ranks[k]
-            console.log("rank:"+v.RankNum+"---name:"+v.Name+"--score:"+v.Score)
-        }
-        
-    },
+    
 
     
 
@@ -338,9 +510,41 @@ cc.Class({
 
         var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
         scrollview.removeAllChildren()
-        //任务信息
+
+        //任务列表排序
+        var temptask = new Array()
         for (var k in data.Task){
             var p = data.Task[k]
+            if(p.State == 1){
+                temptask[temptask.length] = p
+                console.log("----state = 1 id:"+p.Id)
+            }
+
+        }
+        for (var k in data.Task){
+            var p = data.Task[k]
+            if(p.State == 0){
+                temptask[temptask.length] = p
+                console.log("----state = 0 id:"+p.Id)
+            }
+
+        }
+        for (var k in data.Task){
+            var p = data.Task[k]
+            if(p.State == 2){
+                temptask[temptask.length] = p
+                console.log("----state = 2 id:"+p.Id)
+            }
+
+        }
+        //type 3:分享到群  2:赢得快速游戏模式 4:赢得好友模式
+
+
+
+        //任务信息
+        for (var k in temptask){
+            var p = temptask[k]
+            console.log("----task =  id:"+p.Id)
 
             var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
             oneGameInfo.parent = scrollview
@@ -365,9 +569,37 @@ cc.Class({
             }else{
                 oneGameInfo.getChildByName("complete").active = false
             }
-
+            //
             var goto = oneGameInfo.getChildByName("goto")
-            goto.active = false
+            if(p.State == 0){
+                goto.active = true
+            }else{
+                goto.active = false
+            }
+
+            var rootnode = this
+            goto.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                var p = this
+                console.log("get:"+p.GameId)//CS_GetTaskRewards
+                if(p.Type == 3){
+                    newNode.destroy()
+                    var time = Tool.GetTimeMillon()
+                    var uid = GameDataManager.getInstance().GetHallInfoData().Uid
+                    Tool.ShareApp(uid,-1,time,function(){
+                        console.log("task share over!")
+                        NetMananger.getInstance().SendMsg(Msg.CS_Share())
+                    })
+                }else if(p.Type == 2){
+                    newNode.destroy()
+                    rootnode.quickGameClick()
+                }else if(p.Type == 4){
+                    newNode.destroy()
+                    rootnode.roomGameClick()
+                }
+                
+            }.bind(p));
+            
             var get = oneGameInfo.getChildByName("get")
             if( p.State == 1){
                 get.active = true
@@ -375,6 +607,7 @@ cc.Class({
                 get.active = false
             }
             get.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 var p = this
                 console.log("get:"+p.GameId)//CS_GetTaskRewards
                 NetMananger.getInstance().SendMsg(Msg.CS_GetTaskRewards(p.Id))
@@ -403,10 +636,11 @@ cc.Class({
 
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 console.log("TOUCH_END")
                 //newNode.destory()
                 this.taskEd = null
-                newNode.removeFromParent()
+                newNode.destroy()
                 
             });
 
@@ -437,6 +671,7 @@ cc.Class({
 
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 console.log("TOUCH_END")
                 //newNode.destory()
                 this.mailInfo = null
@@ -450,66 +685,80 @@ cc.Class({
             var wordlayer = newNode.getChildByName("oneMail")
             wordlayer.active = false
             scrollview.removeAllChildren()
+
+            //
+
             //任务信息
             for (var k in data.Mails){
-                var p = data.Mails[k]
 
-                var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
-                oneGameInfo.parent = scrollview
-                oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = p.Title
-                
-                
+                this.scheduleOnce(function() {
+                    var k = this
 
-                
-               
-                var get = oneGameInfo.getChildByName("get")
-                get.on(cc.Node.EventType.TOUCH_END, function (event) {
-                    var p = this
-                    console.log("get:"+p.Id)//CS_GetTaskRewards
-                    //NetMananger.getInstance().SendMsg(Msg.CS_GetTaskRewards(p.Id))
-                    wordlayer.active = true
-                    wordlayer.getChildByName("title").getComponent(cc.Label).string = p.Title
-                    //console.log("---11"+p.Content)
-                    p.Content = Tool.wordhuanhang(p.Content)
-                    wordlayer.getChildByName("content").getComponent(cc.Label).string = p.Content
-                    //console.log("---22"+p.Content)
-                    wordlayer.getChildByName("sendname").getComponent(cc.Label).string = p.SendName
-                    wordlayer.getChildByName("time").getComponent(cc.Label).string = p.Date
+                    var p = data.Mails[k]
+
+                    var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
+                    oneGameInfo.parent = scrollview
+                    oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = p.Title
                     
-                    var rewardslayer = wordlayer.getChildByName("rewardslayer")
-                    rewardslayer.removeAllChildren()
-                    //Reward    []conf.RewardsConfig
-                    //任务奖励
-                    var haveReward = false
-                    for ( var j in p.Reward){
-                        var reward = p.Reward[j]
-                        var word = ""
-                        if (reward.Count > 0){
-                            word = reward.Count
-                        }else{
-                            word = reward.Time +"天"
+                    
+
+                    
+                
+                    var get = oneGameInfo.getChildByName("get")
+                    get.on(cc.Node.EventType.TOUCH_END, function (event) {
+                        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                        var p = this
+                        console.log("get:"+p.Id)//CS_GetTaskRewards
+                        //NetMananger.getInstance().SendMsg(Msg.CS_GetTaskRewards(p.Id))
+                        wordlayer.active = true
+                        wordlayer.getChildByName("title").getComponent(cc.Label).string = p.Title
+                        //console.log("---11"+p.Content)
+                        p.Content = Tool.wordhuanhang(p.Content)
+                        wordlayer.getChildByName("content").getComponent(cc.Label).string = p.Content
+                        //console.log("---22"+p.Content)
+                        wordlayer.getChildByName("sendname").getComponent(cc.Label).string = p.SendName
+                        wordlayer.getChildByName("time").getComponent(cc.Label).string = p.Date
+                        
+                        var rewardslayer = wordlayer.getChildByName("rewardslayer")
+                        rewardslayer.removeAllChildren()
+                        //Reward    []conf.RewardsConfig
+                        //任务奖励
+                        var haveReward = false
+                        for ( var j in p.Reward){
+                            var reward = p.Reward[j]
+                            var word = ""
+                            if (reward.Count > 0){
+                                word = reward.Count
+                            }else{
+                                word = reward.Time +"天"
+                            }
+                            //rewardslayer
+                            UiTool.newIcon(reward.Type,word,rewardslayer,cc.p(-120+j*80,-0))
+                            haveReward = true
                         }
-                        //rewardslayer
-                        UiTool.newIcon(reward.Type,word,rewardslayer,cc.p(-120+j*80,-0))
-                        haveReward = true
-                    }
-                    //get
-                    var getbtn = wordlayer.getChildByName("get")
-                    if (haveReward == true && p.GetState == 0){
-                        getbtn.active = true
-                        getbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
-                            var p = this
-                            NetMananger.getInstance().SendMsg(Msg.CS_GetMailRewards(p.Id))
-                            p.GetState = 1
+                        //get
+                        var getbtn = wordlayer.getChildByName("get")
+                        if (haveReward == true && p.GetState == 0){
+                            getbtn.active = true
+                            getbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                                var p = this
+                                NetMananger.getInstance().SendMsg(Msg.CS_GetMailRewards(p.Id))
+                                p.GetState = 1
+                                getbtn.active = false
+                                //
+                            }.bind(p))
+                        }else{
                             getbtn.active = false
-                            //
-                        }.bind(p))
-                    }else{
-                        getbtn.active = false
-                    }
-                    
-                    
-                }.bind(p));
+                        }
+                        
+                        
+                    }.bind(p));
+
+                }.bind(k),0.05*k)
+
+
+                
                 
 
             }
@@ -537,6 +786,7 @@ cc.Class({
 
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 console.log("TOUCH_END")
                 //newNode.destory()
                 this.mailInfo = null
@@ -551,43 +801,50 @@ cc.Class({
             scrollview.removeAllChildren()
             //商品信息
             for (var k in data.Commoditys){
-                var p = data.Commoditys[k]
 
-                var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
-                oneGameInfo.parent = scrollview
-                oneGameInfo.getChildByName("name").getComponent(cc.Label).string = ResData[p.Type].name
-                oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = ResData[p.Type].discripte
-                console.log(ResData[p.Type].path)
-                oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[p.Type].path));
-                //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw("resources/qizi/qizi_3.png"))
+                this.scheduleOnce(function() {
+                    var k = this
+                    var p = data.Commoditys[k]
+                    var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
+                    oneGameInfo.parent = scrollview
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = ResData[p.Type].name
+                    oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = ResData[p.Type].discripte
+                    console.log(ResData[p.Type].path)
+                    oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[p.Type].path));
+                    //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw("resources/qizi/qizi_3.png"))
 
-                oneGameInfo.getChildByName("usetime").getComponent(cc.Label).string = p.Time
-                oneGameInfo.getChildByName("price").getComponent(cc.Label).string = p.SalePrice
+                    oneGameInfo.getChildByName("usetime").getComponent(cc.Label).string = p.Time
+                    oneGameInfo.getChildByName("price").getComponent(cc.Label).string = p.SalePrice
 
-                oneGameInfo.getChildByName("time").getComponent(cc.Label).string = p.StartTime+"----"+p.EndTime
-                var buybtn = oneGameInfo.getChildByName("buy")
-                buybtn.active = false
-                if( p.IsStartSale == true){
-                    buybtn.active = true
-                    buybtn.on(cc.Node.EventType.TOUCH_END, function (event) {
-                        
-                        var k = this
-                        var p = data.Commoditys[k]
-                        if(GameDataManager.getInstance().GetHallInfoData().Gold >= p.SalePrice){
-                            UiTool.newKuang2btn("提示","你确定要以"+p.SalePrice+"宝石购买"+ResData[p.Type].name+"("+p.Time+"天)吗?",function(){
-                                var k = this
-                                var p = data.Commoditys[k]
-                                NetMananger.getInstance().SendMsg(Msg.CS_BuyItem(p.Id,k))
-                            }.bind(k))
-                        }else{
-                            UiTool.newKuang2btn("提示","宝石不足！")
-                        }
+                    oneGameInfo.getChildByName("time").getComponent(cc.Label).string = p.StartTime+"----"+p.EndTime
+                    var buybtn = oneGameInfo.getChildByName("buy")
+                    buybtn.active = false
+                    if( p.IsStartSale == true){
+                        buybtn.active = true
+                        buybtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                            Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                            
+                            var k = this
+                            var p = data.Commoditys[k]
+                            if(GameDataManager.getInstance().GetHallInfoData().Gold >= p.SalePrice){
+                                UiTool.newKuang2btn("提示","你确定要以"+p.SalePrice+"宝石购买"+ResData[p.Type].name+"("+p.Time+"天)吗?",function(){
+                                    var k = this
+                                    var p = data.Commoditys[k]
+                                    NetMananger.getInstance().SendMsg(Msg.CS_BuyItem(p.Id,k))
+                                }.bind(k))
+                            }else{
+                                UiTool.newKuang2btn("提示","宝石不足！")
+                            }
 
-                        //NetMananger.getInstance().SendMsg(Msg.CS_BuyItem(p.Id,k))
-                        
-                        //
-                    }.bind(k))
-                }
+                            //NetMananger.getInstance().SendMsg(Msg.CS_BuyItem(p.Id,k))
+                            
+                            //
+                        }.bind(k))
+                    }
+
+                }.bind(k), 0.05*k);
+
+                
                 
                 
 
@@ -620,6 +877,7 @@ cc.Class({
 
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 console.log("TOUCH_END")
                 //newNode.destory()
                 this.mailInfo = null
@@ -672,6 +930,7 @@ cc.Class({
                     buybtn.active = true
                 }
                 buybtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                    Tool.playSound("resources/sound/btn.mp3",false,0.5)
                         
                     var k = this
                     var p = data.Items[k]
@@ -721,6 +980,7 @@ cc.Class({
     
     onLoad () {
         console.log("onload hall")
+        this.RankPage = 1
 
         this.node.getChildByName("btnlayer").getChildByName("task_btn").getChildByName("tishi").active = false
         this.node.getChildByName("btnlayer").getChildByName("mail_btn").getChildByName("tishi").active = false
@@ -743,7 +1003,7 @@ cc.Class({
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
         // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
-        NetMananger.getInstance().SendMsg(Msg.CS_Presenter(90))
+        //NetMananger.getInstance().SendMsg(Msg.CS_Presenter(90))
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetHallUIInfo())
 
@@ -813,11 +1073,20 @@ cc.Class({
         //console.log("GameDataManager.getInstance().GetQueryData()")
         var querydata = GameDataManager.getInstance().GetQueryData()
         if(querydata != null ){
+
+            if(querydata.uid > 0){
+                
+                NetMananger.getInstance().SendMsg(Msg.CS_Presenter(querydata.uid))
+                    
+            }
+
             if( querydata.roomid > 0){
                 if (NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(querydata.roomid,querydata.time))){
-                    GameDataManager.getInstance().SetQueryData(null)
+                    
                 }
             }
+
+            GameDataManager.getInstance().SetQueryData(null)
             
             
         }

@@ -3,15 +3,40 @@
 
 //var wx = require("Wx")
 var GameDataManager = require("GameDataManager")
+
+
+
+
+
+var playsoundmap = new Map()
+export function playSound(path,loop,volume){
+    var curtime = GetTimeMillon()
+
+    if( playsoundmap[path] == null){
+        cc.audioEngine.play(cc.url.raw(path),loop,volume)
+        playsoundmap[path] = curtime
+    }else{
+        if( curtime-playsoundmap[path] >= 500){
+            cc.audioEngine.play(cc.url.raw(path),loop,volume)
+            playsoundmap[path] = curtime
+        }
+    }
+
+}
+
+
+
+
 export function ShareApp(uid,roomid,time,succCallback){
     wx.shareAppMessage({
         title:"宝石五子棋",
-        imageUrl:"res/raw-assets/Res/qipan.png",
+        imageUrl:"res/raw-assets/resources/timg.jpg",
         query:"uid="+uid+"&roomid="+roomid+"&time="+time,
         success:function(){
             console.log("zhuanfa success")
             if(succCallback != null){
                 succCallback()
+
             }
         },
         fail:function(){
@@ -58,32 +83,66 @@ export function checkShare(){
 
 
 var wxLoginBtn = null
-export function createLoginBtn(clickfun){
+export function createLoginBtn(clickfun,startfun){
 
     //NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(10001,10))
 
+
     if (cc.sys.platform === cc.sys.WECHAT_GAME){
 
+        if(startfun != null){
+            startfun()
+        }
+
+        
+        var pixel = 1
+        wx.getSystemInfo({
+            success: function(res) {
+              console.log(res.model)
+              console.log(res.pixelRatio)
+              console.log(res.windowWidth)
+              console.log(res.windowHeight)
+              console.log(res.language)
+              console.log(res.version)
+              console.log(res.platform)
+              console.log(res.SDKVersion)
+              pixel = res.pixelRatio
+              
+           
+          
+          } })
         
         console.log("width:"+window.innerWidth)
         console.log("height:"+window.innerHeight)
-        wxLoginBtn = wx.createUserInfoButton({
-            type: 'text',
-            text: '微信登录',
-            image:"",
-            style: {
-                left: window.innerWidth/2-200/2,
-                top: window.innerHeight/2-40/2,
-                width: 200,
-                height: 40,
-                lineHeight: 40,
-                backgroundColor: '#7EF73A',
-                color: '#ffffff',
-                textAlign: 'center',
-                fontSize: 16,
-                borderRadius: 4
+
+        if(wx.createUserInfoButton != null){
+            console.log("createUserInfoButton != null")
+            wxLoginBtn = wx.createUserInfoButton({
+                type: 'image',
+                text: '微信登录',
+                image:"res/raw-assets/resources/wxlogin.png",
+                style: {
+                    left: window.innerWidth/2-472/pixel/2,
+                    top: window.innerHeight/2-165/pixel/2,
+                    width: 472/pixel,
+                    height: 165/pixel,
+                    lineHeight: 40,
+                    backgroundColor: '#7EF73A',
+                    color: '#ffffff',
+                    textAlign: 'center',
+                    fontSize: 16,
+                    borderRadius: 4
+                }
+            })//
+        }else{
+            console.log("createUserInfoButton == null")
+            if(clickfun != null){
+                clickfun(res.userInfo.nickName,res.userInfo.avatarUrl)
             }
-        })//
+        }
+
+        
+        
         wxLoginBtn.onTap((res) => {
             console.log(res)
             console.log(res.userInfo.nickName);
@@ -93,6 +152,7 @@ export function createLoginBtn(clickfun){
             }
             
         })
+        
     }else{
         if(clickfun != null){
             clickfun("nickname","")
@@ -153,7 +213,16 @@ function check(str){
 }
 
 
-
+export function filteremoji(str){
+    var ranges = [
+        '\ud83c[\udf00-\udfff]', 
+        '\ud83d[\udc00-\ude4f]', 
+        '\ud83d[\ude80-\udeff]'
+    ];
+    
+    str = str .replace(new RegExp(ranges.join('|'), 'g'), '');
+    return str
+}
 
 
 

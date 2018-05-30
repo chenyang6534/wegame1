@@ -10,7 +10,7 @@
 
 
 
-
+var Tool = require("Tool")
 
 var ResData = require("ResData")
 
@@ -66,6 +66,7 @@ export function newKuang2btn(title,content,okfun,cancelfun,parent){
 
         var quitbtn = newNode.getChildByName("ok")
         quitbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+            Tool.playSound("resources/sound/btn.mp3",false,0.5)
             console.log("TOUCH_END")
             //newNode.destory()
             newNode.removeFromParent()
@@ -76,6 +77,7 @@ export function newKuang2btn(title,content,okfun,cancelfun,parent){
         });
         var cancelbtn = newNode.getChildByName("cancel")
         cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+            Tool.playSound("resources/sound/btn.mp3",false,0.5)
             console.log("TOUCH_END")
             //newNode.destory()
             newNode.removeFromParent()

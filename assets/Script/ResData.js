@@ -19,33 +19,33 @@ var MyData = [
         "discripte":"宝石!",
         "path":"resources/icon/gold.png"
     },
-    {
-        "id":100,
-        "discripte":"完成任意比赛5局!"
-    },
-    {
-        "id":101,
-        "discripte":"完成任意比赛10局!"
-    },
+    // {
+    //     "id":100,
+    //     "discripte":"完成任意比赛5局!"
+    // },
+    // {
+    //     "id":101,
+    //     "discripte":"完成任意比赛10局!"
+    // },
     {
         "id":102,
-        "discripte":"赢得任意比赛2局!"
+        "discripte":"赢得快速游戏2局!"
     },
     {
         "id":103,
-        "discripte":"赢得任意比赛4局!"
+        "discripte":"赢得快速游戏5局!"
     },
     {
         "id":104,
-        "discripte":"分享给好友1次!"
+        "discripte":"分享到群1次!"
     },
     {
         "id":105,
-        "discripte":"分享给好友2次!"
+        "discripte":"赢得好友对战2局!!"
     },
     {
         "id":106,
-        "discripte":"分享给好友3次!"
+        "discripte":"赢得好友对战5局!!"
     },
     {
         "id":1003,
