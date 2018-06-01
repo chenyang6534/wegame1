@@ -103,12 +103,33 @@ cc.Class({
         MsgManager.getInstance().AddListener("WS_Close",this.LoginFail.bind(this))
 
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
+
             this.node.getChildByName("loginword").getComponent(cc.Label).string = ""
-
-
-            Tool.createLoginBtn(this.wxlogin.bind(this),this.startWXLogin.bind(this))
             this.node.getChildByName("reLogin").active = false
 
+            wx.getUserInfo({
+                success: function (res) {
+                    console.log("getUserInfo succ");
+                    console.log(res);
+
+                    this.wxlogin(res.userInfo.nickName,res.userInfo.avatarUrl)
+                    
+
+                }.bind(this),
+                fail: function (res) {
+                    console.log("getUserInfo fail");
+                    
+                    Tool.createLoginBtn(this.wxlogin.bind(this),this.startWXLogin.bind(this))
+                    
+
+                  
+                }.bind(this)
+              })
+
+
+
+            
+            
         }else{
             //console.log("----edit:"+this.node.getChildByName("loginname").getComponent(cc.EditBox).string)
             //this.node.getChildByName("loginname").getComponent(cc.EditBox).string = 

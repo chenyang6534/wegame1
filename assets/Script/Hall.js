@@ -136,19 +136,44 @@ cc.Class({
             
             
             //奖励
-            for( var i = 0; i < 5; i++){
-                var rewardnode = newNode.getChildByName("oneReward"+i)
-                if( jsdata.SeasonInfo.RewardList.length > i){
-                    rewardnode.active = true
+
+            var scrollviewrw = newNode.getChildByName("scrollviewrw").getChildByName("view").getChildByName("content")
+        
+            scrollviewrw.removeAllChildren()
+            //任务信息
+            for (var i in jsdata.SeasonInfo.RewardList){
+
+                this.scheduleOnce(function() {
+                    var i = this
+
+                    var p = jsdata.SeasonInfo.RewardList[i]
+
+                    var oneGameInfo = cc.instantiate(newNode.getChildByName("oneReward"));
+                    oneGameInfo.parent = scrollviewrw
+
                     //名次
-                    rewardnode.getChildByName("name").getComponent(cc.Label).string = jsdata.SeasonInfo.RewardList[i].RankStart+"--"+jsdata.SeasonInfo.RewardList[i].RankEnd
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.RankStart+"--"+p.RankEnd
                     //金币
-                    rewardnode.getChildByName("rank").getComponent(cc.Label).string = jsdata.SeasonInfo.RewardList[i].Gold
-                }else{
-                    rewardnode.active = false
-                }
+                    oneGameInfo.getChildByName("rank").getComponent(cc.Label).string = p.Gold
+                   
+
+                }.bind(i),0.05*i)
+
                 
             }
+
+
+
+            // for( var i = 0; i < 5; i++){
+            //     var rewardnode = newNode.getChildByName("oneReward"+i)
+            //     if( jsdata.SeasonInfo.RewardList.length > i){
+            //         rewardnode.active = true
+                    
+            //     }else{
+            //         rewardnode.active = false
+            //     }
+                
+            // }
             //上一页
             var lastbtn = newNode.getChildByName("last")
             lastbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
@@ -699,9 +724,15 @@ cc.Class({
                     var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
                     oneGameInfo.parent = scrollview
                     oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = p.Title
-                    
-                    
 
+                    p.onegameinfo = oneGameInfo
+                    
+                    if(p.GetState == 0 && p.Reward.length > 0){
+                        oneGameInfo.color = cc.color(187,252,234)
+                    }else{
+                        oneGameInfo.color = cc.color(182,168,238)
+                    }
+                    
                     
                 
                     var get = oneGameInfo.getChildByName("get")
@@ -746,6 +777,12 @@ cc.Class({
                                 NetMananger.getInstance().SendMsg(Msg.CS_GetMailRewards(p.Id))
                                 p.GetState = 1
                                 getbtn.active = false
+
+                                if(p.GetState == 0 && p.Reward.length > 0){
+                                    p.onegameinfo.color = cc.color(187,252,234)
+                                }else{
+                                    p.onegameinfo.color = cc.color(182,168,238)
+                                }
                                 //
                             }.bind(p))
                         }else{
@@ -1003,7 +1040,7 @@ cc.Class({
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
         // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
-        //NetMananger.getInstance().SendMsg(Msg.CS_Presenter(90))
+        NetMananger.getInstance().SendMsg(Msg.CS_Presenter(2291))
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetHallUIInfo())
 

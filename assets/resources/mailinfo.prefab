@@ -944,9 +944,9 @@
     "_opacity": 243.015,
     "_color": {
       "__type__": "cc.Color",
-      "r": 228,
-      "g": 207,
-      "b": 250,
+      "r": 182,
+      "g": 168,
+      "b": 238,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -966,7 +966,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 8,
+      "x": 0,
       "y": 501
     },
     "_skewX": 0,
@@ -1011,7 +1011,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 370,
+      "width": 200,
       "height": 40
     },
     "_rotationX": 0,
@@ -1020,8 +1020,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -187,
-      "y": 22
+      "x": -178,
+      "y": 20
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1050,7 +1050,7 @@
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1
+    "_N$overflow": 2
   },
   {
     "__type__": "cc.PrefabInfo",

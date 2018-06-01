@@ -123,7 +123,7 @@ export function createLoginBtn(clickfun,startfun){
                 image:"res/raw-assets/resources/wxlogin.png",
                 style: {
                     left: window.innerWidth/2-472/pixel/2,
-                    top: window.innerHeight/2-165/pixel/2,
+                    top: window.innerHeight/2-165/pixel/2+window.innerHeight/4,
                     width: 472/pixel,
                     height: 165/pixel,
                     lineHeight: 40,
