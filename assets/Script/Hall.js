@@ -384,9 +384,32 @@ cc.Class({
 
                     var oneGameInfo = cc.instantiate(newNode.getChildByName("oneGameInfo"));
                     oneGameInfo.parent = scrollview
-                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.GameName
-                    oneGameInfo.getChildByName("player").getComponent(cc.Label).string = p.PlayerOneName+","+p.PlayerTwoName
-                    oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Score
+                    oneGameInfo.getChildByName("name1").getComponent(cc.Label).string = p.PlayerOneName
+                    //oneGameInfo.getChildByName("head1").getComponent(cc.Label).string = p.AvatarOne
+                    oneGameInfo.getChildByName("name2").getComponent(cc.Label).string = p.PlayerTwoName
+                    //oneGameInfo.getChildByName("head2").getComponent(cc.Label).string = p.AvatarTwo
+                    oneGameInfo.getChildByName("score1").getComponent(cc.Label).string = p.ScoreOne
+                    oneGameInfo.getChildByName("score2").getComponent(cc.Label).string = p.ScoreTwo
+
+
+                    
+                    if(p.AvatarOne != null && p.AvatarOne.length > 0){
+                        var imgurl = p.AvatarOne+"?aaa=aa.jpg";
+                        cc.loader.load(imgurl, function(err, texture){
+                            console.log("err:"+err)
+                            var oneGameInfo = this
+                            oneGameInfo.getChildByName("head1").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                        }.bind(oneGameInfo));
+                    }
+                    if(p.AvatarTwo != null && p.AvatarTwo.length > 0){
+                        var imgurl = p.AvatarTwo+"?aaa=aa.jpg";
+                        cc.loader.load(imgurl, function(err, texture){
+                            console.log("err:"+err)
+                            var oneGameInfo = this
+                            oneGameInfo.getChildByName("head2").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                        }.bind(oneGameInfo));
+                    }
+
 
                     var lookbtn = oneGameInfo.getChildByName("look")
                     lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
