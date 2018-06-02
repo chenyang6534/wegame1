@@ -13,6 +13,7 @@ var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
 var UiTool = require("UiTool")
+var gezhiwidth = 48
 cc.Class({
     extends: cc.Component,
     gameInfoData:null,
@@ -86,8 +87,8 @@ cc.Class({
                 return
             }
             tempPlayer.y = tempPlayer.y + 100
-            var Y = Math.floor((tempPlayer.y+350+25)/50)
-            var X = Math.floor((tempPlayer.x+350+25)/50)
+            var Y = Math.floor((tempPlayer.y+360)/gezhiwidth)
+            var X = Math.floor((tempPlayer.x+360)/gezhiwidth)
             console.log("t1:"+(Tool.GetTimeMillon() - touchStartTime)+" t2:"+touchTime)
             if( Tool.GetTimeMillon() - touchStartTime < touchTime){
                 return
@@ -104,7 +105,7 @@ cc.Class({
             moveX = X
             moveY = Y
 
-            this.node.getChildByName("touchmoveqizi").position = cc.p(-350+moveX*50, -350+moveY*50)
+            this.node.getChildByName("touchmoveqizi").position = cc.p(-336+moveX*gezhiwidth, -336+moveY*gezhiwidth)
 
             
 
@@ -125,8 +126,8 @@ cc.Class({
                 return
             }
 
-            var Y = Math.floor((tempPlayer.y+350+25)/50)
-            var X = Math.floor((tempPlayer.x+350+25)/50)
+            var Y = Math.floor((tempPlayer.y+360)/gezhiwidth)
+            var X = Math.floor((tempPlayer.x+360)/gezhiwidth)
             console.log("x： y:",X,Y)
             //if( Tool.GetTimeMillon() - touchStartTime > touchTime)
 
@@ -514,7 +515,7 @@ cc.Class({
                                                 cc.callFunc(function(target, score) {
                                                     Tool.playSound("resources/sound/move.mp3",false,0.5)
                                                 }, this, 0),
-                                                cc.moveTo(0.5,cc.p(-350+x*50, -350+y*50)).easing(cc.easeIn(2.0)),
+                                                cc.moveTo(0.5,cc.p(-336+x*gezhiwidth, -336+y*gezhiwidth)).easing(cc.easeIn(2.0)),
                                                 cc.callFunc(function(target, score) {
                                                     // var animation = target.getChildByName("anim").getComponent(cc.Animation);
                                                     // animation.play("qizi_floor_a1")

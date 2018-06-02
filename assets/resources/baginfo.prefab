@@ -50,9 +50,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 167,
-      "g": 167,
-      "b": 167,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -145,9 +145,9 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "cb5f5ed1-1b91-4f55-b8ca-92f6ebfcb17e"
+      "__uuid__": "4c7a6234-41ba-46a1-a847-ae2bf8ebe4cc"
     },
-    "_type": 0,
+    "_type": 1,
     "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
@@ -307,8 +307,8 @@
     "_scaleY": 0.8,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 420,
-      "y": 277
+      "x": 421,
+      "y": 271
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -460,7 +460,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 800,
+      "width": 850,
       "height": 500
     },
     "_rotationX": 0,
@@ -518,7 +518,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 800,
+      "width": 850,
       "height": 500
     },
     "_rotationX": 0,
@@ -572,7 +572,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 800,
+      "width": 850,
       "height": 110
     },
     "_rotationX": 0,
@@ -601,7 +601,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 800,
+      "width": 850,
       "height": 110
     },
     "_resize": 1,
@@ -756,12 +756,12 @@
       "__id__": 47
     },
     "_id": "",
-    "_opacity": 243.015,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 228,
-      "g": 207,
-      "b": 250,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -772,7 +772,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 190,
+      "width": 200,
       "height": 110
     },
     "_rotationX": 0,
@@ -1515,7 +1515,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 190,
+      "width": 200,
       "height": 110
     },
     "_resize": 0,

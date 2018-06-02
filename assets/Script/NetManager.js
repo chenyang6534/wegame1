@@ -46,6 +46,7 @@ var NetManager = cc.Class({
     SendMsg:function(msg){
         if (this.m_webSocket == null){
             console.log("this.m_webSocket == null")
+            cc.director.loadScene("Login", null);
             return false
         }
         if(this.isWX == true){
@@ -114,8 +115,9 @@ var NetManager = cc.Class({
                     console.log('WebSocket 连接关闭！')
 
                         this.m_webSocket = null
+                        cc.director.loadScene("Login", null);
                         //
-                        MsgManager.getInstance().ParseLocalMsg("WS_Close",null)
+                        //MsgManager.getInstance().ParseLocalMsg("WS_Close",null)
                 }.bind(this))
                 wx.onSocketMessage(function (res) {
                     console.log('WebSocket 收到消息')
