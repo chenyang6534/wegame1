@@ -116,7 +116,14 @@ cc.Class({
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetRankInfo((this.RankPage-1)*10,this.RankPage*10))
     },
+    friendsClick(event, customEventData){
+        console.log("friendsClick")
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+        
+        NetMananger.getInstance().SendMsg(Msg.CS_GetFriendsInfo())
 
+    },
+    
     FreshRankInfo:function(newNode,jsdata,onlyfreshrankdata){
 
         if(onlyfreshrankdata == false){
@@ -483,6 +490,156 @@ cc.Class({
         }
     },
 
+    //好友邀请
+    YaoQingFriend:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("YaoQingFriend! name:"+jsdata.Name )
+
+        UiTool.newKuang2btn("对战邀请",jsdata.Name+"邀请你和他进行一局对战,你愿意接受吗?",function(){
+            GameDataManager.getInstance().SetGameData("GameId",jsdata.GameId)
+        }.bind(this))
+
+        
+        
+    },
+
+    friendsInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("friendsInfo! uid:" )
+        this.newFriendsInfo(jsdata)
+    },
+    
+    
+    newFriendsInfo:function(data){
+
+        var parentscene = this.node
+        if(parentscene == null){
+            console.log("parentscene == null")
+        }
+
+        cc.loader.loadRes("friendsinfo", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            this.FriendNode = newNode
+            
+            newNode.parent = parentscene
+
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("TOUCH_END")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                //newNode.destory()
+                newNode.removeFromParent()
+                
+            });
+            var yaoqingbtn = newNode.getChildByName("addfriend")
+            yaoqingbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("addfriend")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                var uid = GameDataManager.getInstance().GetHallInfoData().Uid
+                var roomid = 0
+                var time = 0
+                Tool.ShareApp(uid,roomid,time,function(){
+                    //console.log("invateClick over!")
+                    //NetMananger.getInstance().SendMsg(Msg.CS_Share())
+                })
+                
+
+                
+            }.bind(this));
+
+            var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+
+            //排序
+            var karray = new Array()
+            for (var k in data.Friends){
+                if( data.Friends[k].State != 0){
+                    karray[karray.length] = k
+                }
+            }
+            for (var k in data.Friends){
+                if( data.Friends[k].State == 0){
+                    karray[karray.length] = k
+                }
+            }
+
+            //玩家信息
+            for (var k in karray){
+
+                // this.scheduleOnce(function() {
+                //     var k = this
+                // }.bind(k),0.05*k)
+
+                //var gameid = this.gameInfoData.GameId
+                this.scheduleOnce(function() {
+                    var k = this
+                    k = karray[k]
+
+                    var p = data.Friends[k]
+
+                    var oneGameInfo = cc.instantiate(newNode.getChildByName("oneFriend"));
+                    oneGameInfo.parent = scrollview
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name
+
+                    oneGameInfo.getChildByName("namefriend").getComponent(cc.Label).string = p.Name
+                    oneGameInfo.getChildByName("namemy").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
+                    oneGameInfo.getChildByName("winfriend").getComponent(cc.Label).string = p.FriendWin
+                    oneGameInfo.getChildByName("winmy").getComponent(cc.Label).string = p.MyWin
+                    
+                    oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Seasonscore
+                    
+                    if(p.Avatar != null && p.Avatar.length > 0){
+                        var imgurl = p.Avatar+"?aaa=aa.jpg";
+                        cc.loader.load(imgurl, function(err, texture){
+                            console.log("err:"+err)
+                            var oneGameInfo = this
+                            oneGameInfo.getChildByName("head").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                        }.bind(oneGameInfo));
+                    }
+
+                    var lookbtn = oneGameInfo.getChildByName("look")
+                    lookbtn.active = false
+                    lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                        var p = this
+                        console.log("lookbtn:"+p.Uid)
+                        
+                        GameDataManager.getInstance().SetGameData("LookGamePlayerId",p.Uid)
+                        
+                    }.bind(p));
+                    var yaoqingbtn = oneGameInfo.getChildByName("yaoqing")
+                    yaoqingbtn.active = false
+                    
+                    if(p.State == 0){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(离线)"
+                    }else if(p.State == 1){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(大厅中)"
+                        
+                    }else if(p.State == 2){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(游戏中)"
+                        lookbtn.active = true
+                    }else if(p.State == 3){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(观战中)"
+                        lookbtn.active = true
+                    }
+                    
+
+                    
+                    
+
+                }.bind(k),0.05*k)
+
+
+                
+                
+
+            }
+            
+
+        }.bind(this));
+
+    
+    },
+
     HallUIInfo:function(data){
         var jsdata = JSON.parse(data.JsonData)
         console.log("HallUIInfo! TaskED_ShowNum:"+jsdata.TaskED_ShowNum+"    Mail_ShowNum:"+jsdata.Mail_ShowNum )
@@ -733,6 +890,27 @@ cc.Class({
             var wordlayer = newNode.getChildByName("oneMail")
             wordlayer.active = false
             scrollview.removeAllChildren()
+            //get
+            var wordlayergetbtn = wordlayer.getChildByName("get")
+            wordlayergetbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                var p = wordlayer.p
+                console.log("---------------------get--rewards")
+                NetMananger.getInstance().SendMsg(Msg.CS_GetMailRewards(p.Id))
+                p.GetState = 1
+                wordlayergetbtn.active = false
+                //wordlayergetbtn.runAction()
+                // wordlayergetbtn.getComponent(cc.Button).scheduleOnce(function(){
+                //     wordlayergetbtn.active = false
+                // },0.2)
+
+                if(p.GetState == 0 && p.Reward.length > 0){
+                    p.onegameinfo.color = cc.color(187,252,234)
+                }else{
+                    p.onegameinfo.color = cc.color(182,168,238)
+                }
+                //
+            })
 
             //
 
@@ -794,20 +972,12 @@ cc.Class({
                         var getbtn = wordlayer.getChildByName("get")
                         if (haveReward == true && p.GetState == 0){
                             getbtn.active = true
-                            getbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
-                                Tool.playSound("resources/sound/btn.mp3",false,0.5)
-                                var p = this
-                                NetMananger.getInstance().SendMsg(Msg.CS_GetMailRewards(p.Id))
-                                p.GetState = 1
-                                getbtn.active = false
 
-                                if(p.GetState == 0 && p.Reward.length > 0){
-                                    p.onegameinfo.color = cc.color(187,252,234)
-                                }else{
-                                    p.onegameinfo.color = cc.color(182,168,238)
-                                }
-                                //
-                            }.bind(p))
+                            wordlayer.p = p
+                            
+
+                            //getbtn.off(cc.Node.EventType.TOUCH_END, this._sayHello, this);
+                            
                         }else{
                             getbtn.active = false
                         }
@@ -1058,12 +1228,17 @@ cc.Class({
         MsgManager.getInstance().AddListener("SC_BagInfo",this.BagInfo.bind(this))
 
         MsgManager.getInstance().AddListener("SC_RankInfo",this.RankInfo.bind(this))
+
+        MsgManager.getInstance().AddListener("SC_YaoQingFriend",this.YaoQingFriend.bind(this))
+        MsgManager.getInstance().AddListener("SC_FriendsInfo",this.friendsInfo.bind(this))
+        
         
 
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
         // NetMananger.getInstance().Login(this.LoginSucc.bind(this),this.LoginFail.bind(this))
 
-        NetMananger.getInstance().SendMsg(Msg.CS_Presenter(2291))
+        //NetMananger.getInstance().SendMsg(Msg.CS_Presenter(2291))
+        //NetMananger.getInstance().SendMsg(Msg.CS_GetFriendsInfo())
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetHallUIInfo())
 
@@ -1089,6 +1264,9 @@ cc.Class({
         //MsgManager.getInstance().RemoveListener("SC_NewGame")
         MsgManager.getInstance().RemoveListener("WS_Close")
         MsgManager.getInstance().RemoveListener("SC_GetGamingInfo")
+        MsgManager.getInstance().RemoveListener("SC_YaoQingFriend")
+        MsgManager.getInstance().RemoveListener("SC_FriendsInfo")
+        
     },
 
     start () {
@@ -1128,6 +1306,9 @@ cc.Class({
         this.showTishi()
 
         if(GameDataManager.getInstance().GetGameData("GameId") > 0){
+            cc.director.loadScene("Game5G", null);
+        }
+        if(GameDataManager.getInstance().GetGameData("LookGamePlayerId") > 0){
             cc.director.loadScene("Game5G", null);
         }
         //console.log("GameDataManager.getInstance().GetQueryData()")

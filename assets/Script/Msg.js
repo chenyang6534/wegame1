@@ -46,10 +46,16 @@ export function CS_QuickGameExit(){
 };
 
 //进入
-export function CS_GoIn(id){
+export function CS_GoIn(id,uid){
+
+    if(uid == null){
+        uid = -1
+    }
+
     var data = MsgBase("Game5G","CS_GoIn")
     data.JsonData = JSON.stringify({
-        "GameId" : id,
+        "GameId" : Number(id),
+        "OtherPlayerUid" : Number(uid),
     })
     return JSON.stringify(data)
 };
@@ -206,6 +212,25 @@ export function CS_Presenter(uid){
     var data = MsgBase("Hall","CS_Presenter")
     data.JsonData = JSON.stringify({
         "PresenterUid" : Number(uid),
+    })
+    
+    return JSON.stringify(data)
+};
+
+//获取好友信息
+export function CS_GetFriendsInfo(){
+    var data = MsgBase("Hall","CS_GetFriendsInfo")
+    
+    return JSON.stringify(data)
+};
+
+//邀请好友
+export function CS_YaoQingFriend(uid,name,gameid){
+    var data = MsgBase("Hall","CS_YaoQingFriend")
+    data.JsonData = JSON.stringify({
+        "FriendUid" : Number(uid),
+        "MyName" : name,
+        "GameId" : gameid,
     })
     
     return JSON.stringify(data)

@@ -132,14 +132,37 @@ cc.Class({
             //if( Tool.GetTimeMillon() - touchStartTime > touchTime)
 
             if(moved == true){
-                this.node.getChildByName("touchmoveqizi").position = cc.p(0,10000)
-                NetMananger.getInstance().SendMsg(Msg.CS_DoGame5G(moveX,moveY))
+                
+
+                this.showOK(moveX,moveY)
+                //NetMananger.getInstance().SendMsg(Msg.CS_DoGame5G(moveX,moveY))
                 return
             }
-
-            NetMananger.getInstance().SendMsg(Msg.CS_DoGame5G(X,Y))
+            this.showOK(X,Y)
+            //NetMananger.getInstance().SendMsg(Msg.CS_DoGame5G(X,Y))
 
           }, this);
+    },
+    showOK:function(x,y){
+        //this.ok.active = true
+        console.log("----x:"+x+"---y:"+y)
+        
+        this.node.getChildByName("ok").position = cc.p(-336+x*gezhiwidth, -336+(y+1)*gezhiwidth)
+        this.node.getChildByName("ok").zIndex = 100000
+        this.node.getChildByName("touchmoveqizi").position = cc.p(-336+x*gezhiwidth, -336+(y)*gezhiwidth)
+        //console.log("---11-x:"+this.ok.position.x+"---y:"+this.ok.position.y)
+        this.node.getChildByName("ok").X = x
+        this.node.getChildByName("ok").Y = y
+    },
+    hideOK:function(){
+        //this.ok.active = false
+        this.node.getChildByName("ok").position = cc.p(0, 10000)
+    },
+    okClick(event, customEventData){
+        console.log("okClick")
+        this.hideOK()
+        this.node.getChildByName("touchmoveqizi").position = cc.p(0,10000)
+        NetMananger.getInstance().SendMsg(Msg.CS_DoGame5G(this.node.getChildByName("ok").X,this.node.getChildByName("ok").Y))
     },
 
     gameInfo:function(data){
@@ -455,6 +478,7 @@ cc.Class({
         MsgManager.getInstance().RemoveListener("WS_Close")
 
         GameDataManager.getInstance().SetGameData("GameId",-1)
+        GameDataManager.getInstance().SetGameData("LookGamePlayerId",-1)
     },
 
     onLoad () {
@@ -473,11 +497,13 @@ cc.Class({
         MsgManager.getInstance().AddListener("SC_PlayerGoOut",this.playerGoOut.bind(this))
         MsgManager.getInstance().AddListener("WS_Close",this.Disconnect.bind(this))
 
-        NetMananger.getInstance().SendMsg(Msg.CS_GoIn(GameDataManager.getInstance().GetGameData("GameId")))
+        MsgManager.getInstance().AddListener("SC_FriendsInfo",this.friendsInfo.bind(this))
 
+        NetMananger.getInstance().SendMsg(Msg.CS_GoIn(GameDataManager.getInstance().GetGameData("GameId"),GameDataManager.getInstance().GetGameData("LookGamePlayerId")))
 
-        var seq = cc.repeatForever(
-            cc.rotateBy(1,360));
+        //var action1 = cc.sequence( cc.delayTime(0.1*i),cc.repeat(cc.rotateBy(1,360),1000))
+
+        var seq = cc.repeatForever(cc.sequence(cc.scaleTo(0.5,1.2,1.2),cc.scaleTo(0.5,1,1)));
         this.node.getChildByName("touchmoveqizi").runAction(seq)
     },
     //显示棋盘信息
@@ -537,6 +563,7 @@ cc.Class({
 
 
     },
+    
 
     //显示玩家信息
     showPlayerInfo:function(){
@@ -557,6 +584,9 @@ cc.Class({
             
         }
         this.node.getChildByName("invite").active = false
+        if(this.FriendNode != null){
+            this.FriendNode.active = false
+        }
         for(var i = 0; i < 2; i++){
             //座位号 有人
             if( playerInfo[i] >= 0){
@@ -598,6 +628,13 @@ cc.Class({
                 if(this.gameInfoData.GameMode == 1){//自己建游戏
                     //邀请朋友来玩ShareApp invite
                     this.node.getChildByName("invite").active = true
+                    if(this.FriendNode != null){
+                        this.FriendNode.active = true
+                    }
+
+                    NetMananger.getInstance().SendMsg(Msg.CS_GetFriendsInfo())
+
+                    
 
                 }
                 
@@ -606,6 +643,151 @@ cc.Class({
 
 
         
+    },
+
+    friendsInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("friendsInfo! uid:" )
+        this.newFriendsInfo(jsdata)
+    },
+    
+    
+    newFriendsInfo:function(data){
+
+        var parentscene = this.node
+        if(parentscene == null){
+            console.log("parentscene == null")
+        }
+
+        cc.loader.loadRes("friendsinfo", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            this.FriendNode = newNode
+            
+            newNode.parent = parentscene
+
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("TOUCH_END")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                //newNode.destory()
+                newNode.removeFromParent()
+
+                NetMananger.getInstance().SendMsg(Msg.CS_GoOut())
+                
+            });
+
+            var yaoqingbtn = newNode.getChildByName("addfriend")
+            yaoqingbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                console.log("addfriend")
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                this.invateClick(null,null)
+
+                
+            }.bind(this));
+
+            var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+
+            //排序
+            var karray = new Array()
+            for (var k in data.Friends){
+                if( data.Friends[k].State != 0){
+                    karray[karray.length] = k
+                }
+            }
+            for (var k in data.Friends){
+                if( data.Friends[k].State == 0){
+                    karray[karray.length] = k
+                }
+            }
+
+            //玩家信息
+            for (var k in karray){
+
+                // this.scheduleOnce(function() {
+                //     var k = this
+                // }.bind(k),0.05*k)
+
+                var gameid = this.gameInfoData.GameId
+                this.scheduleOnce(function() {
+                    var k = this
+                    k = karray[k]
+
+                    var p = data.Friends[k]
+
+                    var oneGameInfo = cc.instantiate(newNode.getChildByName("oneFriend"));
+                    oneGameInfo.parent = scrollview
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name
+
+                    oneGameInfo.getChildByName("namefriend").getComponent(cc.Label).string = p.Name
+                    oneGameInfo.getChildByName("namemy").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
+                    oneGameInfo.getChildByName("winfriend").getComponent(cc.Label).string = p.FriendWin
+                    oneGameInfo.getChildByName("winmy").getComponent(cc.Label).string = p.MyWin
+                    
+                    oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Seasonscore
+                    
+                    if(p.Avatar != null && p.Avatar.length > 0){
+                        var imgurl = p.Avatar+"?aaa=aa.jpg";
+                        cc.loader.load(imgurl, function(err, texture){
+                            console.log("err:"+err)
+                            var oneGameInfo = this
+                            oneGameInfo.getChildByName("head").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                        }.bind(oneGameInfo));
+                    }
+
+                    var lookbtn = oneGameInfo.getChildByName("look")
+                    lookbtn.active = false
+                    lookbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                        var p = this
+                        console.log("lookbtn:"+p.Uid)
+                        NetMananger.getInstance().SendMsg(Msg.CS_GoOut())
+
+                        NetMananger.getInstance().SendMsg(Msg.CS_GoIn(-1,p.Uid))
+                        //GameDataManager.getInstance().SetGameData("GameId",p.GameId)
+                        
+                    }.bind(p));
+                    var yaoqingbtn = oneGameInfo.getChildByName("yaoqing")
+                    yaoqingbtn.active = false
+                    oneGameInfo.getChildByName("yaoqing").lastyaoqingtime = 0
+                    yaoqingbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                        var p = this
+                        console.log("yaoqingbtn:"+p.Uid)
+                        if(Tool.GetTimeMillon()-oneGameInfo.getChildByName("yaoqing").lastyaoqingtime > 5000){
+                            NetMananger.getInstance().SendMsg(Msg.CS_YaoQingFriend(p.Uid,GameDataManager.getInstance().GetHallInfoData().Name,gameid))
+                            oneGameInfo.getChildByName("yaoqing").lastyaoqingtime = Tool.GetTimeMillon()
+                        }
+                        
+                        
+                        
+                    }.bind(p));
+                    if(p.State == 0){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(离线)"
+                    }else if(p.State == 1){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(大厅中)"
+                        yaoqingbtn.active = true
+                    }else if(p.State == 2){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(游戏中)"
+                    }else if(p.State == 3){
+                        oneGameInfo.getChildByName("state").getComponent(cc.Label).string = "(观战中)"
+                    }
+                    
+
+                    
+                    
+
+                }.bind(k),0.05*k)
+
+
+                
+                
+
+            }
+            
+
+        }.bind(this));
+
+    
     },
 
     start () {
