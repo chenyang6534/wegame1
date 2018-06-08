@@ -1090,8 +1090,8 @@
     "_spriteFrame": {
       "__uuid__": "1e51b76e-eeda-4da1-9e6c-b4d34d019a43"
     },
-    "_type": 0,
-    "_sizeMode": 1,
+    "_type": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",

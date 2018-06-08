@@ -72,6 +72,19 @@ var MyData = [
         "discripte":"来自人间的传说 蓝棋!",
         "path":"resources/qizi/qizi_6.png"
     },
+    {
+        "id":1501,
+        "name":"备用时间1",
+        "discripte":"备用时间增加5秒",
+        "path":"resources/qizi/time1.png"
+    },
+    {
+        "id":1601,
+        "name":"单步时间1",
+        "discripte":"单步时间增加2秒",
+        "path":"resources/qizi/time1.png"
+    },
+    
 ]
 
 var ResData = new Map()

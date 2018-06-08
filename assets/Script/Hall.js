@@ -138,6 +138,10 @@ cc.Class({
                 
             }.bind(this));
 
+
+            //标题
+            newNode.getChildByName("title").getComponent(cc.Label).string = "S"+jsdata.SeasonInfo.IdIndex+"赛季"
+
             //时间
             newNode.getChildByName("time").getComponent(cc.Label).string = jsdata.SeasonInfo.StartTime+"--"+jsdata.SeasonInfo.EndTime
             
@@ -1130,6 +1134,8 @@ cc.Class({
             zhuangbeimap[data.Qizi_move_trail] = 1
             zhuangbeimap[data.Qizi_floor] = 1
             zhuangbeimap[data.Qizi_lastplay] = 1
+            zhuangbeimap[data.Beiyongtime] = 1
+            zhuangbeimap[data.Steptime] = 1
 
             var zhuangbeiInfo = new Map()
 

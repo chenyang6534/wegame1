@@ -756,12 +756,12 @@
       "__id__": 23
     },
     "_id": "",
-    "_opacity": 243.015,
+    "_opacity": 238.935,
     "_color": {
       "__type__": "cc.Color",
-      "r": 62,
-      "g": 232,
-      "b": 255,
+      "r": 126,
+      "g": 247,
+      "b": 58,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -954,12 +954,12 @@
       "__id__": 30
     },
     "_id": "",
-    "_opacity": 255,
+    "_opacity": 238.935,
     "_color": {
       "__type__": "cc.Color",
-      "r": 240,
-      "g": 44,
-      "b": 44,
+      "r": 126,
+      "g": 247,
+      "b": 58,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -1462,7 +1462,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 55.6,
+      "x": 72.3,
       "y": 32.9
     },
     "_skewX": 0,
@@ -1544,12 +1544,12 @@
       "__id__": 50
     },
     "_id": "",
-    "_opacity": 243.015,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 62,
-      "g": 232,
-      "b": 255,
+      "r": 240,
+      "g": 44,
+      "b": 44,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -1569,7 +1569,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 2.7,
+      "x": 8.7,
       "y": 7.2
     },
     "_skewX": 0,
@@ -1596,7 +1596,7 @@
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_N$string": "player1",
-    "_N$horizontalAlign": 0,
+    "_N$horizontalAlign": 2,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 2
@@ -1651,12 +1651,12 @@
       "__id__": 54
     },
     "_id": "",
-    "_opacity": 243.015,
+    "_opacity": 238.935,
     "_color": {
       "__type__": "cc.Color",
-      "r": 62,
-      "g": 232,
-      "b": 255,
+      "r": 126,
+      "g": 247,
+      "b": 58,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -1676,7 +1676,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 2.7,
+      "x": 8.7,
       "y": -22.8
     },
     "_skewX": 0,
@@ -1703,7 +1703,7 @@
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_N$string": "player1",
-    "_N$horizontalAlign": 0,
+    "_N$horizontalAlign": 2,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 2
@@ -1758,12 +1758,12 @@
       "__id__": 58
     },
     "_id": "",
-    "_opacity": 239.7,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 126,
-      "g": 247,
-      "b": 58,
+      "r": 240,
+      "g": 44,
+      "b": 44,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -2079,12 +2079,12 @@
       "__id__": 70
     },
     "_id": "",
-    "_opacity": 239.7,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 126,
-      "g": 247,
-      "b": 58,
+      "r": 240,
+      "g": 44,
+      "b": 44,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -2400,12 +2400,12 @@
       "__id__": 82
     },
     "_id": "",
-    "_opacity": 255,
+    "_opacity": 238.935,
     "_color": {
       "__type__": "cc.Color",
-      "r": 240,
-      "g": 44,
-      "b": 44,
+      "r": 126,
+      "g": 247,
+      "b": 58,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,

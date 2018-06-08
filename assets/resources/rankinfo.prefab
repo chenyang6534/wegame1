@@ -232,7 +232,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Label",
+    "_name": "title",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -268,7 +268,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
+      "width": 200,
       "height": 40
     },
     "_rotationX": 0,
@@ -2259,8 +2259,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -353,
-      "y": 221
+      "x": -354,
+      "y": 219
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2366,8 +2366,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -254,
-      "y": 221
+      "x": -255,
+      "y": 219
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2473,8 +2473,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -61,
-      "y": 220
+      "x": -62,
+      "y": 218
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2580,8 +2580,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -128,
-      "y": 221
+      "x": -129,
+      "y": 219
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2687,8 +2687,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 194,
-      "y": 223
+      "x": 200,
+      "y": 216
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2794,8 +2794,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 194.9,
-      "y": 196.1
+      "x": 201,
+      "y": 189
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2901,8 +2901,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 194,
-      "y": 170
+      "x": 200,
+      "y": 163
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2983,12 +2983,12 @@
       "__id__": 99
     },
     "_id": "",
-    "_opacity": 239.7,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 126,
-      "g": 247,
-      "b": 58,
+      "r": 0,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -3008,8 +3008,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 193.1,
-      "y": 99.7
+      "x": 199,
+      "y": 92
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -3027,18 +3027,18 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 18,
+    "_actualFontSize": 17,
     "_fontSize": 18,
     "_lineHeight": 18,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "只有通过快速游戏进行比赛,才能改变赛季分。赢一局加25分,输一局减20分.赢了比你分高的能加更多分。至少完成一局才能进入排行榜,赛季结束后赛季分将重置（保持排名不变的情况下,无限趋近1000分）",
+    "_N$string": "只有通过快速游戏进行比赛,才能改变赛季分。赢一局加25分,输一局减20分.赢了比你分高的能加更多分。至少完成一局才能进入排行榜,赛季结束后赛季分将重置（保持排名不变的情况下,无限趋近1000分,且不低于1000分）",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 3
+    "_N$overflow": 2
   },
   {
     "__type__": "cc.LabelOutline",
@@ -3050,9 +3050,9 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_width": 1
@@ -3115,8 +3115,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 194,
-      "y": 33.2
+      "x": 200,
+      "y": 26
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -3222,8 +3222,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 66,
-      "y": 12
+      "x": 72,
+      "y": 5
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -3329,8 +3329,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 298,
-      "y": 10
+      "x": 304,
+      "y": 3
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -3701,7 +3701,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 67,
+      "width": 69,
       "height": 30
     },
     "_rotationX": 0,
@@ -4244,8 +4244,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 206,
-      "y": -86
+      "x": 209,
+      "y": -90
     },
     "_skewX": 0,
     "_skewY": 0,
