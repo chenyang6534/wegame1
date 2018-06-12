@@ -27,6 +27,14 @@ export function getPathByQiZiId(id){
     
 }
 
+export function getHeadUrlPath(path){
+    if( path.indexOf("resources/head") < 0){
+        return path+"?aaa=aa.jpg"
+    }else{
+        return cc.url.raw(path)
+    }
+}
+
 export function newIcon(type,words,parent,pos){
 
     var parentscene = parent

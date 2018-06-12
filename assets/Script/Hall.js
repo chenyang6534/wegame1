@@ -123,8 +123,22 @@ cc.Class({
         NetMananger.getInstance().SendMsg(Msg.CS_GetFriendsInfo())
 
     },
+    saijiinfoClick(event, customEventData){
+        console.log("saijiinfoClick")
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+        
+        
+    },
+    friendsinfoClick(event, customEventData){
+        console.log("friendsinfoClick")
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+        
+        
+    },
     
     FreshRankInfo:function(newNode,jsdata,onlyfreshrankdata){
+
+
 
         if(onlyfreshrankdata == false){
             var cancelbtn = newNode.getChildByName("close")
@@ -163,7 +177,12 @@ cc.Class({
                     oneGameInfo.parent = scrollviewrw
 
                     //名次
-                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.RankStart+"--"+p.RankEnd
+                    if( p.RankStart == p.RankEnd){
+                        oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.RankStart
+                    }else{
+                        oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.RankStart+"--"+p.RankEnd
+                    }
+                    
                     //金币
                     oneGameInfo.getChildByName("rank").getComponent(cc.Label).string = p.Gold
                    
@@ -191,6 +210,9 @@ cc.Class({
                 console.log("lastbtn")
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 this.RankPage = this.RankPage - 1
+                if(this.RankPage <= 0){
+                    this.RankPage = this.ShowRankPage
+                }
                 this.rankClick()
 
                 var lastbtn = newNode.getChildByName("last")
@@ -205,6 +227,9 @@ cc.Class({
                 console.log("nextbtn")
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 this.RankPage = this.RankPage + 1
+                if(this.RankPage > this.ShowRankPage){
+                    this.RankPage = 1
+                }
                 this.rankClick()
 
                 var lastbtn = newNode.getChildByName("last")
@@ -247,7 +272,7 @@ cc.Class({
                 //头像
                 var avatarurl = p.Avatar
                 if(avatarurl != null && avatarurl.length > 0){
-                    var imgurl = avatarurl+"?aaa=aa.jpg";
+                    var imgurl = UiTool.getHeadUrlPath(avatarurl)//avatarurl+"?aaa=aa.jpg";
                     
                     cc.loader.load(imgurl, function(err, texture){
                         var one = this
@@ -280,6 +305,10 @@ cc.Class({
             var v = jsdata.Ranks[k]
             console.log("rank:"+v.RankNum+"---name:"+v.Name+"--score:"+v.Score)
         }
+
+        this.ShowRankPage = Math.ceil(jsdata.RankCount/10) 
+
+        
 
 
 
@@ -405,7 +434,7 @@ cc.Class({
 
                     
                     if(p.AvatarOne != null && p.AvatarOne.length > 0){
-                        var imgurl = p.AvatarOne+"?aaa=aa.jpg";
+                        var imgurl = UiTool.getHeadUrlPath(p.AvatarOne)//p.AvatarOne+"?aaa=aa.jpg";
                         cc.loader.load(imgurl, function(err, texture){
                             console.log("err:"+err)
                             var oneGameInfo = this
@@ -413,7 +442,7 @@ cc.Class({
                         }.bind(oneGameInfo));
                     }
                     if(p.AvatarTwo != null && p.AvatarTwo.length > 0){
-                        var imgurl = p.AvatarTwo+"?aaa=aa.jpg";
+                        var imgurl = UiTool.getHeadUrlPath(p.AvatarTwo)//p.AvatarTwo+"?aaa=aa.jpg";
                         cc.loader.load(imgurl, function(err, texture){
                             console.log("err:"+err)
                             var oneGameInfo = this
@@ -474,7 +503,7 @@ cc.Class({
                 //var avatarurl = "https://wx.qlogo.cn/mmopen/vi_32/wsRmxcKeyV3TKk7mHEVKLl1rFLjK2aKk08vggdAIaGwzrQAexH88lnicbH9w17rG5AY3ptACgbjicqF8HJEj2gUg/0"
                 
                 if(avatarurl != null && avatarurl.length > 0){
-                    var imgurl = avatarurl+"?aaa=aa.jpg";
+                    var imgurl = UiTool.getHeadUrlPath(avatarurl)//avatarurl+"?aaa=aa.jpg";
                     
                     cc.loader.load(imgurl, function(err, texture){
                         console.log("err:"+err)
@@ -592,7 +621,7 @@ cc.Class({
                     oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Seasonscore
                     
                     if(p.Avatar != null && p.Avatar.length > 0){
-                        var imgurl = p.Avatar+"?aaa=aa.jpg";
+                        var imgurl = UiTool.getHeadUrlPath(p.Avatar)//p.Avatar+"?aaa=aa.jpg";
                         cc.loader.load(imgurl, function(err, texture){
                             console.log("err:"+err)
                             var oneGameInfo = this
@@ -1217,6 +1246,7 @@ cc.Class({
     onLoad () {
         console.log("onload hall")
         this.RankPage = 1
+        this.ShowRankPage = 10
 
         this.node.getChildByName("btnlayer").getChildByName("task_btn").getChildByName("tishi").active = false
         this.node.getChildByName("btnlayer").getChildByName("mail_btn").getChildByName("tishi").active = false
@@ -1248,11 +1278,7 @@ cc.Class({
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetHallUIInfo())
 
-        // var node = new cc.Node();
-        // this.node.addChild(node)
-        // var particleSystem = node.addComponent(cc.ParticleSystem);
-        // particleSystem.file = cc.url.raw("resources/particle/p1.plist")
-        // particleSystem.playOnLoad = true
+        
         
         
 

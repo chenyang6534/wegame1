@@ -19,6 +19,7 @@ cc.Class({
     gameInfoData:null,
     playerInfoData:null,
     allQiZi:null,
+    allQiZiStep:null,
     startZouQiTime:null,
     properties: {
         qizi: {
@@ -36,6 +37,13 @@ cc.Class({
             this.allQiZi[i] = new Array()
             for(var j = 0; j < 15;j++){
                 this.allQiZi[i][j] = null
+            }
+        }
+        this.allQiZiStep = new Array()
+        for(var i = 0; i < 15;i++){
+            this.allQiZiStep[i] = new Array()
+            for(var j = 0; j < 15;j++){
+                this.allQiZiStep[i][j] = null
             }
         }
     },
@@ -360,6 +368,7 @@ cc.Class({
             
         }
         this.gameInfoData.QiPan[jsdata.Y][jsdata.X] = jsdata.GameSeatIndex
+        this.gameInfoData.StepNum[jsdata.Y][jsdata.X] = jsdata.StepNum
         this.gameInfoData.GameSeatIndex = -1
 
         this.showQiPanInfo()
@@ -510,6 +519,36 @@ cc.Class({
     showQiPanInfo:function(){
         for(var y = 0; y < this.gameInfoData.QiPan.length;y++){
             for(var x = 0; x < this.gameInfoData.QiPan[y].length;x++){
+
+                // if(this.gameInfoData.StepNum[y][x] > 0){
+                //     if( this.allQiZiStep[y][x] == null){
+                //         console.log("allQiZiStep----x:"+x+"---y:"+y+"---step:"+this.gameInfoData.StepNum[y][x])
+
+                //         this.allQiZiStep[y][x] = new cc.Node();
+                //         this.allQiZiStep[y][x].parent = this.node;
+                //         this.allQiZiStep[y][x].zIndex = 3100
+                //         this.allQiZiStep[y][x].position = cc.p(-336+x*gezhiwidth, -336+y*gezhiwidth)
+                //         var label = this.allQiZiStep[y][x].addComponent(cc.Label);
+                //         label.string=""+this.gameInfoData.StepNum[y][x]
+                //         this.allQiZiStep[y][x].color = new cc.Color(220,220, 220)
+                //         this.allQiZiStep[y][x].scale = 0
+                        
+                        
+                //         var myAction = cc.sequence(
+                //                                 cc.delayTime(0.8),
+                //                                 cc.callFunc(function(target, score) {
+                //                                     target.scale = 0.6
+                //                                 }, this, 0),
+                //                                 );
+
+                //         this.allQiZiStep[y][x].runAction(myAction)
+                //     }
+                    
+                // }else{
+                //     if(this.allQiZiStep[y][x] != null){
+                //         this.allQiZiStep[y][x].destory()
+                //     }
+                // }
                 
                 if(this.gameInfoData.QiPan[y][x] >= 0){
                     if(this.allQiZi[y][x] == null){
@@ -546,6 +585,15 @@ cc.Class({
                                                     // var animation = target.getChildByName("anim").getComponent(cc.Animation);
                                                     // animation.play("qizi_floor_a1")
                                                     Tool.playSound("resources/sound/qizi.mp3",false,0.5)
+                                                    if(this.LastQiZiAction != null){
+                                                        this.LastQiZiAction.scale = 1
+                                                        this.LastQiZiAction.stopAllActions()
+                                                    }
+
+                                                    this.LastQiZiAction = target
+                                                    //target.stopAllActions()
+                                                    target.runAction( cc.repeatForever(cc.sequence(cc.scaleTo(0.5,1.2,1.2),cc.scaleTo(0.5,1,1))))
+
                                                 }, this, 0),
                                                 );
 
@@ -613,7 +661,7 @@ cc.Class({
                 var avatarurl = this.playerInfoData[playerInfo[i]].AvatarUrl
                 console.log("url:"+avatarurl)
                 if(avatarurl != null && avatarurl.length > 0){
-                    var imgurl = avatarurl+"?aaa=aa.jpg";
+                    var imgurl = UiTool.getHeadUrlPath(avatarurl)//avatarurl+"?aaa=aa.jpg";
                     var mynode = this.node.getChildByName(nodeInfo[i]).getChildByName("headicon")
                     console.log("mynode:"+mynode)
                     cc.loader.load(imgurl, function(err, texture){
@@ -726,7 +774,7 @@ cc.Class({
                     oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Seasonscore
                     
                     if(p.Avatar != null && p.Avatar.length > 0){
-                        var imgurl = p.Avatar+"?aaa=aa.jpg";
+                        var imgurl = UiTool.getHeadUrlPath(p.Avatar)//p.Avatar+"?aaa=aa.jpg";
                         cc.loader.load(imgurl, function(err, texture){
                             console.log("err:"+err)
                             var oneGameInfo = this

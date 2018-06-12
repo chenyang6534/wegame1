@@ -48,6 +48,14 @@ var MyData = [
         "discripte":"赢得好友对战5局!!"
     },
     {
+        "id":107,
+        "discripte":"赢得快速游戏8局!"
+    },
+    {
+        "id":108,
+        "discripte":"赢得快速游戏12局!"
+    },
+    {
         "id":1003,
         "name":"紫棋",
         "discripte":"来自人间的传说 紫棋!",
@@ -74,14 +82,14 @@ var MyData = [
     },
     {
         "id":1501,
-        "name":"备用时间1",
-        "discripte":"备用时间增加5秒",
+        "name":"备用时间+5s",
+        "discripte":"备用时间增加5秒,不能与其他增加备用时间道具叠加",
         "path":"resources/qizi/time1.png"
     },
     {
         "id":1601,
-        "name":"单步时间1",
-        "discripte":"单步时间增加2秒",
+        "name":"单步时间+2s",
+        "discripte":"单步时间增加2秒,不能与其他增加单步时间道具叠加",
         "path":"resources/qizi/time1.png"
     },
     
