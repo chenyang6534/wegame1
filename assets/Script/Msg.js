@@ -198,6 +198,13 @@ export function CS_GetHallUIInfo(){
     return JSON.stringify(data)
 };
 
+//获取公告提示信息
+export function CS_GetNoticeInfo(){
+    var data = MsgBase("Hall","CS_GetNoticeInfo")
+    
+    return JSON.stringify(data)
+};
+
 //CS_BuyItem
 
 //分享一次给朋友

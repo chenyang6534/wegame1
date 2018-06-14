@@ -48,6 +48,32 @@ cc.Class({
         }
     },
 
+    checkfirstshow:function(){
+        this.node.getChildByName("firstlayer").active = false
+        if(this.gameInfoData == null){
+            return
+        }
+        if(this.gameInfoData.State != 2){
+            return
+        }
+        if(this.gameInfoData.GameSeatIndex != this.mySeatIndex || this.mySeatIndex == -1){
+            return
+        }
+
+        for(var y = 0; y < this.gameInfoData.QiPan.length;y++){
+            for(var x = 0; x < this.gameInfoData.QiPan[y].length;x++){
+
+               
+                
+                if(this.gameInfoData.QiPan[y][x] >= 0){
+                    return
+                }
+            }
+        }
+
+        this.node.getChildByName("firstlayer").active = true
+    },
+
     // LIFE-CYCLE CALLBACKS:
 
     registerTouch:function(){
@@ -514,6 +540,8 @@ cc.Class({
 
         var seq = cc.repeatForever(cc.sequence(cc.scaleTo(0.5,1.2,1.2),cc.scaleTo(0.5,1,1)));
         this.node.getChildByName("touchmoveqizi").runAction(seq)
+
+        this.node.getChildByName("firstlayer").active = false
     },
     //显示棋盘信息
     showQiPanInfo:function(){
@@ -844,12 +872,16 @@ cc.Class({
 
     update (dt) {
 
+        this.checkfirstshow()
+
         if(this.gameInfoData == null){
             return
         }
 
 
         if(this.gameInfoData.State == 2){
+
+            
 
 
             var nodeInfo = new Array("myInfo","playerInfo")

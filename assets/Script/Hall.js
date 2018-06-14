@@ -127,6 +127,22 @@ cc.Class({
         console.log("saijiinfoClick")
         Tool.playSound("resources/sound/btn.mp3",false,0.5)
         
+        cc.loader.loadRes("gamerule", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            newNode.parent = this.node
+            //parentscene.addChild(newNode);
+    
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                //newNode.destory()
+                newNode.removeFromParent()
+                
+            });
+    
+    
+        }.bind(this));
         
     },
     friendsinfoClick(event, customEventData){
@@ -358,20 +374,30 @@ cc.Class({
             //动画
             var myAction = cc.sequence( cc.callFunc(function(target, score) {
                 
-                                        target.getComponent(cc.Label).string = "搜寻对手中."
+                                        target.getComponent(cc.Label).string = "搜寻对手中(5)"
                                         }, this, 0),
                                         cc.delayTime(1),
                                         cc.callFunc(function(target, score) {
                                         
-                                            target.getComponent(cc.Label).string = "搜寻对手中.."
+                                            target.getComponent(cc.Label).string = "搜寻对手中(4)"
                                             }, this, 0),
                                         
                                         cc.delayTime(1),
                                         cc.callFunc(function(target, score) {
                                             
-                                            target.getComponent(cc.Label).string = "搜寻对手中..."
+                                            target.getComponent(cc.Label).string = "搜寻对手中(3)"
                                             }, this, 0),
-                                        cc.delayTime(1)
+                                        cc.delayTime(1),
+                                        cc.callFunc(function(target, score) {
+                                            
+                                            target.getComponent(cc.Label).string = "搜寻对手中(2)"
+                                            }, this, 0),
+                                        cc.delayTime(1),
+                                        cc.callFunc(function(target, score) {
+                                            
+                                            target.getComponent(cc.Label).string = "搜寻对手中(1)"
+                                            }, this, 0),
+                                        cc.delayTime(3)
                                         );
             newNode.getChildByName("searchtxt").runAction(cc.repeatForever(myAction))
 
@@ -672,6 +698,32 @@ cc.Class({
 
     
     },
+    NoticeInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("NoticeInfo! " )
+
+        
+        cc.loader.loadRes("notice", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            newNode.parent = this.node
+            //parentscene.addChild(newNode);
+    
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                //newNode.destory()
+                newNode.removeFromParent()
+                
+            });
+
+            newNode.getChildByName("info").getComponent(cc.Label).string = jsdata.NoticeMsg
+    
+    
+        }.bind(this));
+    },
+
+    //
 
     HallUIInfo:function(data){
         var jsdata = JSON.parse(data.JsonData)
@@ -1257,6 +1309,7 @@ cc.Class({
         MsgManager.getInstance().AddListener("SC_CheckGoToGame",this.CheckGoToGame.bind(this))
         MsgManager.getInstance().AddListener("SC_GetTaskRewards",this.GetTaskRewards.bind(this))
         
+        MsgManager.getInstance().AddListener("SC_NoticeInfo",this.NoticeInfo.bind(this))
         MsgManager.getInstance().AddListener("SC_HallUIInfo",this.HallUIInfo.bind(this))
         MsgManager.getInstance().AddListener("SC_TskEdInfo",this.TskEdInfo.bind(this))
         MsgManager.getInstance().AddListener("SC_MailInfo",this.MailInfo.bind(this))
@@ -1278,6 +1331,8 @@ cc.Class({
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetHallUIInfo())
 
+        NetMananger.getInstance().SendMsg(Msg.CS_GetNoticeInfo())
+        
         
         
         

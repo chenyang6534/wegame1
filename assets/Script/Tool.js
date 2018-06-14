@@ -137,14 +137,24 @@ export function createLoginBtn(clickfun,startfun){
         }else{
             console.log("createUserInfoButton == null")
             if(clickfun != null){
-                clickfun(res.userInfo.nickName,res.userInfo.avatarUrl)
+                clickfun("","")
             }
         }
 
         
         
         wxLoginBtn.onTap((res) => {
+
+            console.log("err:"+res.errMsg)
             console.log(res)
+            console.log("-----")
+            console.log(res.userInfo)
+            console.log("11111")
+            if(res.userInfo == null){
+                if(clickfun != null){
+                    clickfun("","")
+                }
+            }
             console.log(res.userInfo.nickName);
             console.log(res.userInfo.avatarUrl);
             if(clickfun != null){
