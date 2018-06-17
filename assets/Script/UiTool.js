@@ -35,11 +35,14 @@ export function getHeadUrlPath(path){
     }
 }
 
-export function newIcon(type,words,parent,pos){
+export function newIcon(type,words,parent,pos,scale){
 
     var parentscene = parent
     if(parentscene == null){
         parentscene = cc.director.getScene()
+    }
+    if( scale == null){
+        scale = 0.8
     }
 
     cc.loader.loadRes("icon", function (err, prefab) {
@@ -47,7 +50,7 @@ export function newIcon(type,words,parent,pos){
         parentscene.addChild(newNode);
         //newNode
         newNode.position = pos
-        newNode.scale = 0.8
+        newNode.scale = scale
 
         
         newNode.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[type].path));

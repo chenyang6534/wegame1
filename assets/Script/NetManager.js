@@ -8,7 +8,7 @@
 
 //var serverSrc = "ws://127.0.0.1:1117/connect"
 //var serverSrc = "ws://www.game5868.top:443/connect1""ws://192.168.6.143:1117/connect"
-var serverSrc = "ws://192.168.6.143:1117/connect"
+var serverSrc = "ws://127.0.0.1:1117/connect"
 var wxServerSrc = "wss://www.game5868.top/connect"
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")

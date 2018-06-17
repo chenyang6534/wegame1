@@ -1125,8 +1125,9 @@ cc.Class({
                     oneGameInfo.getChildByName("name").getComponent(cc.Label).string = ResData[p.Type].name
                     oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = ResData[p.Type].discripte
                     console.log(ResData[p.Type].path)
-                    oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[p.Type].path));
+                    //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[p.Type].path));
                     //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw("resources/qizi/qizi_3.png"))
+                    UiTool.newIcon(p.Type,p.Time+"天",oneGameInfo,oneGameInfo.getChildByName("icon").position,1.4)
 
                     oneGameInfo.getChildByName("usetime").getComponent(cc.Label).string = p.Time
                     oneGameInfo.getChildByName("price").getComponent(cc.Label).string = p.SalePrice
