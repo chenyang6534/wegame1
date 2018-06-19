@@ -42,7 +42,7 @@ export function newIcon(type,words,parent,pos,scale){
         parentscene = cc.director.getScene()
     }
     if( scale == null){
-        scale = 0.8
+        scale = 1.0
     }
 
     cc.loader.loadRes("icon", function (err, prefab) {

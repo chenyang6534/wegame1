@@ -702,25 +702,34 @@ cc.Class({
         var jsdata = JSON.parse(data.JsonData)
         console.log("NoticeInfo! " )
 
-        
-        cc.loader.loadRes("notice", function (err, prefab) {
-            var newNode = cc.instantiate(prefab);
-            newNode.parent = this.node
-            //parentscene.addChild(newNode);
-    
-            var cancelbtn = newNode.getChildByName("close")
-            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
-                Tool.playSound("resources/sound/btn.mp3",false,0.5)
-                console.log("TOUCH_END")
-                //newNode.destory()
-                newNode.removeFromParent()
-                
-            });
+        var lastshowword = GameDataManager.getInstance().GetGameData("Notice")
+        if( lastshowword != jsdata.NoticeMsg){
+            GameDataManager.getInstance().SetGameData("Notice",jsdata.NoticeMsg)
 
-            newNode.getChildByName("info").getComponent(cc.Label).string = jsdata.NoticeMsg
+            cc.loader.loadRes("notice", function (err, prefab) {
+                var newNode = cc.instantiate(prefab);
+                newNode.parent = this.node
+                //parentscene.addChild(newNode);
+        
+                var cancelbtn = newNode.getChildByName("close")
+                cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                    Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                    console.log("TOUCH_END")
+                    //newNode.destory()
+                    newNode.removeFromParent()
+                    
+                });
     
-    
-        }.bind(this));
+                newNode.getChildByName("info").getComponent(cc.Label).string = jsdata.NoticeMsg
+        
+        
+            }.bind(this));
+        }
+
+        
+
+        
+        
     },
 
     //
@@ -851,7 +860,7 @@ cc.Class({
                 }else{
                     word = reward.Time +"天"
                 }
-                UiTool.newIcon(reward.Type,word,oneGameInfo,cc.p(-330+j*100,-30))
+                UiTool.newIcon(reward.Type,word,oneGameInfo,cc.p(-370+j*100,-30),0.5)
             }
             if(p.State == 2){
                 oneGameInfo.getChildByName("complete").active = true
@@ -1050,7 +1059,7 @@ cc.Class({
                                 word = reward.Time +"天"
                             }
                             //rewardslayer
-                            UiTool.newIcon(reward.Type,word,rewardslayer,cc.p(-120+j*80,-0))
+                            UiTool.newIcon(reward.Type,word,rewardslayer,cc.p(-120+j*80,-0),0.5)
                             haveReward = true
                         }
                         //get
@@ -1122,12 +1131,12 @@ cc.Class({
                     var p = data.Commoditys[k]
                     var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
                     oneGameInfo.parent = scrollview
-                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = ResData[p.Type].name
+                    oneGameInfo.getChildByName("namebg").getChildByName("name").getComponent(cc.Label).string = ResData[p.Type].name
                     oneGameInfo.getChildByName("discripte").getComponent(cc.Label).string = ResData[p.Type].discripte
                     console.log(ResData[p.Type].path)
                     //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[p.Type].path));
                     //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw("resources/qizi/qizi_3.png"))
-                    UiTool.newIcon(p.Type,p.Time+"天",oneGameInfo,oneGameInfo.getChildByName("icon").position,1.4)
+                    UiTool.newIcon(p.Type,p.Time+"天",oneGameInfo,oneGameInfo.getChildByName("icon").position,1.0)
 
                     oneGameInfo.getChildByName("usetime").getComponent(cc.Label).string = p.Time
                     oneGameInfo.getChildByName("price").getComponent(cc.Label).string = p.SalePrice
@@ -1236,6 +1245,8 @@ cc.Class({
 
                 oneGameInfo.parent = scrollview
                 oneGameInfo.getChildByName("name").getComponent(cc.Label).string = ResData[p.Type].name
+
+                //oneGameInfo.getChildByName("timeword").getComponent(cc.Label).string = "到期时间1:"
                 
                 
                 oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[p.Type].path));

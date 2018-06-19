@@ -224,7 +224,7 @@ cc.Class({
         }
         this.showPlayerInfo()
 
-
+        this.lookNoticeAnim()
 
 
         
@@ -303,6 +303,27 @@ cc.Class({
         
         this.node.getChildByName("startTime").runAction(myAction)
         this.node.getChildByName("startTime").runAction(cc.repeat(cc.moveBy(1,cc.p(0,-50)),3))
+    },
+
+    //3,2,1动画
+    lookNoticeAnim:function(){
+        console.log("lookNoticeAnim!")
+        
+        if(this.mySeatIndex < 0){
+            var myAction = cc.sequence( cc.callFunc(function(target, score) {
+                target.position = cc.p(0,657)
+                
+                
+                }, this, 0),
+                cc.moveTo(1,cc.p(0,750/4)),
+                cc.delayTime(2),
+                cc.moveTo(1,cc.p(-1000,750/4)),
+                );
+
+            this.node.getChildByName("looknotice").runAction(myAction)
+        }
+
+        
     },
 
 

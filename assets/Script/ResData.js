@@ -56,6 +56,10 @@ var MyData = [
         "discripte":"赢得快速游戏12局!"
     },
     {
+        "id":109,
+        "discripte":"分享到不同群3次!"
+    },
+    {
         "id":1003,
         "name":"紫棋",
         "discripte":"来自人间的传说 紫棋!",
@@ -90,7 +94,31 @@ var MyData = [
         "id":1601,
         "name":"单步时间+2s",
         "discripte":"单步时间增加2秒,不能与其他增加单步时间道具叠加",
-        "path":"resources/qizi/time1.png"
+        "path":"resources/qizi/steptime1.png"
+    },
+    {
+        "id":1602,
+        "name":"单步时间+5s",
+        "discripte":"单步时间增加5秒,不能与其他增加单步时间道具叠加",
+        "path":"resources/qizi/steptime2.png"
+    },
+    {
+        "id":1603,
+        "name":"单步时间+10s",
+        "discripte":"单步时间增加10秒,不能与其他增加单步时间道具叠加",
+        "path":"resources/qizi/steptime3.png"
+    },
+    {
+        "id":1604,
+        "name":"单步时间+20s",
+        "discripte":"单步时间增加20秒,不能与其他增加单步时间道具叠加",
+        "path":"resources/qizi/steptime4.png"
+    },
+    {
+        "id":1605,
+        "name":"单步时间+30s",
+        "discripte":"单步时间增加30秒,不能与其他增加单步时间道具叠加",
+        "path":"resources/qizi/steptime5.png"
     },
     
 ]
