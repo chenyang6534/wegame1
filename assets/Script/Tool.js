@@ -54,6 +54,19 @@ export function wordhuanhang(str){
 }
 
 
+export function RankNum2Str(ranknum){
+    if(ranknum >= 1000){
+        return "[1-1段]"
+    }
+
+    var duan1 = 10-Math.ceil(ranknum/100)
+    var duan2 = 10-Math.ceil(ranknum%100/10)
+
+    return "["+duan1+"-"+duan2+"段]"
+
+}
+
+
 export function checkShare(){
 
     //NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(10001,10))

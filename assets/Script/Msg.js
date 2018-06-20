@@ -242,3 +242,14 @@ export function CS_YaoQingFriend(uid,name,gameid){
     
     return JSON.stringify(data)
 };
+
+//游戏结束后 增加奖励分数
+
+export function CS_AddScore(score){
+    var data = MsgBase("Hall","CS_AddScore")
+    data.JsonData = JSON.stringify({
+        "Score" : Number(score),
+    })
+    
+    return JSON.stringify(data)
+};

@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "gamerule",
+    "_name": "duanweiinfo",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -192,7 +192,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "b0UVaHhshOlJmJL/aoXh2L",
     "sync": false
@@ -270,7 +270,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "游戏规则",
+    "_N$string": "段位规则",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -299,7 +299,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "a4Y7sb5BNONJLoong70DZ6",
     "sync": false
@@ -457,7 +457,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "a03YoYYkJMkKbLWTy4Zn0W",
     "sync": false
@@ -509,8 +509,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -311,
-      "y": 220
+      "x": -313,
+      "y": 219
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -535,7 +535,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "1.游戏规则:",
+    "_N$string": "1.计算范围:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -564,7 +564,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "edkPoUXy9L0Z2RZe/6cm9L",
     "sync": false
@@ -607,7 +607,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
+      "width": 180,
       "height": 25
     },
     "_rotationX": 0,
@@ -616,8 +616,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -310.7,
-      "y": 159.4
+      "x": -288,
+      "y": 158
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -642,7 +642,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "2.棋子规则:",
+    "_N$string": "2.赛季排名范围:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -671,7 +671,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "3fa0lEG15Cj4FTJ4LY4Z6/",
     "sync": false
@@ -714,7 +714,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
+      "width": 80,
       "height": 25
     },
     "_rotationX": 0,
@@ -723,8 +723,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -308,
-      "y": 82
+      "x": -338,
+      "y": 102
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -749,7 +749,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "3.先手规则:",
+    "_N$string": "3.示例:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -778,7 +778,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "ddvtCmVbVJP4SyudHocRDD",
     "sync": false
@@ -821,7 +821,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
+      "width": 255,
       "height": 25
     },
     "_rotationX": 0,
@@ -830,8 +830,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -309,
-      "y": 17
+      "x": -251,
+      "y": 16
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -856,7 +856,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "4.平局规则:",
+    "_N$string": "4.平均排名转化为段位:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -885,7 +885,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "90w/51Mf5KY4RsGFkY4h3J",
     "sync": false
@@ -928,7 +928,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
+      "width": 155,
       "height": 25
     },
     "_rotationX": 0,
@@ -937,8 +937,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -312,
-      "y": -52
+      "x": -301,
+      "y": -87
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -963,7 +963,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "5.计时规则:",
+    "_N$string": "5.段位的含义:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -992,7 +992,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "c5C0uwvqBHzo/hcrqhdRwc",
     "sync": false
@@ -1070,7 +1070,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "先手方第一个棋子位置必须在三线内(为了避免先手方必胜走法)",
+    "_N$string": "本赛季之前的8个赛季中该玩家的4个最高赛季排名成绩的平均排名",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1099,7 +1099,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "81PznFtXhC07Sl666voo8k",
     "sync": false
@@ -1177,7 +1177,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "如果双方选择的棋子种类相同，则以赛季分数高的为准。分低的则会使用上一次装备的棋子。",
+    "_N$string": "第1名至1000名,如果该赛季未进入1000名则按1000名计算",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1206,7 +1206,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "11Blf5PUlDnaLYBQhBScyv",
     "sync": false
@@ -1259,7 +1259,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -6,
-      "y": 33
+      "y": 51
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1284,7 +1284,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "决定先手规则为系统随机",
+    "_N$string": "如果该玩家本赛季之前八个赛季排名分别如下：（305,1000,800,122,45,677,800,320）,那么他的平均排名则为:(305+122+45+320)/4 = 198",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1313,7 +1313,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "86fETGZ8ZN1r0sWaN+rJUw",
     "sync": false
@@ -1366,7 +1366,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -6,
-      "y": -40
+      "y": -35
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1391,7 +1391,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "如果棋子下满了棋盘，则判定先手方负。(没有平局)",
+    "_N$string": "每100名为一个大段位,每10名为一个小段位.比如平均排名为198名,那么段位则为[9-1].平均排名为999名,那么段位则为[1-1].平均排名为8名,那么段位则为[10-10].",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1420,7 +1420,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "0fAnaTaytLU6xYn6bwJ4Hi",
     "sync": false
@@ -1472,8 +1472,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -6,
-      "y": -107
+      "x": -9,
+      "y": -139
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1498,7 +1498,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "每一步都有单步时间，如果单步时间用完了,就会自动使用备用时间，备用时间用完了就直接判负。备用时间为整局的累积时间。",
+    "_N$string": "玩家的段位反映了该玩家在最近的一段时间内的竞技水平.而不是伴随终生的指标。",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1527,7 +1527,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "7bKRSJuHJJIop3v4T3xLR7",
     "sync": false
@@ -1602,7 +1602,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+      "__uuid__": "fbc310ce-b571-48c8-afc5-89d77535cfc5"
     },
     "fileId": "7fz8ubAwNDd4yUIkotV44+",
     "sync": false

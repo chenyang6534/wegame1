@@ -13,6 +13,7 @@ var MsgManager = require("MsgManager")
 var GameDataManager = require("GameDataManager")
 var Tool = require("Tool")
 var UiTool = require("UiTool")
+var ResData = require("ResData")
 var gezhiwidth = 48
 cc.Class({
     extends: cc.Component,
@@ -312,7 +313,7 @@ cc.Class({
         if(this.mySeatIndex < 0){
             var myAction = cc.sequence( cc.callFunc(function(target, score) {
                 target.position = cc.p(0,657)
-                
+                target.zIndex = 100001
                 
                 }, this, 0),
                 cc.moveTo(1,cc.p(0,750/4)),
@@ -431,6 +432,7 @@ cc.Class({
             quitbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 console.log("TOUCH_END")
+                //NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
                 cc.director.loadScene("Hall", null);
             });
 
@@ -562,6 +564,7 @@ cc.Class({
         var seq = cc.repeatForever(cc.sequence(cc.scaleTo(0.5,1.2,1.2),cc.scaleTo(0.5,1,1)));
         this.node.getChildByName("touchmoveqizi").runAction(seq)
 
+        this.node.getChildByName("firstlayer").scale = 1
         this.node.getChildByName("firstlayer").active = false
     },
     //显示棋盘信息
@@ -689,9 +692,10 @@ cc.Class({
             if( playerInfo[i] >= 0){
                 this.node.getChildByName(nodeInfo[i]).active = true
 
-
-                this.node.getChildByName(nodeInfo[i]).getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[playerInfo[i]].Name
+                var ranknum = this.playerInfoData[playerInfo[i]].RankNum
+                this.node.getChildByName(nodeInfo[i]).getChildByName("name").getComponent(cc.Label).string = this.playerInfoData[playerInfo[i]].Name+Tool.RankNum2Str(ranknum)
                 var seasonscore = this.playerInfoData[playerInfo[i]].SeasonScore
+                
                 var win = this.playerInfoData[playerInfo[i]].WinCount
                 var lose = this.playerInfoData[playerInfo[i]].LoseCount
                 var winpersent = 0
@@ -700,6 +704,23 @@ cc.Class({
                     console.log("num:"+winpersent)
                 }
                 this.node.getChildByName(nodeInfo[i]).getChildByName("winpersent").getComponent(cc.Label).string = seasonscore
+
+                var beiyongtimeitem = this.playerInfoData[playerInfo[i]].Beiyongtime
+                var steptimeitem = this.playerInfoData[playerInfo[i]].Steptime
+                if( beiyongtimeitem <= 0){
+                    this.node.getChildByName(nodeInfo[i]).getChildByName("beiyongtimeicon").active = false
+                }else{
+                    var path1 = cc.url.raw(ResData[beiyongtimeitem].path)
+                    this.node.getChildByName(nodeInfo[i]).getChildByName("beiyongtimeicon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path1);
+                }
+
+                if( steptimeitem <= 0){
+                    this.node.getChildByName(nodeInfo[i]).getChildByName("steptimeicon").active = false
+                }else{
+                    var path1 = cc.url.raw(ResData[steptimeitem].path)
+                    this.node.getChildByName(nodeInfo[i]).getChildByName("steptimeicon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(path1);
+                }
+                
 
                 //棋子类型
                 //var path = cc.url.raw("resources/qizi/qizi_"+(playerInfo[i]+1)+".png")
@@ -813,7 +834,7 @@ cc.Class({
 
                     var oneGameInfo = cc.instantiate(newNode.getChildByName("oneFriend"));
                     oneGameInfo.parent = scrollview
-                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name+Tool.RankNum2Str(p.RankNum)
 
                     oneGameInfo.getChildByName("namefriend").getComponent(cc.Label).string = p.Name
                     oneGameInfo.getChildByName("namemy").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
@@ -822,8 +843,8 @@ cc.Class({
                     
                     oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Seasonscore
                     
-                    if(p.Avatar != null && p.Avatar.length > 0){
-                        var imgurl = UiTool.getHeadUrlPath(p.Avatar)//p.Avatar+"?aaa=aa.jpg";
+                    if(p.Avatarurl != null && p.Avatarurl.length > 0){
+                        var imgurl = UiTool.getHeadUrlPath(p.Avatarurl)//p.Avatar+"?aaa=aa.jpg";
                         cc.loader.load(imgurl, function(err, texture){
                             console.log("err:"+err)
                             var oneGameInfo = this

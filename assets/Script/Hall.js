@@ -116,6 +116,29 @@ cc.Class({
 
         NetMananger.getInstance().SendMsg(Msg.CS_GetRankInfo((this.RankPage-1)*10,this.RankPage*10))
     },
+    duanweihelpClick(event, customEventData){
+        console.log("duanweihelpClick")
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+        
+        cc.loader.loadRes("duanweiinfo", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            newNode.parent = this.node
+            //parentscene.addChild(newNode);
+    
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                //newNode.destory()
+                newNode.removeFromParent()
+                
+            });
+    
+    
+        }.bind(this));
+        
+
+    },
     friendsClick(event, customEventData){
         console.log("friendsClick")
         Tool.playSound("resources/sound/btn.mp3",false,0.5)
@@ -450,9 +473,9 @@ cc.Class({
 
                     var oneGameInfo = cc.instantiate(newNode.getChildByName("oneGameInfo"));
                     oneGameInfo.parent = scrollview
-                    oneGameInfo.getChildByName("name1").getComponent(cc.Label).string = p.PlayerOneName
+                    oneGameInfo.getChildByName("name1").getComponent(cc.Label).string = p.PlayerOneName+Tool.RankNum2Str(p.RankNumOne)
                     //oneGameInfo.getChildByName("head1").getComponent(cc.Label).string = p.AvatarOne
-                    oneGameInfo.getChildByName("name2").getComponent(cc.Label).string = p.PlayerTwoName
+                    oneGameInfo.getChildByName("name2").getComponent(cc.Label).string = p.PlayerTwoName+Tool.RankNum2Str(p.RankNumTwo)
                     //oneGameInfo.getChildByName("head2").getComponent(cc.Label).string = p.AvatarTwo
                     oneGameInfo.getChildByName("score1").getComponent(cc.Label).string = p.ScoreOne
                     oneGameInfo.getChildByName("score2").getComponent(cc.Label).string = p.ScoreTwo
@@ -544,7 +567,7 @@ cc.Class({
             this.node.getChildByName("userInfo").getChildByName("goldnum").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Gold
             this.node.getChildByName("userInfo").getChildByName("win").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().SeasonScore
             var allcount = GameDataManager.getInstance().GetHallInfoData().WinCount+GameDataManager.getInstance().GetHallInfoData().LoseCount
-            this.node.getChildByName("userInfo").getChildByName("all").getComponent(cc.Label).string = allcount
+            this.node.getChildByName("userInfo").getChildByName("all").getComponent(cc.Label).string = Tool.RankNum2Str(GameDataManager.getInstance().GetHallInfoData().RankNum)
             
         }
     },
@@ -637,7 +660,7 @@ cc.Class({
 
                     var oneGameInfo = cc.instantiate(newNode.getChildByName("oneFriend"));
                     oneGameInfo.parent = scrollview
-                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name+Tool.RankNum2Str(p.RankNum)
 
                     oneGameInfo.getChildByName("namefriend").getComponent(cc.Label).string = p.Name
                     oneGameInfo.getChildByName("namemy").getComponent(cc.Label).string = GameDataManager.getInstance().GetHallInfoData().Name
@@ -646,8 +669,8 @@ cc.Class({
                     
                     oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Seasonscore
                     
-                    if(p.Avatar != null && p.Avatar.length > 0){
-                        var imgurl = UiTool.getHeadUrlPath(p.Avatar)//p.Avatar+"?aaa=aa.jpg";
+                    if(p.Avatarurl != null && p.Avatarurl.length > 0){
+                        var imgurl = UiTool.getHeadUrlPath(p.Avatarurl)//p.Avatar+"?aaa=aa.jpg";
                         cc.loader.load(imgurl, function(err, texture){
                             console.log("err:"+err)
                             var oneGameInfo = this
