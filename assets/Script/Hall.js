@@ -304,7 +304,7 @@ cc.Class({
 
                 var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
                 oneGameInfo.parent = scrollview
-                oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name
+                oneGameInfo.getChildByName("name").getComponent(cc.Label).string = p.Name+Tool.RankNum2Str(p.AllRankNum)
                 oneGameInfo.getChildByName("score").getComponent(cc.Label).string = p.Score
                 oneGameInfo.getChildByName("rank").getComponent(cc.Label).string = p.RankNum
             
