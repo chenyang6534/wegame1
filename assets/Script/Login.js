@@ -45,7 +45,55 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {},
+    onLoad () {
+        var bao = this.node.getChildByName("test1")
+        var shi = this.node.getChildByName("test2")
+        var wu = this.node.getChildByName("test3")
+        var zi = this.node.getChildByName("test4")
+        var qi = this.node.getChildByName("test5")
+
+        
+        var baoEndPos = bao.position
+        var shiEndPos = shi.position
+        var wuEndPos = wu.position
+        var ziEndPos = zi.position
+        var qiEndPos = qi.position
+
+        bao.position = cc.p(bao.position.x,bao.position.y+500)
+        shi.position = cc.p(shi.position.x,shi.position.y+500)
+        wu.position = cc.p(wu.position.x,wu.position.y+500)
+        zi.position = cc.p(zi.position.x,zi.position.y+500)
+        qi.position = cc.p(qi.position.x,qi.position.y+500)
+
+
+
+        var baoaction = cc.sequence( 
+                                    cc.delayTime(0.01),
+                                    cc.moveTo(0.35,baoEndPos).easing(cc.easeElasticOut(0.5))
+                                    );
+        var shiaction = cc.sequence( 
+                                    cc.delayTime(0.21),
+                                    cc.moveTo(0.35,shiEndPos).easing(cc.easeElasticOut(0.5))
+                                    );
+        var wuaction = cc.sequence( 
+                                    cc.delayTime(0.41),
+                                    cc.moveTo(0.35,wuEndPos).easing(cc.easeElasticOut(0.5))
+                                    );
+        var ziaction = cc.sequence( 
+                                    cc.delayTime(0.61),
+                                    cc.moveTo(0.35,ziEndPos).easing(cc.easeElasticOut(0.5))
+                                    );
+        var qiaction = cc.sequence( 
+                                    cc.delayTime(0.81),
+                                    cc.moveTo(0.35,qiEndPos).easing(cc.easeElasticOut(0.5))
+                                    );
+        bao.runAction(baoaction)
+        shi.runAction(shiaction)
+        wu.runAction(wuaction)
+        zi.runAction(ziaction)
+        qi.runAction(qiaction)
+
+    },
 
     LoginSucc:function(){
         console.log("LoginSucc")
