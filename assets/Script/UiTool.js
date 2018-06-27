@@ -62,6 +62,51 @@ export function newIcon(type,words,parent,pos,scale){
    
  };
 
+ export function newGetRewards(types,words,parent){
+
+    var parentscene = parent
+    if(parentscene == null){
+        parentscene = cc.director.getScene()
+    }
+
+    cc.loader.loadRes("getrewards", function (err, prefab) {
+        var newNode = cc.instantiate(prefab);
+        parentscene.addChild(newNode);
+        //newNode.position = cc.p(1334/2,750/2)
+        //newNode
+        
+        //任务信息
+        for (var i in types){
+
+            newNode.getComponent(cc.Layout).scheduleOnce(function() {
+                var i = this
+                var type = types[i]
+                var word = words[i]
+
+                var oneGameInfo = cc.instantiate(newNode.getChildByName("rewardmode"));
+                oneGameInfo.parent = newNode
+                oneGameInfo.position = cc.p(0,0)
+
+                oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[type].path));
+                oneGameInfo.getChildByName("wordbg").getChildByName("words").getComponent(cc.Label).string = word
+               
+                oneGameInfo.getChildByName("guang").runAction(cc.repeatForever(cc.rotateBy(2,360)))
+            }.bind(i),0.05*i)
+
+        }
+
+        newNode.getComponent(cc.Layout).scheduleOnce(function() {
+            newNode.destroy()
+        }.bind(newNode),3)
+        
+        // newNode.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[type].path));
+        // newNode.getChildByName("words").getComponent(cc.Label).string = words
+
+    });
+
+   
+ };
+
 
 
 export function newKuang2btn(title,content,okfun,cancelfun,parent){

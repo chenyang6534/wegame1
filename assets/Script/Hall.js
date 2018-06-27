@@ -725,6 +725,12 @@ cc.Class({
         var jsdata = JSON.parse(data.JsonData)
         console.log("NoticeInfo! " )
 
+        var allcount = GameDataManager.getInstance().GetHallInfoData().WinCount+GameDataManager.getInstance().GetHallInfoData().LoseCount
+        if( allcount < 3){
+            return
+        }
+
+
         var lastshowword = GameDataManager.getInstance().GetGameData("Notice")
         if( lastshowword != jsdata.NoticeMsg){
             GameDataManager.getInstance().SetGameData("Notice",jsdata.NoticeMsg)
@@ -830,6 +836,8 @@ cc.Class({
         var newNode = this.taskEd
         var data = this.taskData
 
+        var parentscene = this.node
+
         var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
         scrollview.removeAllChildren()
 
@@ -932,7 +940,28 @@ cc.Class({
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 var p = this
                 console.log("get:"+p.GameId)//CS_GetTaskRewards
+
+                
+
                 NetMananger.getInstance().SendMsg(Msg.CS_GetTaskRewards(p.Id))
+
+                //奖励显示
+                var types = new Array()
+                var words = new Array()
+                //任务奖励
+                for ( var j in p.Rewards){
+                    var reward = p.Rewards[j]
+                    var word = ""
+                    if (reward.Count > 0){
+                        word = reward.Count
+                    }else{
+                        word = reward.Time +"天"
+                    }
+                    types[j] = reward.Type
+                    words[j] = word
+                    //UiTool.newIcon(reward.Type,word,oneGameInfo,cc.p(-370+j*100,-30),0.5)
+                }
+                UiTool.newGetRewards(types,words,parentscene)
                 
             }.bind(p));
             
@@ -1014,12 +1043,31 @@ cc.Class({
                 var p = wordlayer.p
                 console.log("---------------------get--rewards")
                 NetMananger.getInstance().SendMsg(Msg.CS_GetMailRewards(p.Id))
+
+
+                //奖励显示
+                var types = new Array()
+                var words = new Array()
+                //任务奖励
+                for ( var j in p.Reward){
+                    var reward = p.Reward[j]
+                    var word = ""
+                    if (reward.Count > 0){
+                        word = reward.Count
+                    }else{
+                        word = reward.Time +"天"
+                    }
+                    types[j] = reward.Type
+                    words[j] = word
+                    //UiTool.newIcon(reward.Type,word,oneGameInfo,cc.p(-370+j*100,-30),0.5)
+                }
+                UiTool.newGetRewards(types,words,parentscene)
+
+                
                 p.GetState = 1
                 wordlayergetbtn.active = false
-                //wordlayergetbtn.runAction()
-                // wordlayergetbtn.getComponent(cc.Button).scheduleOnce(function(){
-                //     wordlayergetbtn.active = false
-                // },0.2)
+                
+                
 
                 if(p.GetState == 0 && p.Reward.length > 0){
                     p.onegameinfo.color = cc.color(187,252,234)
@@ -1179,6 +1227,10 @@ cc.Class({
                                     var k = this
                                     var p = data.Commoditys[k]
                                     NetMananger.getInstance().SendMsg(Msg.CS_BuyItem(p.Id,k))
+                                    
+                                    UiTool.newGetRewards([p.Type],[p.Time+"天"],parentscene)
+                                    
+
                                 }.bind(k))
                             }else{
                                 UiTool.newKuang2btn("提示","宝石不足！")

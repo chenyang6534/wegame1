@@ -423,17 +423,41 @@ cc.Class({
     },
 
 
-    showGameOverUi:function(winSeatIndex,winscore,losescore){
+    showGameOverUi:function(winSeatIndex,winscore,losescore,GameOverShare){
         cc.loader.loadRes("gameover", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
             this.node.addChild(newNode);
             newNode.zIndex = 20000
-            var quitbtn = newNode.getChildByName("quit")
-            quitbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+            var quitbtnnormal = newNode.getChildByName("normal").getChildByName("quit")
+            quitbtnnormal.on(cc.Node.EventType.TOUCH_END, function (event) {
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 console.log("TOUCH_END")
                 //NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
                 cc.director.loadScene("Hall", null);
+            });
+
+            var quitbtnshare = newNode.getChildByName("share").getChildByName("quit")
+            quitbtnshare.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                //NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
+                cc.director.loadScene("Hall", null);
+            });
+
+            var sharebtnshare = newNode.getChildByName("share").getChildByName("share")
+            sharebtnshare.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                //NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
+                //cc.director.loadScene("Hall", null);
+                var time = Tool.GetTimeMillon()
+                var uid = GameDataManager.getInstance().GetHallInfoData().Uid
+                Tool.ShareApp(uid,-1,time,function(){
+                    console.log("task share over!")
+                    NetMananger.getInstance().SendMsg(Msg.CS_Share())
+                    NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
+                    cc.director.loadScene("Hall", null);
+                })
             });
 
             var winname = this.playerInfoData[winSeatIndex].Name
@@ -443,6 +467,15 @@ cc.Class({
             var losename = this.playerInfoData[loseSeatIndex].Name
             newNode.getChildByName("losename").getComponent(cc.Label).string = losename
             newNode.getChildByName("losescore").getComponent(cc.Label).string = "-"+losescore
+
+
+            if(GameOverShare == 1){
+                newNode.getChildByName("share").active = true
+                newNode.getChildByName("normal").active = false
+            }else{
+                newNode.getChildByName("share").active = false
+                newNode.getChildByName("normal").active = true
+            }
             
 
         }.bind(this));
@@ -453,6 +486,12 @@ cc.Class({
         var jsdata = JSON.parse(data.JsonData)
         console.log("gameOver! win:"+this.playerInfoData[jsdata.WinPlayerSeatIndex].Name )
         this.gameInfoData.State = 3
+        console.log("--GameOverShare:",jsdata.GameOverShare)
+
+        //不是下棋的人 不能参加分享得分
+        if(GameDataManager.getInstance().GetHallInfoData().Uid != this.playerInfoData[0].Uid &&  GameDataManager.getInstance().GetHallInfoData().Uid != this.playerInfoData[1].Uid){
+            jsdata.GameOverShare = 0
+        }
 
         Tool.playSound("resources/sound/win.mp3",false,0.3)
 
@@ -467,14 +506,14 @@ cc.Class({
                     onenode.runAction(action1)
                     if (i == 4){
                         onenode.runAction(cc.sequence(cc.delayTime(1.5) ,cc.callFunc(function(){
-                            this.showGameOverUi(jsdata.WinPlayerSeatIndex,jsdata.WinScore,jsdata.LoseScore)
+                            this.showGameOverUi(jsdata.WinPlayerSeatIndex,jsdata.WinScore,jsdata.LoseScore,jsdata.GameOverShare)
                         },this,1)))
                     }
                 }
             }
             
         }else{
-            this.showGameOverUi(jsdata.WinPlayerSeatIndex,jsdata.WinScore,jsdata.LoseScore)
+            this.showGameOverUi(jsdata.WinPlayerSeatIndex,jsdata.WinScore,jsdata.LoseScore,0)
         }
 
         
