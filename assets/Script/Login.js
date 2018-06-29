@@ -65,6 +65,8 @@ cc.Class({
         zi.position = cc.p(zi.position.x,zi.position.y+500)
         qi.position = cc.p(qi.position.x,qi.position.y+500)
 
+        this.AnimOver = false
+        this.ToHall = false
 
 
         var baoaction = cc.sequence( 
@@ -85,8 +87,10 @@ cc.Class({
                                     );
         var qiaction = cc.sequence( 
                                     cc.delayTime(0.81),
-                                    cc.moveTo(0.35,qiEndPos).easing(cc.easeElasticOut(0.5))
-                                    );
+                                    cc.moveTo(0.35,qiEndPos).easing(cc.easeElasticOut(0.5)),
+                                    cc.callFunc(function(target, score) {
+                                        this.AnimOver = true
+                                    }.bind(this)));
         bao.runAction(baoaction)
         shi.runAction(shiaction)
         wu.runAction(wuaction)
@@ -97,7 +101,8 @@ cc.Class({
 
     LoginSucc:function(){
         console.log("LoginSucc")
-        cc.director.loadScene("Hall", null);
+        //cc.director.loadScene("Hall", null);
+        this.ToHall = true
     },
     LoginFail:function(){
         console.log("LoginFail")
@@ -192,5 +197,9 @@ cc.Class({
     },
 
 
-    // update (dt) {},
+    update (dt) {
+        if(this.AnimOver == true && this.ToHall == true){
+            cc.director.loadScene("Hall", null);
+        }
+    },
 });

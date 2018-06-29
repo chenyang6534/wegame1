@@ -270,40 +270,64 @@ cc.Class({
     //3,2,1动画
     startTimeAnim:function(){
         console.log("startTimeAnim!")
+
+        //初始
+        var myhead = this.node.getChildByName("myInfo").getChildByName("headicon")
+        var otherhead = this.node.getChildByName("playerInfo").getChildByName("headicon")
+        var vs = this.node.getChildByName("vs")
+        
+        Tool.playSound("resources/sound/time.mp3",false,0.3)
+        console.log("111!")
+        //var action1 = 
+        myhead.runAction(cc.sequence(cc.moveTo(0.5,cc.p(450,97)).easing(cc.easeExponentialOut()),cc.delayTime(2),cc.moveTo(0.5,cc.p(-48,93)).easing(cc.easeExponentialOut())))
+        console.log("222!")
+        otherhead.runAction(cc.sequence(cc.moveTo(0.5,cc.p(-440,97)).easing(cc.easeExponentialOut()),cc.delayTime(2),cc.moveTo(0.5,cc.p(-36,93)).easing(cc.easeExponentialOut())))
+        console.log("333!")
+        vs.runAction(cc.sequence(cc.moveTo(0.5,cc.p(0,94)).easing(cc.easeExponentialOut()),cc.delayTime(2),cc.moveTo(0.5,cc.p(0,456)).easing(cc.easeExponentialOut())))
+
+        myhead.runAction(cc.sequence(cc.scaleTo(0.5,2).easing(cc.easeExponentialOut()),cc.delayTime(2),cc.scaleTo(0.5,1).easing(cc.easeExponentialOut())))
+        otherhead.runAction(cc.sequence(cc.scaleTo(0.5,2).easing(cc.easeExponentialOut()),cc.delayTime(2),cc.scaleTo(0.5,1).easing(cc.easeExponentialOut())))
+        // var myHeadAction = cc.sequence( 
+        //     cc.scaleTo(1,1,1),
+        //     cc.callFunc(function(target, score) {
+        //         target.position = cc.p(-48,93)
+        //         Tool.playSound("resources/sound/time.mp3",false,0.3)
+        //         }, this, 0),
+        //     );
         
 
-        var myAction = cc.sequence( cc.callFunc(function(target, score) {
-                                    target.position = cc.p(0,750/4)
-                                    target.setScale(2)
-                                    target.getComponent(cc.Label).string = 3
-                                    Tool.playSound("resources/sound/time.mp3",false,0.3)
-                                    }, this, 0),
-                                    cc.scaleTo(1,1,1),
-                                    //cc.delayTime(0.2),
-                                    cc.callFunc(function(target, score) {
-                                        target.position = cc.p(0,750/4)
-                                        target.setScale(2)
-                                        target.getComponent(cc.Label).string = 2
-                                        Tool.playSound("resources/sound/time.mp3",false,0.3)
-                                        }, this, 0),
-                                    cc.scaleTo(1,1,1),
-                                    //cc.delayTime(0.2),
-                                    cc.callFunc(function(target, score) {
-                                        target.position = cc.p(0,750/4)
-                                        target.setScale(2)
-                                        target.getComponent(cc.Label).string = 1
-                                        Tool.playSound("resources/sound/time.mp3",false,0.3)
-                                        }, this, 0),
-                                    cc.scaleTo(1,1,1),
-                                    //cc.delayTime(0.2),
-                                    cc.callFunc(function(target, score) {
-                                        target.position = cc.p(0,750/4)
-                                        target.position = cc.p(0,1000)
-                                        }, this, 0),
-                                    );
+        // var myAction = cc.sequence( cc.callFunc(function(target, score) {
+        //                             target.position = cc.p(0,750/4)
+        //                             target.setScale(2)
+        //                             target.getComponent(cc.Label).string = 3
+        //                             Tool.playSound("resources/sound/time.mp3",false,0.3)
+        //                             }, this, 0),
+        //                             cc.scaleTo(1,1,1),
+        //                             //cc.delayTime(0.2),
+        //                             cc.callFunc(function(target, score) {
+        //                                 target.position = cc.p(0,750/4)
+        //                                 target.setScale(2)
+        //                                 target.getComponent(cc.Label).string = 2
+        //                                 Tool.playSound("resources/sound/time.mp3",false,0.3)
+        //                                 }, this, 0),
+        //                             cc.scaleTo(1,1,1),
+        //                             //cc.delayTime(0.2),
+        //                             cc.callFunc(function(target, score) {
+        //                                 target.position = cc.p(0,750/4)
+        //                                 target.setScale(2)
+        //                                 target.getComponent(cc.Label).string = 1
+        //                                 Tool.playSound("resources/sound/time.mp3",false,0.3)
+        //                                 }, this, 0),
+        //                             cc.scaleTo(1,1,1),
+        //                             //cc.delayTime(0.2),
+        //                             cc.callFunc(function(target, score) {
+        //                                 target.position = cc.p(0,750/4)
+        //                                 target.position = cc.p(0,1000)
+        //                                 }, this, 0),
+        //                             );
         
-        this.node.getChildByName("startTime").runAction(myAction)
-        this.node.getChildByName("startTime").runAction(cc.repeat(cc.moveBy(1,cc.p(0,-50)),3))
+        // this.node.getChildByName("startTime").runAction(myAction)
+        // this.node.getChildByName("startTime").runAction(cc.repeat(cc.moveBy(1,cc.p(0,-50)),3))
     },
 
     //3,2,1动画
@@ -671,7 +695,7 @@ cc.Class({
                                                 cc.callFunc(function(target, score) {
                                                     Tool.playSound("resources/sound/move.mp3",false,0.5)
                                                 }, this, 0),
-                                                cc.moveTo(0.5,cc.p(-336+x*gezhiwidth, -336+y*gezhiwidth)).easing(cc.easeIn(2.0)),
+                                                cc.moveTo(0.5,cc.p(-336+x*gezhiwidth, -336+y*gezhiwidth)).easing(cc.easeExponentialOut()),
                                                 cc.callFunc(function(target, score) {
                                                     // var animation = target.getChildByName("anim").getComponent(cc.Animation);
                                                     // animation.play("qizi_floor_a1")

@@ -29,7 +29,7 @@ export function playSound(path,loop,volume){
 
 export function ShareApp(uid,roomid,time,succCallback){
     wx.shareAppMessage({
-        title:"宝石五子棋",
+        title:"全国的五子棋玩家都在这里",
         imageUrl:"res/raw-assets/resources/timg.jpg",
         query:"uid="+uid+"&roomid="+roomid+"&time="+time,
         success:function(){
@@ -59,8 +59,8 @@ export function RankNum2Str(ranknum){
         return "[1-1段]"
     }
 
-    var duan1 = 10-Math.ceil(ranknum/100)
-    var duan2 = 10-Math.ceil(ranknum%100/10)
+    var duan1 = 10-Math.floor(ranknum/100)
+    var duan2 = 10-Math.floor(ranknum%100/10)
 
     return "["+duan1+"-"+duan2+"段]"
 

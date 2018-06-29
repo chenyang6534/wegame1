@@ -891,7 +891,7 @@ cc.Class({
                 }else{
                     word = reward.Time +"天"
                 }
-                UiTool.newIcon(reward.Type,word,oneGameInfo,cc.p(-370+j*100,-30),0.5)
+                UiTool.newIcon(reward.Type,word,oneGameInfo,cc.p(-370+j*100,-23),0.6)
             }
             if(p.State == 2){
                 oneGameInfo.getChildByName("complete").active = true
@@ -1130,7 +1130,7 @@ cc.Class({
                                 word = reward.Time +"天"
                             }
                             //rewardslayer
-                            UiTool.newIcon(reward.Type,word,rewardslayer,cc.p(-120+j*80,-0),0.5)
+                            UiTool.newIcon(reward.Type,word,rewardslayer,cc.p(-110+j*80,-0),0.6)
                             haveReward = true
                         }
                         //get

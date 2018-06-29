@@ -18,7 +18,7 @@
         "__id__": 2
       },
       {
-        "__id__": 5
+        "__id__": 6
       },
       {
         "__id__": 9
@@ -52,23 +52,26 @@
       },
       {
         "__id__": 49
+      },
+      {
+        "__id__": 53
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 53
+        "__id__": 57
       },
       {
-        "__id__": 54
+        "__id__": 58
       },
       {
-        "__id__": 55
+        "__id__": 59
       }
     ],
     "_prefab": {
-      "__id__": 56
+      "__id__": 60
     },
     "_id": "",
     "_opacity": 255,
@@ -108,7 +111,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bg",
+    "_name": "graybg",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -119,10 +122,135 @@
     "_components": [
       {
         "__id__": 3
+      },
+      {
+        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 4
+      "__id__": 5
+    },
+    "_id": "",
+    "_opacity": 200,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 47,
+      "g": 45,
+      "b": 45,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 1400,
+      "height": 800
+    },
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_opacityModifyRGB": false,
+    "groupIndex": 0
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_spriteFrame": {
+      "__uuid__": "9bbda31e-ad49-43c9-aaf2-f7d9896bac69"
+    },
+    "_type": 1,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_atlas": null
+  },
+  {
+    "__type__": "cc.Layout",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_layoutSize": {
+      "__type__": "cc.Size",
+      "width": 1400,
+      "height": 800
+    },
+    "_resize": 0,
+    "_N$layoutType": 0,
+    "_N$padding": 0,
+    "_N$cellSize": {
+      "__type__": "cc.Size",
+      "width": 40,
+      "height": 40
+    },
+    "_N$startAxis": 0,
+    "_N$paddingLeft": 0,
+    "_N$paddingRight": 0,
+    "_N$paddingTop": 0,
+    "_N$paddingBottom": 0,
+    "_N$spacingX": 0,
+    "_N$spacingY": 0,
+    "_N$verticalDirection": 1,
+    "_N$horizontalDirection": 0
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+    },
+    "fileId": "58HuCD0ndMHJKjCd936lGo",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "bg",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_tag": -1,
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 7
+      }
+    ],
+    "_prefab": {
+      "__id__": 8
     },
     "_id": "",
     "_opacity": 255,
@@ -165,7 +293,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2
+      "__id__": 6
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -209,14 +337,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 6
+        "__id__": 10
       },
       {
-        "__id__": 7
+        "__id__": 11
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 12
     },
     "_id": "",
     "_opacity": 255,
@@ -236,7 +364,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 200,
-      "height": 40
+      "height": 50
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -259,7 +387,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 5
+      "__id__": 9
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -281,7 +409,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 5
+      "__id__": 9
     },
     "_enabled": true,
     "_color": {
@@ -316,14 +444,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 10
+        "__id__": 14
       },
       {
-        "__id__": 11
+        "__id__": 15
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 16
     },
     "_id": "",
     "_opacity": 255,
@@ -366,7 +494,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 13
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -392,7 +520,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 13
     },
     "_enabled": true,
     "transition": 3,
@@ -448,7 +576,7 @@
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
     "_N$target": {
-      "__id__": 9
+      "__id__": 13
     }
   },
   {
@@ -465,113 +593,6 @@
   {
     "__type__": "cc.Node",
     "_name": "title1",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_tag": -1,
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 14
-      },
-      {
-        "__id__": 15
-      }
-    ],
-    "_prefab": {
-      "__id__": 16
-    },
-    "_id": "",
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 120,
-      "g": 243,
-      "b": 145,
-      "a": 255
-    },
-    "_cascadeOpacityEnabled": true,
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 130,
-      "height": 25
-    },
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
-    "_position": {
-      "__type__": "cc.Vec2",
-      "x": -311,
-      "y": 220
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_localZOrder": 0,
-    "_globalZOrder": 0,
-    "_opacityModifyRGB": false,
-    "groupIndex": 0
-  },
-  {
-    "__type__": "cc.Label",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 13
-    },
-    "_enabled": true,
-    "_useOriginalSize": false,
-    "_actualFontSize": 25,
-    "_fontSize": 25,
-    "_lineHeight": 25,
-    "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
-    "_spacingX": 0,
-    "_N$string": "1.游戏规则:",
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0
-  },
-  {
-    "__type__": "cc.LabelOutline",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 13
-    },
-    "_enabled": true,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_width": 1
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
-    },
-    "fileId": "edkPoUXy9L0Z2RZe/6cm9L",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "title2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -607,8 +628,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
-      "height": 25
+      "width": 155,
+      "height": 30
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -616,8 +637,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -310.7,
-      "y": 159.4
+      "x": -323,
+      "y": 220
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -635,14 +656,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 25,
-    "_fontSize": 25,
-    "_lineHeight": 25,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "2.棋子规则:",
+    "_N$string": "1.游戏规则:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -673,12 +694,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "3fa0lEG15Cj4FTJ4LY4Z6/",
+    "fileId": "edkPoUXy9L0Z2RZe/6cm9L",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "title3",
+    "_name": "title2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -714,8 +735,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
-      "height": 25
+      "width": 155,
+      "height": 30
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -723,8 +744,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -308,
-      "y": 82
+      "x": -323,
+      "y": 148
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -742,14 +763,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 25,
-    "_fontSize": 25,
-    "_lineHeight": 25,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "3.先手规则:",
+    "_N$string": "2.棋子规则:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -780,12 +801,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "ddvtCmVbVJP4SyudHocRDD",
+    "fileId": "3fa0lEG15Cj4FTJ4LY4Z6/",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "title4",
+    "_name": "title3",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -821,8 +842,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
-      "height": 25
+      "width": 155,
+      "height": 30
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -830,8 +851,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -309,
-      "y": 17
+      "x": -323,
+      "y": 45
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -849,14 +870,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 25,
-    "_fontSize": 25,
-    "_lineHeight": 25,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "4.平局规则:",
+    "_N$string": "3.先手规则:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -887,12 +908,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "90w/51Mf5KY4RsGFkY4h3J",
+    "fileId": "ddvtCmVbVJP4SyudHocRDD",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "title5",
+    "_name": "title4",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -928,8 +949,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 130,
-      "height": 25
+      "width": 155,
+      "height": 30
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -937,8 +958,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -312,
-      "y": -52
+      "x": -325,
+      "y": -24
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -956,14 +977,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 25,
-    "_fontSize": 25,
-    "_lineHeight": 25,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "5.计时规则:",
+    "_N$string": "4.平局规则:",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -994,12 +1015,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "c5C0uwvqBHzo/hcrqhdRwc",
+    "fileId": "90w/51Mf5KY4RsGFkY4h3J",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "info1",
+    "_name": "title5",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1022,9 +1043,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 120,
+      "g": 243,
+      "b": 145,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -1035,8 +1056,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 700,
-      "height": 60
+      "width": 155,
+      "height": 30
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -1044,8 +1065,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -6,
-      "y": 168
+      "x": -325,
+      "y": -93
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1063,18 +1084,18 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
+    "_lineHeight": 30,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "先手方第一个棋子位置必须在三线内(为了避免先手方必胜走法)",
-    "_N$horizontalAlign": 0,
-    "_N$verticalAlign": 0,
+    "_N$string": "5.计时规则:",
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1
+    "_N$overflow": 0
   },
   {
     "__type__": "cc.LabelOutline",
@@ -1086,9 +1107,9 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 10,
-      "g": 10,
-      "b": 4,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_width": 1
@@ -1101,12 +1122,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "81PznFtXhC07Sl666voo8k",
+    "fileId": "c5C0uwvqBHzo/hcrqhdRwc",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "info2",
+    "_name": "info1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1151,8 +1172,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -6,
-      "y": 110
+      "x": -11,
+      "y": 168
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1170,14 +1191,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_actualFontSize": 25,
+    "_fontSize": 25,
+    "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "如果双方选择的棋子种类相同，则以赛季分数高的为准。分低的则会使用上一次装备的棋子。",
+    "_N$string": "先手方第一个棋子位置必须在三线内(为了避免先手方必胜走法)",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1208,12 +1229,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "11Blf5PUlDnaLYBQhBScyv",
+    "fileId": "81PznFtXhC07Sl666voo8k",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "info3",
+    "_name": "info2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1258,8 +1279,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -6,
-      "y": 33
+      "x": -11,
+      "y": 99
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1277,14 +1298,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_actualFontSize": 25,
+    "_fontSize": 25,
+    "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "决定先手规则为系统随机",
+    "_N$string": "如果双方选择的棋子种类相同，则优先选择赛季分数高的玩家的棋子。分低的则会使用上一次装备的棋子。",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1315,12 +1336,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "86fETGZ8ZN1r0sWaN+rJUw",
+    "fileId": "11Blf5PUlDnaLYBQhBScyv",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "info4",
+    "_name": "info3",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1365,8 +1386,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -6,
-      "y": -40
+      "x": -11,
+      "y": -4
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1384,14 +1405,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_actualFontSize": 25,
+    "_fontSize": 25,
+    "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "如果棋子下满了棋盘，则判定先手方负。(没有平局)",
+    "_N$string": "决定先手规则为系统随机",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1422,12 +1443,12 @@
     "asset": {
       "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
     },
-    "fileId": "0fAnaTaytLU6xYn6bwJ4Hi",
+    "fileId": "86fETGZ8ZN1r0sWaN+rJUw",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "info5",
+    "_name": "info4",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1472,8 +1493,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -6,
-      "y": -107
+      "x": -12,
+      "y": -75
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1491,14 +1512,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_actualFontSize": 25,
+    "_fontSize": 25,
+    "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "每一步都有单步时间，如果单步时间用完了,就会自动使用备用时间，备用时间用完了就直接判负。备用时间为整局的累积时间。",
+    "_N$string": "如果棋子下满了棋盘，则判定先手方负。(没有平局)",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
@@ -1510,6 +1531,113 @@
     "_objFlags": 0,
     "node": {
       "__id__": 49
+    },
+    "_enabled": true,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 10,
+      "g": 10,
+      "b": 4,
+      "a": 255
+    },
+    "_width": 1
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "a74e3027-1efb-466a-b050-ad7594e6e0de"
+    },
+    "fileId": "0fAnaTaytLU6xYn6bwJ4Hi",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "info5",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_tag": -1,
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 54
+      },
+      {
+        "__id__": 55
+      }
+    ],
+    "_prefab": {
+      "__id__": 56
+    },
+    "_id": "",
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 700,
+      "height": 88
+    },
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": -17,
+      "y": -160
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_opacityModifyRGB": false,
+    "groupIndex": 0
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 53
+    },
+    "_enabled": true,
+    "_useOriginalSize": false,
+    "_actualFontSize": 25,
+    "_fontSize": 25,
+    "_lineHeight": 25,
+    "_enableWrapText": true,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
+    "_spacingX": 0,
+    "_N$string": "每一步棋都有单步时间，如果单步时间用完了,就会自动使用备用时间，备用时间用完了就直接判负。备用时间为整局的累计时间。",
+    "_N$horizontalAlign": 0,
+    "_N$verticalAlign": 0,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 1
+  },
+  {
+    "__type__": "cc.LabelOutline",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 53
     },
     "_enabled": true,
     "_color": {

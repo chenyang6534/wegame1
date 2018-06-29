@@ -91,6 +91,9 @@ export function newIcon(type,words,parent,pos,scale){
                 oneGameInfo.getChildByName("wordbg").getChildByName("words").getComponent(cc.Label).string = word
                
                 oneGameInfo.getChildByName("guang").runAction(cc.repeatForever(cc.rotateBy(2,360)))
+
+                oneGameInfo.scale = 0
+                oneGameInfo.runAction(cc.scaleTo(1,1,1))
             }.bind(i),0.05*i)
 
         }
@@ -98,6 +101,7 @@ export function newIcon(type,words,parent,pos,scale){
         newNode.getComponent(cc.Layout).scheduleOnce(function() {
             newNode.destroy()
         }.bind(newNode),3)
+        
         
         // newNode.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[type].path));
         // newNode.getChildByName("words").getComponent(cc.Label).string = words
