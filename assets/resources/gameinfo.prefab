@@ -44,10 +44,13 @@
       },
       {
         "__id__": 66
+      },
+      {
+        "__id__": 67
       }
     ],
     "_prefab": {
-      "__id__": 67
+      "__id__": 68
     },
     "_id": "",
     "_opacity": 255,
@@ -829,7 +832,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 534
+      "y": 1000
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1914,7 +1917,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 282,
+      "width": 400,
       "height": 50
     },
     "_rotationX": 0,
@@ -1949,7 +1952,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "正在进行的比赛",
+    "_N$string": "正在进行的高端比赛",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -2046,6 +2049,24 @@
       "__id__": 1
     },
     "_enabled": true
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_defaultClip": {
+      "__uuid__": "1f592c3c-4a4b-4abf-97ea-982c6b4ce55a"
+    },
+    "_clips": [
+      {
+        "__uuid__": "1f592c3c-4a4b-4abf-97ea-982c6b4ce55a"
+      }
+    ],
+    "playOnLoad": true
   },
   {
     "__type__": "cc.PrefabInfo",

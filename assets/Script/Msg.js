@@ -231,6 +231,25 @@ export function CS_GetFriendsInfo(){
     return JSON.stringify(data)
 };
 
+//获取抽奖信息
+export function CS_GetTurnTableInfo(){
+    var data = MsgBase("Hall","CS_GetTurnTableInfo")
+    
+    return JSON.stringify(data)
+};
+
+export function CS_GetOneTurnTable(){
+    var data = MsgBase("Hall","CS_GetOneTurnTable")
+    
+    return JSON.stringify(data)
+};
+export function CS_GetTenTurnTable(){
+    var data = MsgBase("Hall","CS_GetTenTurnTable")
+    
+    return JSON.stringify(data)
+};
+
+
 //邀请好友
 export function CS_YaoQingFriend(uid,name,gameid){
     var data = MsgBase("Hall","CS_YaoQingFriend")

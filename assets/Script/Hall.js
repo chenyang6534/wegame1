@@ -84,6 +84,19 @@ cc.Class({
         
         
     },
+    turntableClick(event, customEventData){
+        console.log("turntableClick")
+        
+        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+        
+
+        NetMananger.getInstance().SendMsg(Msg.CS_GetTurnTableInfo())
+
+        this.node.getChildByName("btnlayer").getChildByName("turntable_btn").getChildByName("tishi").active = false
+        
+        
+    },
+    
     mailClick(event, customEventData){
         console.log("mailClick")
         
@@ -777,7 +790,13 @@ cc.Class({
         }else{
             this.node.getChildByName("btnlayer").getChildByName("mail_btn").getChildByName("tishi").active = false
         }
-        //
+
+        if(jsdata.TurnTabel_ShowNum > 0){
+            this.node.getChildByName("btnlayer").getChildByName("turntable_btn").getChildByName("tishi").active = true
+        }else{
+            this.node.getChildByName("btnlayer").getChildByName("turntable_btn").getChildByName("tishi").active = false
+        }
+        //this.node.getChildByName("btnlayer").getChildByName("turntable_btn").getChildByName("tishi").active = false
         
     },
     GetTaskRewards:function(data){
@@ -826,11 +845,25 @@ cc.Class({
         this.newBagInfo(jsdata)
         
     },
+
+    // ScrollWords:function(data){
+    //     var jsdata = JSON.parse(data.JsonData)
+    //     console.log("ScrollWords! " )
+
+        
+    //     UiTool.newScrollWords(jsdata,this.node)
+        
+    // },
     
+    TurnTableInfo:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("TurnTableInfo! " )
+        this.newTurnTableInfo(jsdata)
+        
+    },
 
     
 
-    
 
     freshTaskEd:function(){
         var newNode = this.taskEd
@@ -1262,6 +1295,230 @@ cc.Class({
 
     },
 
+    freshTurnTableTime:function(dt){
+        if(this.turntableInfo == null || this.turntableInfo.data == null){
+            return
+        }
+
+        
+
+        this.turntableInfo.data.FreeTime -= dt
+
+        var data = this.turntableInfo.data
+
+        if(data.FreeTime <= 0){
+            this.turntableInfo.getChildByName("oneprice").active = false
+            this.turntableInfo.getChildByName("freeprice").active = true
+            this.turntableInfo.getChildByName("time").active = false
+        }else{
+            this.turntableInfo.getChildByName("oneprice").active = true
+            this.turntableInfo.getChildByName("freeprice").active = false
+            this.turntableInfo.getChildByName("time").active = true
+        }
+
+        //时间formatSeconds
+        this.turntableInfo.getChildByName("time").getComponent(cc.Label).string = Tool.FormatSeconds(data.FreeTime)
+    },
+
+    DoTurnTable:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("DoTurnTable! " )
+        var parentscene = this.node
+
+        GameDataManager.getInstance().GetHallInfoData().Gold = jsdata.Gold
+
+        if(this.turntableInfo == null){
+            return
+        }
+
+        //奖励显示
+        var types = new Array()
+        var words = new Array()
+        //任务奖励
+        for ( var j in jsdata.Ids){
+
+            for( var j1 in jsdata.TurnTables){
+                if( jsdata.TurnTables[j1].Id == jsdata.Ids[j]){
+                    var reward = jsdata.TurnTables[j1]
+                    var word = ""
+                    if (reward.Num > 0){
+                        word = reward.Num
+                    }else{
+                        word = reward.Time +"天"
+                    }
+                    types[j] = reward.Type
+                    words[j] = word
+                }
+            }
+
+        }
+        var time = 3
+        time += jsdata.Ids.length * 0.5
+        UiTool.newGetRewards(types,words,parentscene)
+
+        //总幸运值
+        var allValue = 0
+        for (var k in jsdata.TurnTables){
+            allValue += jsdata.TurnTables[k].Value
+        }
+
+        this.turntableInfo.data = jsdata
+
+        var allnode = this.turntableInfo.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+        for (var k in allnode.children){
+
+            if(allnode.children[k].data.Id == jsdata.TurnTables[k].Id){
+                var num = jsdata.TurnTables[k].Value/allValue*100
+                num = num.toFixed(2); // 输出结果为 2.45
+                allnode.children[k].getChildByName("gailv").getComponent(cc.Label).string = num+"%"
+            }
+            
+            
+        }
+        
+    },
+
+    newTurnTableInfo:function(data){
+        var parentscene = this.node
+        if(parentscene == null){
+            console.log("parentscene == null")
+        }
+
+        cc.loader.loadRes("turntable", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            this.turntableInfo = newNode
+            this.turntableInfo.data = data
+            newNode.parent = parentscene
+
+            var cancelbtn = newNode.getChildByName("close")
+            cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                this.turntableInfo = null
+                newNode.removeFromParent()
+                
+            }.bind(this));
+
+
+            var helpbtn = newNode.getChildByName("help")
+            helpbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("helpbtn")
+                
+                cc.loader.loadRes("turntablehelp", function (err, prefab) {
+                    var newNode = cc.instantiate(prefab);
+                    newNode.parent = this.node
+                    //parentscene.addChild(newNode);
+            
+                    var cancelbtn = newNode.getChildByName("close")
+                    cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                        Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                        console.log("TOUCH_END")
+                        //newNode.destory()
+                        newNode.removeFromParent()
+                        
+                    });
+            
+            
+                }.bind(this));
+                
+            }.bind(this));
+
+            if(data.FreeTime <= 0){
+                newNode.getChildByName("oneprice").active = false
+                newNode.getChildByName("freeprice").active = true
+                newNode.getChildByName("time").active = false
+            }else{
+                newNode.getChildByName("oneprice").active = true
+                newNode.getChildByName("freeprice").active = false
+                newNode.getChildByName("time").active = true
+            }
+
+            newNode.getChildByName("oneprice").getChildByName("price").getComponent(cc.Label).string = data.OnePrice
+            newNode.getChildByName("tenprice").getChildByName("price").getComponent(cc.Label).string = data.TenPrice
+
+            //时间formatSeconds
+            newNode.getChildByName("time").getComponent(cc.Label).string = Tool.FormatSeconds(data.FreeTime)
+
+            //this.freshTaskEd()
+
+
+            //抽奖按钮
+            var onebtn = newNode.getChildByName("chouone")
+            onebtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("onebtn")
+                if( this.turntableInfo.data.FreeTime <= 0){
+                    NetMananger.getInstance().SendMsg(Msg.CS_GetOneTurnTable())
+                }else{
+                    if(GameDataManager.getInstance().GetHallInfoData().Gold >= data.OnePrice){
+                        GameDataManager.getInstance().GetHallInfoData().Gold -= data.OnePrice
+                        NetMananger.getInstance().SendMsg(Msg.CS_GetOneTurnTable())
+                    }else{
+                        UiTool.newKuang2btn("提示","宝石不足！")
+                    }
+                }
+            }.bind(this));
+            var tenbtn = newNode.getChildByName("chouten")
+            tenbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("tenbtn")
+                if(GameDataManager.getInstance().GetHallInfoData().Gold >= data.TenPrice){
+                    GameDataManager.getInstance().GetHallInfoData().Gold -= data.TenPrice
+                    NetMananger.getInstance().SendMsg(Msg.CS_GetTenTurnTable())
+                }else{
+                    UiTool.newKuang2btn("提示","宝石不足！")
+                }
+            }.bind(this));
+
+
+
+            var scrollview = newNode.getChildByName("scrollview").getChildByName("view").getChildByName("content")
+            
+            scrollview.removeAllChildren()
+
+            //总幸运值
+            var allValue = 0
+            for (var k in data.TurnTables){
+                allValue += data.TurnTables[k].Value
+            }
+
+
+            //商品信息
+            for (var k in data.TurnTables){
+
+                this.scheduleOnce(function() {
+                    var k = this
+                    var p = data.TurnTables[k]
+                    var oneGameInfo = cc.instantiate(newNode.getChildByName("oneTaskInfo"));
+                    oneGameInfo.parent = scrollview
+                    oneGameInfo.data = p
+                    oneGameInfo.getChildByName("name").getComponent(cc.Label).string = ResData[p.Type].name
+                    oneGameInfo.getChildByName("desc").getComponent(cc.Label).string = ResData[p.Type].discripte
+                    
+
+                    //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[p.Type].path));
+                    //oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw("resources/qizi/qizi_3.png"))
+
+                    if (p.Num <= 0){
+                        UiTool.newIcon(p.Type,p.Time+"天",oneGameInfo,oneGameInfo.getChildByName("icon").position,0.8)
+                    }else{
+                        UiTool.newIcon(p.Type,p.Num,oneGameInfo,oneGameInfo.getChildByName("icon").position,0.8)
+                    }
+
+                    var num = p.Value/allValue*100
+                    num = num.toFixed(2); // 输出结果为 2.45
+                    oneGameInfo.getChildByName("gailv").getComponent(cc.Label).string = num+"%"
+                    
+
+                }.bind(k), 0.05*k);
+
+            }
+                
+
+        }.bind(this));
+    },
+
     newBagInfo:function(data){
         //this.mailData = data
 
@@ -1389,6 +1646,7 @@ cc.Class({
 
         this.node.getChildByName("btnlayer").getChildByName("task_btn").getChildByName("tishi").active = false
         this.node.getChildByName("btnlayer").getChildByName("mail_btn").getChildByName("tishi").active = false
+        this.node.getChildByName("btnlayer").getChildByName("turntable_btn").getChildByName("tishi").active = false
 
         MsgManager.getInstance().AddListener("SC_SerchPlayer",this.SerchingPlayer.bind(this))
         MsgManager.getInstance().AddListener("SC_GetGamingInfo",this.GetGamingInfo.bind(this))
@@ -1404,6 +1662,11 @@ cc.Class({
         MsgManager.getInstance().AddListener("SC_BagInfo",this.BagInfo.bind(this))
 
         MsgManager.getInstance().AddListener("SC_RankInfo",this.RankInfo.bind(this))
+
+        MsgManager.getInstance().AddListener("SC_TurnTableInfo",this.TurnTableInfo.bind(this))
+        MsgManager.getInstance().AddListener("SC_DoTurnTable",this.DoTurnTable.bind(this))
+
+        
 
         MsgManager.getInstance().AddListener("SC_YaoQingFriend",this.YaoQingFriend.bind(this))
         MsgManager.getInstance().AddListener("SC_FriendsInfo",this.friendsInfo.bind(this))
@@ -1474,6 +1737,8 @@ cc.Class({
     },
 
     update (dt) {
+
+        this.freshTurnTableTime(dt)
 
         this.showPlayerInfo()
 

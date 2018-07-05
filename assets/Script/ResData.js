@@ -16,6 +16,7 @@
 var MyData = [
     {
         "id":1,
+        "name":"宝石",
         "discripte":"宝石!",
         "path":"resources/icon/gold.png"
     },

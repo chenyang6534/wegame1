@@ -62,11 +62,15 @@ export function newIcon(type,words,parent,pos,scale){
    
  };
 
- export function newGetRewards(types,words,parent){
+ export function newGetRewards(types,words,parent,time){
 
     var parentscene = parent
     if(parentscene == null){
         parentscene = cc.director.getScene()
+    }
+
+    if(time == null){
+        time = 3
     }
 
     cc.loader.loadRes("getrewards", function (err, prefab) {
@@ -74,7 +78,9 @@ export function newIcon(type,words,parent,pos,scale){
         parentscene.addChild(newNode);
         //newNode.position = cc.p(1334/2,750/2)
         //newNode
-        
+        var width = 120
+        var len = types.length
+
         //任务信息
         for (var i in types){
 
@@ -85,7 +91,7 @@ export function newIcon(type,words,parent,pos,scale){
 
                 var oneGameInfo = cc.instantiate(newNode.getChildByName("rewardmode"));
                 oneGameInfo.parent = newNode
-                oneGameInfo.position = cc.p(0,0)
+                oneGameInfo.position = cc.p( 0-(len-1)*width/2+i*width,0)
 
                 oneGameInfo.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[type].path));
                 oneGameInfo.getChildByName("wordbg").getChildByName("words").getComponent(cc.Label).string = word
@@ -100,13 +106,55 @@ export function newIcon(type,words,parent,pos,scale){
 
         newNode.getComponent(cc.Layout).scheduleOnce(function() {
             newNode.destroy()
-        }.bind(newNode),3)
+        }.bind(newNode),time)
         
         
         // newNode.getChildByName("icon").getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(cc.url.raw(ResData[type].path));
         // newNode.getChildByName("words").getComponent(cc.Label).string = words
 
     });
+
+   
+ };
+
+
+ export function newScrollWords(jsdata){
+
+    var parentscene = cc.director.getScene()
+
+    cc.loader.loadRes("scrollwords", function (err, prefab) {
+        var newNode = cc.instantiate(prefab);
+        newNode.position = cc.p(1334/2,750/2)
+        parentscene.addChild(newNode);
+        
+        var day = ""
+        if(jsdata.Count > 0){
+            day = jsdata.Count
+        }else{
+            day = jsdata.Time+"天"
+        }
+
+        var words = "恭喜玩家: "+jsdata.PlayerName+" 通过 "+jsdata.Src+" 获得 "+ResData[jsdata.Type].name+"("+day+")"
+
+        var worditem = newNode.getChildByName("mask").getChildByName("words")
+        worditem.position = cc.p(508,0)
+        worditem.getComponent(cc.Label).string = words
+        var alllen = worditem.width+1000
+        var speed = 100
+
+        var myAction = cc.sequence( cc.moveBy(alllen/speed,cc.p(0-alllen,0)),
+                                    cc.callFunc(function(target, score) {
+                                        newNode.destroy()
+                                    }, null, 0),
+                                    );
+
+        worditem.runAction(myAction)
+
+        
+        
+
+    });
+
 
    
  };

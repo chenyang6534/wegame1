@@ -187,6 +187,10 @@ cc.Class({
             //console.log("----edit:"+this.node.getChildByName("loginname").getComponent(cc.EditBox).string)
             //this.node.getChildByName("loginname").getComponent(cc.EditBox).string = 
 
+            // console.log("width1:"+this.node.getChildByName("loginword").width)
+            // this.node.getChildByName("loginword").getComponent(cc.Label).string = "范德萨发"
+            // console.log("width2:"+this.node.getChildByName("loginword").width)
+
             NetMananger.getInstance().Login("name111","avatar222",this.LoginSucc.bind(this),this.LoginFail.bind(this))
         }
 

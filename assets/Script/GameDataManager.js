@@ -8,6 +8,7 @@
 
 var Msg = require("Msg")
 var MsgManager = require("MsgManager")
+var UiTool = require("UiTool")
 
 var GameDataManager = cc.Class({
     name: "GameDataManager",
@@ -17,10 +18,21 @@ var GameDataManager = cc.Class({
     ctor: function () {
         MsgManager.getInstance().AddListener("SC_MsgHallInfo",this.HallInfoData.bind(this))
         MsgManager.getInstance().AddListener("SC_NewGame",this.NewGame.bind(this))
+        MsgManager.getInstance().AddListener("SC_ScrollWords",this.ScrollWords.bind(this))
         this.gameInfo = new Map()
         this.SetGameData("GameId",-1)
 
         
+        
+    },
+
+    //滚动通知
+    ScrollWords:function(data){
+        var jsdata = JSON.parse(data.JsonData)
+        console.log("ScrollWords! " )
+
+        
+        UiTool.newScrollWords(jsdata)
         
     },
 
