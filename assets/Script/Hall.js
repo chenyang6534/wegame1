@@ -395,6 +395,9 @@ cc.Class({
 
     SerchingPlayer:function(data){
         console.log("SerchingPlayer")
+
+        var jsdata = JSON.parse(data.JsonData)
+
         cc.loader.loadRes("serchplayer", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
             this.node.addChild(newNode);
@@ -405,37 +408,162 @@ cc.Class({
                 NetMananger.getInstance().SendMsg(Msg.CS_QuickGameExit())
                 newNode.destroy()
             });
+            quitbtn.active = false
 
+            //转动
+            newNode.getChildByName("circle3").runAction(cc.repeatForever(cc.rotateBy(5,360)))
+            newNode.getChildByName("circle2").runAction(cc.repeatForever(cc.rotateBy(5,-360)))
+            newNode.getChildByName("circle1").runAction(cc.repeatForever(cc.rotateBy(5,360)))
 
-            //动画
-            var myAction = cc.sequence( cc.callFunc(function(target, score) {
+            //背景圆
+            var ctx = newNode.getChildByName("circlebg1").getComponent(cc.Graphics)
+            ctx.circle(0,0, 70);
+            ctx.stroke();
+
+            var ctx1 = newNode.getChildByName("circlebg2").getComponent(cc.Graphics)
+            ctx1.circle(0,0, 140);
+            ctx1.stroke();
+
+            var ctx2 = newNode.getChildByName("circlebg3").getComponent(cc.Graphics)
+            ctx2.circle(0,0, 210);
+            ctx2.stroke();
+
+            var ctx4 = newNode.getChildByName("circlebg4").getComponent(cc.Graphics)
+            ctx4.circle(0,0, 260);
+            ctx4.fill();
+
+            var r = 30
+            var speed = 200
+            var time = 0
+            newNode.getComponent(cc.Layout).schedule(function(dt) {
+                var ctx5 = newNode.getChildByName("circlebg5").getComponent(cc.Graphics)
+                r += speed*dt
+                ctx5.clear()
+                ctx5.circle(0,0, r);
+                ctx5.fill();
+                if(r >= 240){
+                    r = 30
+                }
+                //计时器
+                time += dt*0.8
+                newNode.getChildByName("showtime").getComponent(cc.Label).string = Math.floor(time)+"s"
+
+                if(time > 3){
+                    quitbtn.active = true
+                }
+            }, 0.05);
+
+            
+
+            //自己的头像
+            var myimgurl = UiTool.getHeadUrlPath(GameDataManager.getInstance().GetHallInfoData().AvatarUrl)
+            var myheadnode = newNode.getChildByName("myhead").getChildByName("head")
+            
+            cc.loader.load(myimgurl, function(err, texture){
+                console.log("err:"+err)
                 
-                                        target.getComponent(cc.Label).string = "搜寻对手中(5)"
-                                        }, this, 0),
-                                        cc.delayTime(1),
-                                        cc.callFunc(function(target, score) {
+                myheadnode.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+            });
+            //头像不够
+            // if( jsdata.Heads.length < 7){
+            //     for (var i = 0; i < 7-jsdata.Heads.length;i++){
+            //         jsdata.Heads[jsdata.Heads.length] = Math.floor(Math.random()*50)
+            //     }
+            // }
+            var headres = new Array()
+            for (var i = 0; i < 7;i++){
+                if( jsdata.Heads != null && jsdata.Heads.length > i){
+                    headres[i] = jsdata.Heads[i]
+                }else{
+                    headres[i] = "resources/head/head"+Math.floor(Math.random()*50)+".jpg"
+                    //headres[i] = "resources/head/head1.jpg"
+                }
+                
+            }
+            console.log("11111")
+            
+            // var headres = ["resources/head/head1.jpg","resources/head/head2.jpg","resources/head/head3.jpg","resources/head/head4.jpg",
+            //                 "resources/head/head5.jpg","resources/head/head6.jpg","resources/head/head7.jpg"]
+            var showtimes = new Array()
+            for (var k in headres){
+                showtimes[k] = Math.random()*(headres.length*4)+3
+            }
+            //Math.random()*(20-10)+10
+            
+            var headnodestr = [["circle1","head1"],["circle2","head1"],["circle2","head2"],["circle3","head1"],["circle3","head2"],["circle3","head3"],["circle3","head4"]]
+
+            for (var k in headnodestr){
+                var initnode = newNode.getChildByName(headnodestr[k][0]).getChildByName(headnodestr[k][1])
+                initnode.setRotation(0)
+                if(k == 1 || k == 2){
+                    initnode.runAction(cc.repeatForever(cc.rotateBy(5,360)))
+                }else{
+                    initnode.runAction(cc.repeatForever(cc.rotateBy(5,-360)))
+                }
+                
+            }
+            
+            for (var k in headres){
+
+                var initnode = newNode.getChildByName(headnodestr[k][0]).getChildByName(headnodestr[k][1]).getChildByName("head")
+                initnode.scale = 0.2
+
+                this.scheduleOnce(function() {
+                    var k = this
+
+                    //var p = headres[k]
+                    var imgurl = UiTool.getHeadUrlPath(headres[k])//avatarurl+"?aaa=aa.jpg";
+                    var headnode = newNode.getChildByName(headnodestr[k][0]).getChildByName(headnodestr[k][1]).getChildByName("head")
+                    console.log("mynode:"+headnode)
+                    cc.loader.load(imgurl, function(err, texture){
+                        console.log("err:"+err)
+                        console.log("texture:"+texture)
+                        this.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+                        this.runAction(cc.scaleTo(1,1,1))
+                        this.runAction(cc.sequence(cc.delayTime(Math.random()*(5+3)+3),cc.fadeOut(1)))
+                    }.bind(headnode));
+
+                    
+
+                }.bind(k),showtimes[k])
+                
+                
+            }
+                
+            
+            
+
+
+
+            // //动画
+            // var myAction = cc.sequence( cc.callFunc(function(target, score) {
+                
+            //                             target.getComponent(cc.Label).string = "搜寻对手中(5)"
+            //                             }, this, 0),
+            //                             cc.delayTime(1),
+            //                             cc.callFunc(function(target, score) {
                                         
-                                            target.getComponent(cc.Label).string = "搜寻对手中(4)"
-                                            }, this, 0),
+            //                                 target.getComponent(cc.Label).string = "搜寻对手中(4)"
+            //                                 }, this, 0),
                                         
-                                        cc.delayTime(1),
-                                        cc.callFunc(function(target, score) {
+            //                             cc.delayTime(1),
+            //                             cc.callFunc(function(target, score) {
                                             
-                                            target.getComponent(cc.Label).string = "搜寻对手中(3)"
-                                            }, this, 0),
-                                        cc.delayTime(1),
-                                        cc.callFunc(function(target, score) {
+            //                                 target.getComponent(cc.Label).string = "搜寻对手中(3)"
+            //                                 }, this, 0),
+            //                             cc.delayTime(1),
+            //                             cc.callFunc(function(target, score) {
                                             
-                                            target.getComponent(cc.Label).string = "搜寻对手中(2)"
-                                            }, this, 0),
-                                        cc.delayTime(1),
-                                        cc.callFunc(function(target, score) {
+            //                                 target.getComponent(cc.Label).string = "搜寻对手中(2)"
+            //                                 }, this, 0),
+            //                             cc.delayTime(1),
+            //                             cc.callFunc(function(target, score) {
                                             
-                                            target.getComponent(cc.Label).string = "搜寻对手中(1)"
-                                            }, this, 0),
-                                        cc.delayTime(3)
-                                        );
-            newNode.getChildByName("searchtxt").runAction(cc.repeatForever(myAction))
+            //                                 target.getComponent(cc.Label).string = "搜寻对手中(1)"
+            //                                 }, this, 0),
+            //                             cc.delayTime(3)
+            //                             );
+            // newNode.getChildByName("searchtxt").runAction(cc.repeatForever(myAction))
 
 
 
@@ -1183,7 +1311,7 @@ cc.Class({
                         
                     }.bind(p));
 
-                }.bind(k),0.05*k)
+                }.bind(data.Mails.length-k-1),0.05*k)
 
 
                 

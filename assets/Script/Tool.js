@@ -4,10 +4,6 @@
 //var wx = require("Wx")
 var GameDataManager = require("GameDataManager")
 
-
-
-
-
 var playsoundmap = new Map()
 export function playSound(path,loop,volume){
     var curtime = GetTimeMillon()
@@ -29,7 +25,7 @@ export function playSound(path,loop,volume){
 
 export function ShareApp(uid,roomid,time,succCallback){
     wx.shareAppMessage({
-        title:"全国的五子棋玩家都在这里",
+        title:"@所有人 全国最好玩的五子棋!比跳一跳好玩多了! ",
         imageUrl:"res/raw-assets/resources/timg.jpg",
         query:"uid="+uid+"&roomid="+roomid+"&time="+time,
         success:function(){
@@ -83,7 +79,13 @@ export function checkShare(){
     
         var launchOption = wx.getLaunchOptionsSync()
         console.log("launchOption:"+launchOption.query)
+        console.log("launchOption23331:")
+        console.log("launchOption:"+GameDataManager.getInstance())
+        console.log("launchOption2221:")
         GameDataManager.getInstance().SetQueryData(launchOption.query)
+        console.log("launchOption111:")
+
+
     }
 
     
@@ -190,6 +192,7 @@ export function createLoginBtn(clickfun,startfun){
             if(res.userInfo == null){
                 if(clickfun != null){
                     clickfun("","")
+                    return
                 }
             }
             console.log(res.userInfo.nickName);

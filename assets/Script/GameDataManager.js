@@ -16,6 +16,7 @@ var GameDataManager = cc.Class({
     gameInfo:null,
     queryData:null,
     ctor: function () {
+        
         MsgManager.getInstance().AddListener("SC_MsgHallInfo",this.HallInfoData.bind(this))
         MsgManager.getInstance().AddListener("SC_NewGame",this.NewGame.bind(this))
         MsgManager.getInstance().AddListener("SC_ScrollWords",this.ScrollWords.bind(this))
@@ -78,10 +79,13 @@ var GameDataManager = cc.Class({
 
 
 GameDataManager._instance = null;
+console.log("GameDataManager1111")
 GameDataManager.getInstance = function () {
     if(!GameDataManager._instance){
         GameDataManager._instance = new GameDataManager();
+        
     }
+    
     return GameDataManager._instance;
 }
 

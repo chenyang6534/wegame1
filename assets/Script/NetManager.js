@@ -31,6 +31,7 @@ var NetManager = cc.Class({
         //
         console.log("component.schedule")
         this.schedule(this.SendHeart.bind(this), 5);
+        
     },
     Result:function(data){
         var jsdata = JSON.parse(data.JsonData)
@@ -180,12 +181,32 @@ var NetManager = cc.Class({
 
 
 NetManager._instance = null;
+
+
 NetManager.getInstance = function () {
     if(!NetManager._instance){
         NetManager._instance = new NetManager();
         //启动初始化
-        Tool.checkShare()
+        //Tool.checkShare()
+        if (cc.sys.platform === cc.sys.WECHAT_GAME){
+            wx.onShow(res => {
+                console.log("onshow "+res.scene)
+                console.log("onshow uid"+res.query.uid)
+                console.log("onshow roomid"+res.query.roomid)
+                console.log("onshow time"+res.query.time)
+                console.log("onshow ticket"+res.shareTicket)
+                GameDataManager.getInstance().SetQueryData(res.query)
+            })
         
+            var launchOption = wx.getLaunchOptionsSync()
+            console.log("launchOption:"+launchOption.query)
+            
+            GameDataManager.getInstance().SetQueryData(launchOption.query)
+            
+
+    
+    
+        }
         
     }
     return NetManager._instance;

@@ -103,10 +103,14 @@ cc.Class({
         console.log("LoginSucc")
         //cc.director.loadScene("Hall", null);
         this.ToHall = true
+        this.islogining = false
+
     },
     LoginFail:function(){
         console.log("LoginFail")
+        this.islogining = false
 
+        this.node.getChildByName("loginnotice").active = false
         this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录失败"
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
 
@@ -132,8 +136,16 @@ cc.Class({
     },
 
     wxlogin(name,avatar){
-        this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
+        //this.node.getChildByName("loginword").getComponent(cc.Label).string = "登录中..."
 
+        if(this.islogining == true){
+            return
+        }
+
+        this.islogining = true
+
+
+        this.node.getChildByName("loginnotice").active = true
         //var name = this.node.getChildByName("loginname").getComponent(cc.EditBox).string
         console.log("----edit1:"+name)
 
@@ -150,14 +162,22 @@ cc.Class({
 
 
 
-    start () {
+    showLoginNotice:function(isshow){
+
+
 
         
+    },
+
+
+    start () {
+
+        this.islogining = false
         MsgManager.getInstance().AddListener("WS_Close",this.LoginFail.bind(this))
 
         if (cc.sys.platform === cc.sys.WECHAT_GAME){
 
-            this.node.getChildByName("loginword").getComponent(cc.Label).string = ""
+            this.node.getChildByName("loginnotice").active = false
             this.node.getChildByName("reLogin").active = false
 
             wx.getUserInfo({
@@ -203,6 +223,7 @@ cc.Class({
 
     update (dt) {
         if(this.AnimOver == true && this.ToHall == true){
+            this.ToHall = false
             cc.director.loadScene("Hall", null);
         }
     },

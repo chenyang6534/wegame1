@@ -14,6 +14,7 @@ var MsgManager = cc.Class({
 
     ctor: function () {
         this.listener = new Map()
+        console.log("MsgManager over")
     },
 
     AddListener:function(key,callback){
