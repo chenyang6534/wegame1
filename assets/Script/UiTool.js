@@ -81,6 +81,8 @@ export function newIcon(type,words,parent,pos,scale){
         var width = 120
         var len = types.length
 
+        Tool.playSound("resources/sound/getreward.mp3",false,0.5)
+
         //任务信息
         for (var i in types){
 

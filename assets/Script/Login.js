@@ -71,22 +71,37 @@ cc.Class({
 
         var baoaction = cc.sequence( 
                                     cc.delayTime(0.01),
+                                    cc.callFunc(function(target, score) {
+                                        Tool.playSound("resources/sound/fall.mp3",false,0.51)
+                                    }),
                                     cc.moveTo(0.35,baoEndPos).easing(cc.easeElasticOut(0.5))
                                     );
         var shiaction = cc.sequence( 
                                     cc.delayTime(0.21),
+                                    cc.callFunc(function(target, score) {
+                                        Tool.playSound("resources/sound/fall.mp3",false,0.51)
+                                    }),
                                     cc.moveTo(0.35,shiEndPos).easing(cc.easeElasticOut(0.5))
                                     );
         var wuaction = cc.sequence( 
                                     cc.delayTime(0.41),
+                                    cc.callFunc(function(target, score) {
+                                        Tool.playSound("resources/sound/fall.mp3",false,0.51)
+                                    }),
                                     cc.moveTo(0.35,wuEndPos).easing(cc.easeElasticOut(0.5))
                                     );
         var ziaction = cc.sequence( 
                                     cc.delayTime(0.61),
+                                    cc.callFunc(function(target, score) {
+                                        Tool.playSound("resources/sound/fall.mp3",false,0.51)
+                                    }),
                                     cc.moveTo(0.35,ziEndPos).easing(cc.easeElasticOut(0.5))
                                     );
         var qiaction = cc.sequence( 
                                     cc.delayTime(0.81),
+                                    cc.callFunc(function(target, score) {
+                                        Tool.playSound("resources/sound/fall.mp3",false,0.51)
+                                    }),
                                     cc.moveTo(0.35,qiEndPos).easing(cc.easeElasticOut(0.5)),
                                     cc.callFunc(function(target, score) {
                                         this.AnimOver = true

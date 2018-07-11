@@ -12,7 +12,7 @@ export function playSound(path,loop,volume){
         cc.audioEngine.play(cc.url.raw(path),loop,volume)
         playsoundmap[path] = curtime
     }else{
-        if( curtime-playsoundmap[path] >= 500){
+        if( curtime-playsoundmap[path] >= 100){
             cc.audioEngine.play(cc.url.raw(path),loop,volume)
             playsoundmap[path] = curtime
         }
@@ -162,7 +162,7 @@ export function createLoginBtn(clickfun,startfun){
                 image:"res/raw-assets/resources/wxlogin.png",
                 style: {
                     left: window.innerWidth/2-472/pixel/2,
-                    top: window.innerHeight/2-165/pixel/2+window.innerHeight/4,
+                    top: window.innerHeight/2-165/pixel-30/pixel+window.innerHeight/2,
                     width: 472/pixel,
                     height: 165/pixel,
                     lineHeight: 40,

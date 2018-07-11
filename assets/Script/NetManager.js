@@ -197,6 +197,16 @@ NetManager.getInstance = function () {
                 console.log("onshow ticket"+res.shareTicket)
                 GameDataManager.getInstance().SetQueryData(res.query)
             })
+            
+            wx.showShareMenu()
+
+            wx.onShareAppMessage(function () {
+                // 用户点击了“转发”按钮
+                return {
+                  title: '@所有人 全国最好玩的五子棋!比跳一跳好玩多了!',
+                  imageUrl:"res/raw-assets/resources/timg.jpg"
+                }
+              })
         
             var launchOption = wx.getLaunchOptionsSync()
             console.log("launchOption:"+launchOption.query)

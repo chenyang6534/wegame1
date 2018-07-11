@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "2f18bbd1-94a8-4965-b9f1-381b99257928",
+  "uuid": "0e67b8af-8ddb-404c-9af6-0e92f4ede174",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "email_btn ": {
+    "beibao_word": {
       "ver": "1.0.3",
-      "uuid": "196fef38-5b05-4af6-878c-e6355269e7f4",
-      "rawTextureUuid": "2f18bbd1-94a8-4965-b9f1-381b99257928",
+      "uuid": "e766e16d-a50c-4b0f-90d2-9352c5bc2789",
+      "rawTextureUuid": "0e67b8af-8ddb-404c-9af6-0e92f4ede174",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 128,
-      "height": 128,
-      "rawWidth": 128,
-      "rawHeight": 128,
+      "width": 100,
+      "height": 50,
+      "rawWidth": 100,
+      "rawHeight": 50,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

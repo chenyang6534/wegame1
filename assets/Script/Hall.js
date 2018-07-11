@@ -206,7 +206,7 @@ cc.Class({
 
 
             //标题
-            newNode.getChildByName("title").getComponent(cc.Label).string = "S"+jsdata.SeasonInfo.IdIndex+"赛季"
+            newNode.getChildByName("title").getComponent(cc.Label).string = "S"+jsdata.SeasonInfo.IdIndex
 
             //时间
             newNode.getChildByName("time").getComponent(cc.Label).string = jsdata.SeasonInfo.StartTime+"--"+jsdata.SeasonInfo.EndTime
@@ -435,6 +435,7 @@ cc.Class({
             var r = 30
             var speed = 200
             var time = 0
+            var searchPlay = 1 //搜索声音播放时间
             newNode.getComponent(cc.Layout).schedule(function(dt) {
                 var ctx5 = newNode.getChildByName("circlebg5").getComponent(cc.Graphics)
                 r += speed*dt
@@ -450,6 +451,12 @@ cc.Class({
 
                 if(time > 3){
                     quitbtn.active = true
+                }
+
+                searchPlay += dt
+                if(searchPlay >= 1.0){
+                    Tool.playSound("resources/sound/search.mp3",false,0.8)
+                    searchPlay = 0
                 }
             }, 0.05);
 
@@ -486,7 +493,7 @@ cc.Class({
             //                 "resources/head/head5.jpg","resources/head/head6.jpg","resources/head/head7.jpg"]
             var showtimes = new Array()
             for (var k in headres){
-                showtimes[k] = Math.random()*(headres.length*4)+3
+                showtimes[k] = Math.random()*(headres.length*4)+1
             }
             //Math.random()*(20-10)+10
             
@@ -506,7 +513,12 @@ cc.Class({
             for (var k in headres){
 
                 var initnode = newNode.getChildByName(headnodestr[k][0]).getChildByName(headnodestr[k][1]).getChildByName("head")
-                initnode.scale = 0.2
+                if(Math.random() < 0.5){
+                    initnode.scale = 0.3
+                }else{
+                    initnode.scale = 0.5
+                }
+                
 
                 this.scheduleOnce(function() {
                     var k = this
@@ -521,6 +533,7 @@ cc.Class({
                         this.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
                         this.runAction(cc.scaleTo(1,1,1))
                         this.runAction(cc.sequence(cc.delayTime(Math.random()*(5+3)+3),cc.fadeOut(1)))
+                        Tool.playSound("resources/sound/getreward.mp3",false,0.5)
                     }.bind(headnode));
 
                     

@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "9903b508-bce8-4ae7-9944-22641c8188e0",
+  "uuid": "05c25c74-7ee4-4294-b72a-ed8670415422",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "bag_btn": {
+    "meirirenwu_word": {
       "ver": "1.0.3",
-      "uuid": "74dee364-ff14-4277-b62a-17d70422e565",
-      "rawTextureUuid": "9903b508-bce8-4ae7-9944-22641c8188e0",
+      "uuid": "15bcfc38-cb14-4ce9-b224-83d82356a0b9",
+      "rawTextureUuid": "05c25c74-7ee4-4294-b72a-ed8670415422",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 128,
-      "height": 128,
-      "rawWidth": 128,
-      "rawHeight": 128,
+      "width": 196,
+      "height": 50,
+      "rawWidth": 196,
+      "rawHeight": 50,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

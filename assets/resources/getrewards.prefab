@@ -363,9 +363,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -404,7 +404,7 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 28,
+    "_actualFontSize": 26,
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -427,12 +427,12 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 47,
+      "g": 45,
+      "b": 45,
       "a": 255
     },
-    "_width": 1
+    "_width": 2
   },
   {
     "__type__": "cc.PrefabInfo",

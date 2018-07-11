@@ -330,7 +330,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 286,
+      "width": 288,
       "height": 40
     },
     "_rotationX": 0,
@@ -381,12 +381,12 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 47,
+      "g": 45,
+      "b": 45,
       "a": 255
     },
-    "_width": 1
+    "_width": 2
   },
   {
     "__type__": "cc.PrefabInfo",

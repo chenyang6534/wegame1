@@ -3779,7 +3779,7 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0,
+    "_scaleX": 1,
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
@@ -4436,7 +4436,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "由于先手方第一步棋下在绿色区域有必胜方法,\n\n故第一手棋只能下在绿色区域外",
+    "_N$string": "由于先手方第一步棋下在绿色区域有巨大优势或必胜方法,\n\n故第一手棋只能下在绿色区域外",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -4452,12 +4452,12 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 222,
-      "g": 247,
-      "b": 225,
+      "r": 47,
+      "g": 45,
+      "b": 45,
       "a": 255
     },
-    "_width": 1
+    "_width": 2
   },
   {
     "__type__": "cc.Sprite",
