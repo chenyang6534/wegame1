@@ -457,7 +457,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 185,
+      "width": 193,
       "height": 50
     },
     "_rotationX": 0,
@@ -1276,7 +1276,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "先手方第一个棋子位置必须在三线内(为了避免先手方必胜走法)",
+    "_N$string": "无禁手",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",

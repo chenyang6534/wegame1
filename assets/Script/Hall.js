@@ -339,12 +339,13 @@ cc.Class({
             
         }
 
-
+        
         this.scheduleOnce(function() {
             var lastbtn = newNode.getChildByName("last")
             var nextbtn = newNode.getChildByName("next")
             lastbtn.active = true
             nextbtn.active = true
+            //Tool.showBanner(false)
         }.bind(this),2)
 
     },
@@ -402,11 +403,20 @@ cc.Class({
             var newNode = cc.instantiate(prefab);
             this.node.addChild(newNode);
             var quitbtn = newNode.getChildByName("quit")
+
+            var allcount = GameDataManager.getInstance().GetHallInfoData().WinCount+GameDataManager.getInstance().GetHallInfoData().LoseCount
+            if( allcount > 1){
+                Tool.showBanner(true)
+            }
+
+            
             quitbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 console.log("TOUCH_END")
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 NetMananger.getInstance().SendMsg(Msg.CS_QuickGameExit())
+                newNode.getComponent(cc.Layout).unscheduleAllCallbacks()
                 newNode.destroy()
+                Tool.showBanner(false)
             });
             quitbtn.active = false
 
@@ -417,19 +427,19 @@ cc.Class({
 
             //背景圆
             var ctx = newNode.getChildByName("circlebg1").getComponent(cc.Graphics)
-            ctx.circle(0,0, 70);
+            ctx.circle(0,0, 40);
             ctx.stroke();
 
             var ctx1 = newNode.getChildByName("circlebg2").getComponent(cc.Graphics)
-            ctx1.circle(0,0, 140);
+            ctx1.circle(0,0, 80);
             ctx1.stroke();
 
             var ctx2 = newNode.getChildByName("circlebg3").getComponent(cc.Graphics)
-            ctx2.circle(0,0, 210);
+            ctx2.circle(0,0, 120);
             ctx2.stroke();
 
             var ctx4 = newNode.getChildByName("circlebg4").getComponent(cc.Graphics)
-            ctx4.circle(0,0, 260);
+            ctx4.circle(0,0, 180);
             ctx4.fill();
 
             var r = 30
@@ -442,7 +452,7 @@ cc.Class({
                 ctx5.clear()
                 ctx5.circle(0,0, r);
                 ctx5.fill();
-                if(r >= 240){
+                if(r >= 150){
                     r = 30
                 }
                 //计时器
@@ -520,9 +530,9 @@ cc.Class({
                 }
                 
 
-                this.scheduleOnce(function() {
+                newNode.getComponent(cc.Layout).scheduleOnce(function() {
                     var k = this
-
+                    
                     //var p = headres[k]
                     var imgurl = UiTool.getHeadUrlPath(headres[k])//avatarurl+"?aaa=aa.jpg";
                     var headnode = newNode.getChildByName(headnodestr[k][0]).getChildByName(headnodestr[k][1]).getChildByName("head")
@@ -759,11 +769,14 @@ cc.Class({
             
             newNode.parent = parentscene
 
+            Tool.showBanner(true)
+
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 console.log("TOUCH_END")
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 //newNode.destory()
+                Tool.showBanner(false)
                 newNode.removeFromParent()
                 
             });
@@ -1151,6 +1164,9 @@ cc.Class({
             console.log("parentscene == null")
         }
 
+        //Tool.showBanner(true)
+
+
         cc.loader.loadRes("taskinfo", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
             this.taskEd = newNode
@@ -1159,6 +1175,7 @@ cc.Class({
             console.log("222")
             //parentscene.addChild(newNode);
 
+
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
@@ -1166,6 +1183,8 @@ cc.Class({
                 //newNode.destory()
                 this.taskEd = null
                 newNode.destroy()
+                //Tool.showBanner(false)
+
                 
             });
 
@@ -1457,6 +1476,13 @@ cc.Class({
             this.turntableInfo.getChildByName("time").active = true
         }
 
+        //观看视频按钮
+        if(data.LookViewRemainder > 0){
+            this.turntableInfo.getChildByName("chouviews").active = true
+        }else{
+            this.turntableInfo.getChildByName("chouviews").active = false
+        }
+
         //时间formatSeconds
         this.turntableInfo.getChildByName("time").getComponent(cc.Label).string = Tool.FormatSeconds(data.FreeTime)
     },
@@ -1575,6 +1601,13 @@ cc.Class({
                 newNode.getChildByName("time").active = true
             }
 
+            //观看视频按钮
+            if(data.LookViewRemainder > 0){
+                newNode.getChildByName("chouviews").active = true
+            }else{
+                newNode.getChildByName("chouviews").active = false
+            }
+
             newNode.getChildByName("oneprice").getChildByName("price").getComponent(cc.Label).string = data.OnePrice
             newNode.getChildByName("tenprice").getChildByName("price").getComponent(cc.Label).string = data.TenPrice
 
@@ -1600,6 +1633,19 @@ cc.Class({
                     }
                 }
             }.bind(this));
+            //观看视频抽奖
+            var lookviewbtn = newNode.getChildByName("chouviews")
+            lookviewbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("lookviewbtn")
+                Tool.showVideoAd(true,function(){
+                    NetMananger.getInstance().SendMsg(Msg.CS_GetLookViewTurnTable())
+                    
+                })
+                
+                      
+            }.bind(this));
+
             var tenbtn = newNode.getChildByName("chouten")
             tenbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)

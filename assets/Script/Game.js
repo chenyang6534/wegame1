@@ -50,7 +50,7 @@ cc.Class({
     },
 
     checkfirstshow:function(){
-        this.node.getChildByName("firstlayer").active = false
+        //this.node.getChildByName("firstlayer").active = false
         if(this.gameInfoData == null){
             return
         }
@@ -72,7 +72,7 @@ cc.Class({
             }
         }
 
-        this.node.getChildByName("firstlayer").active = true
+        //this.node.getChildByName("firstlayer").active = true
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -484,6 +484,42 @@ cc.Class({
                 })
             });
 
+
+
+
+
+            var quitbtnshiping = newNode.getChildByName("shiping").getChildByName("quit")
+            quitbtnshiping.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                //NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
+                cc.director.loadScene("Hall", null);
+            });
+
+            var sharebtnshiping = newNode.getChildByName("shiping").getChildByName("look")
+            sharebtnshiping.on(cc.Node.EventType.TOUCH_END, function (event) {
+                Tool.playSound("resources/sound/btn.mp3",false,0.5)
+                console.log("TOUCH_END")
+                //NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
+                //cc.director.loadScene("Hall", null);
+
+                Tool.showVideoAd(true,function(){
+                    NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
+                    cc.director.loadScene("Hall", null);
+                })
+
+                // var time = Tool.GetTimeMillon()
+                // var uid = GameDataManager.getInstance().GetHallInfoData().Uid
+                // Tool.ShareApp(uid,-1,time,function(){
+                //     NetMananger.getInstance().SendMsg(Msg.CS_AddScore(5))
+                //     cc.director.loadScene("Hall", null);
+                // })
+            });
+
+
+
+
+
             var winname = this.playerInfoData[winSeatIndex].Name
             newNode.getChildByName("winname").getComponent(cc.Label).string = winname
             newNode.getChildByName("winscore").getComponent(cc.Label).string = "+"+winscore
@@ -492,13 +528,34 @@ cc.Class({
             newNode.getChildByName("losename").getComponent(cc.Label).string = losename
             newNode.getChildByName("losescore").getComponent(cc.Label).string = "-"+losescore
 
+            
+            if(GameOverShare == 1){//视频
 
-            if(GameOverShare == 1){
+                
+                newNode.getChildByName("share").active = false
+                newNode.getChildByName("normal").active = false
+                newNode.getChildByName("shiping").active = true
+            }else if(GameOverShare == 2){//分享
                 newNode.getChildByName("share").active = true
                 newNode.getChildByName("normal").active = false
+                newNode.getChildByName("shiping").active = false
+            }else if(GameOverShare == 3){//一半几率视频,一半几率分享
+
+                if( Math.random() < 0.5){
+                    newNode.getChildByName("share").active = true
+                    newNode.getChildByName("normal").active = false
+                    newNode.getChildByName("shiping").active = false
+                }else{
+                    newNode.getChildByName("share").active = false
+                    newNode.getChildByName("normal").active = false
+                    newNode.getChildByName("shiping").active = true
+                }
+
+                
             }else{
                 newNode.getChildByName("share").active = false
                 newNode.getChildByName("normal").active = true
+                newNode.getChildByName("shiping").active = false
             }
             
 
@@ -514,6 +571,9 @@ cc.Class({
 
         //不是下棋的人 不能参加分享得分
         if(GameDataManager.getInstance().GetHallInfoData().Uid != this.playerInfoData[0].Uid &&  GameDataManager.getInstance().GetHallInfoData().Uid != this.playerInfoData[1].Uid){
+            jsdata.GameOverShare = 0
+        }
+        if(this.gameInfoData.GameMode == 1){
             jsdata.GameOverShare = 0
         }
 
@@ -627,8 +687,8 @@ cc.Class({
         var seq = cc.repeatForever(cc.sequence(cc.scaleTo(0.5,1.2,1.2),cc.scaleTo(0.5,1,1)));
         this.node.getChildByName("touchmoveqizi").runAction(seq)
 
-        this.node.getChildByName("firstlayer").scale = 1
-        this.node.getChildByName("firstlayer").active = false
+        //this.node.getChildByName("firstlayer").scale = 1
+        //this.node.getChildByName("firstlayer").active = false
     },
     //显示棋盘信息
     showQiPanInfo:function(){
@@ -750,6 +810,7 @@ cc.Class({
         this.node.getChildByName("invite").active = false
         if(this.FriendNode != null){
             this.FriendNode.active = false
+            Tool.showBanner(false)
         }
         for(var i = 0; i < 2; i++){
             //座位号 有人
@@ -812,6 +873,7 @@ cc.Class({
                     this.node.getChildByName("invite").active = true
                     if(this.FriendNode != null){
                         this.FriendNode.active = true
+                        Tool.showBanner(true)
                     }
 
                     NetMananger.getInstance().SendMsg(Msg.CS_GetFriendsInfo())
@@ -847,13 +909,14 @@ cc.Class({
             
             newNode.parent = parentscene
 
+            Tool.showBanner(true)
             var cancelbtn = newNode.getChildByName("close")
             cancelbtn.on(cc.Node.EventType.TOUCH_END, function (event) {
                 console.log("TOUCH_END")
                 Tool.playSound("resources/sound/btn.mp3",false,0.5)
                 //newNode.destory()
                 newNode.removeFromParent()
-
+                Tool.showBanner(false)
                 NetMananger.getInstance().SendMsg(Msg.CS_GoOut())
                 
             });
@@ -973,7 +1036,7 @@ cc.Class({
     },
 
     start () {
-        
+        Tool.showBanner(false)
     },
 
     update (dt) {

@@ -186,6 +186,7 @@ cc.Class({
 
 
     start () {
+        Tool.showBanner(false)
 
         this.islogining = false
         MsgManager.getInstance().AddListener("WS_Close",this.LoginFail.bind(this))

@@ -63,6 +63,11 @@ export function RankNum2Str(ranknum){
 }
 
 
+
+
+
+
+
 export function checkShare(){
 
     //NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(10001,10))
@@ -122,6 +127,7 @@ export function FormatSeconds(value) {
 
 
 var wxLoginBtn = null
+var pixel = 1
 export function createLoginBtn(clickfun,startfun){
 
     //NetMananger.getInstance().SendMsg(Msg.CS_CheckGoToGame(10001,10))
@@ -134,7 +140,6 @@ export function createLoginBtn(clickfun,startfun){
         }
 
         
-        var pixel = 1
         wx.getSystemInfo({
             success: function(res) {
               console.log(res.model)
@@ -219,6 +224,92 @@ export function destroyLoginBtn(clickfun){
     }
     
     
+};
+
+var wxBannerBtn = null
+export function showBanner(isShow,id){
+    if(id == null){
+        id = 1
+    }
+
+    if (cc.sys.platform === cc.sys.WECHAT_GAME){
+
+        if(isShow == true){
+            if(wxBannerBtn == null){
+                if(id == 1){
+                    wxBannerBtn = wx.createBannerAd({
+                        adUnitId: 'adunit-3985b65e5fdad299',
+                        style: {
+                            left: window.innerWidth/2-300/pixel/2,
+                            top: window.innerHeight-95/pixel,
+                            width: 300
+                        }
+                    })
+                }else if(id == 2){
+                    wxBannerBtn = wx.createBannerAd({
+                        adUnitId: 'adunit-3985b65e5fdad299',
+                        style: {
+                            left: 0,
+                            top: window.innerHeight-95/pixel,
+                            width: 300
+                        }
+                    })
+                }else{
+                    wxBannerBtn = wx.createBannerAd({
+                        adUnitId: 'adunit-3985b65e5fdad299',
+                        style: {
+                            left: window.innerWidth/2-300/pixel/2,
+                            top: window.innerHeight-95/pixel,
+                            width: 300
+                        }
+                    })
+                }
+                
+            }
+
+            wxBannerBtn.show()
+        }else{
+            if( wxBannerBtn != null){
+                wxBannerBtn.destroy()
+                wxBannerBtn = null
+            }
+        }
+    }
+
+};
+
+
+export function showVideoAd(isShow,succFun){
+
+    if (cc.sys.platform === cc.sys.WECHAT_GAME){
+
+        if(isShow == true){
+            let videoAd = wx.createRewardedVideoAd({
+                adUnitId: 'adunit-39e46fd1896b5bc3'
+            })
+            
+            videoAd.load()
+            .then(() => videoAd.show())
+            .catch(err => console.log(err.errMsg))
+
+            videoAd.onClose(res => {
+                // 用户点击了【关闭广告】按钮
+                // 小于 2.1.0 的基础库版本，res 是一个 undefined
+                if (res && res.isEnded || res === undefined) {
+                  // 正常播放结束，可以下发游戏奖励
+                    if(succFun != null){
+                        succFun()
+                    }
+                }
+                else {
+                    // 播放中途退出，不下发游戏奖励
+                }
+            })
+        }else{
+            
+        }
+    }
+
 };
 
 

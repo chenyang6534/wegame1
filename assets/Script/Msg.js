@@ -243,6 +243,11 @@ export function CS_GetOneTurnTable(){
     
     return JSON.stringify(data)
 };
+export function CS_GetLookViewTurnTable(){
+    var data = MsgBase("Hall","CS_GetLookViewTurnTable")
+    
+    return JSON.stringify(data)
+};
 export function CS_GetTenTurnTable(){
     var data = MsgBase("Hall","CS_GetTenTurnTable")
     

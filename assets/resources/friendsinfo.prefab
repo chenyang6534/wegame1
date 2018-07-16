@@ -257,8 +257,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": -0.3,
+      "y": 92.9
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -348,8 +348,8 @@
     "_scaleY": 0.8,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -231,
-      "y": 209
+      "x": -231.3,
+      "y": 301.9
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -442,8 +442,8 @@
     "_scaleY": 0.8,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 337,
-      "y": 214
+      "x": 336.7,
+      "y": 306.9
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -604,8 +604,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -2,
-      "y": -24
+      "x": -2.3,
+      "y": 68.9
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -946,8 +946,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 534
+      "x": -0.3,
+      "y": 626.9
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -3095,8 +3095,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 196
+      "x": -0.3,
+      "y": 288.9
     },
     "_skewX": 0,
     "_skewY": 0,
